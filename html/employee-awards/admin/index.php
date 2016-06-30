@@ -1,5 +1,5 @@
 <?php
-require_once("../../../gallery-files/includes/initialize.php");
+require_once("../../../website-files/includes/initialize.php");
 if(!$session->is_logged_in()) {redirect_to("login.php");}
 get_template("admin-header.php");
 ?>
