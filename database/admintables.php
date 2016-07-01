@@ -21,8 +21,8 @@ uid INT(11) NOT NULL,
 action VARCHAR(20) NOT NULL,
 admin_id INT(11) NOT NULL,
 primary key (action_id),
-foreign key (uid) refrences User_Account (uid),
-foreign key (admin_id) refrences Admin_Account (admin_id)
+foreign key (uid) references User_Account (uid),
+foreign key (admin_id) references Admin_Account (admin_id)
 );
 ")) {
 	echo "Award table creation failed: (" . $mysqli->errno . ") " . $mysqli->error;
