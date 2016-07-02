@@ -13,7 +13,7 @@ class User extends DatabaseObject {
     public $signature;
     public $middle_name;
    
-    protected static $param_type = 'ssss';
+    protected static $param_type = 'ssssssb';
     protected static $insert_query = 'INSERT INTO User_Account (user_email, password, first_name, last_name, middle_name, job_title, signature) VALUES(?, ?, ?, ?, ?, ?, ?)';
     protected static $auth_query = 'SELECT uid FROM User_Account WHERE user_email = ? AND password = ? LIMIT 1';
     protected static $auth_param_type = 'ss';

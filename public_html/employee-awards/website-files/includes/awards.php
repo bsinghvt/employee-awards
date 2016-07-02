@@ -13,7 +13,7 @@ class Award extends DatabaseObject {
     public $public;
     public $r_middle_name;
    
-    protected static $param_type = 'ssss';
+    protected static $param_type = 'ssssssii';
     protected static $insert_query = 'INSERT INTO Award (recepient_email, r_first_name, r_last_name, r_middle_name, award_type, granted, public, uid) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
     protected static $select_query_all = 'SELECT * from Award';
  
