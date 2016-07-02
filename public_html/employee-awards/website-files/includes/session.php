@@ -1,34 +1,22 @@
 <?php
 class Session {
     private $logged_in;
-	 public $user_id;
-	 public $message;
+    private $admin_logged_in;
+    public $user_id;
+    public $admin_id;
     function __construct() {
-        session_start();
-		  $this->check_login();
-		  $this->check_msg();
+         session_start();
     }
-
-	 public function message($msg=""){
-	 	if(!empty($msg)){
-			$_SESSION['message'] = $msg;
-		}
-
-		else{
-			return $this->message;
-		}
-	 }
-	 private function check_msg()
-	 {
-		 if(isset($_SESSION['message'])){
-			 $this->message =  $_SESSION['message'];
-			 unset( $_SESSION['message']);
-		 }
-
-		 else {
-		 	$this->message = "";
-		 }
-	 }
+    public function check_user_login(){
+        $this->check_login();
+    }
+    public function check_adm_login(){
+       
+        $this->check_admin_login();
+    }
+    public function is_admin_logged_in() {
+        return $this->admin_logged_in;
+    }
     public function is_logged_in() {
         return $this->logged_in;
     }
@@ -38,11 +26,22 @@ class Session {
             $this->logged_in = true;
         }
     }
+     public function login_admin($admin) {
+        if($admin) {
+            $this->admin_id = $_SESSION['admin_id'] = $admin->id;
+            $this->admin_logged_in = true;
+        }
+    }
     
     public function logout() {
         unset($_SESSION['user_id']);
         unset($this->user_id);
         $this->logged_in = false;
+    }
+    public function admin_logout() {
+        unset($_SESSION['admin_id']);
+        unset($this->admin_id);
+        $this->admin_logged_in = false;
     }
     private function check_login() {
         if(isset($_SESSION['user_id'])) {
@@ -53,7 +52,16 @@ class Session {
             $this->logged_in = false;
         }
     }
+    
+    private function check_admin_login() {
+        if(isset($_SESSION['admin_id'])) {
+            $this->admin_id = $_SESSION['admin_id'];
+            $this->admin_logged_in = true;
+        } else {
+            unset($this->admin_id);
+            $this->admin_logged_in = false;
+        }
+    }
 }
 $session = new Session();
-$message = $session->message();
 ?>
