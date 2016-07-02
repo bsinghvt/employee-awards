@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__.'/website-files/initialize.php');
-if($session->is_logged_in()) {redirect_to("index.php");}
 ?>
 <?php 
 $session->check_user_login();
