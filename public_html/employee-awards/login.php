@@ -1,5 +1,5 @@
 <?php
-require_once("../../website-files/includes/initialize.php");
+require_once(__DIR__.'/website-files/includes/initialize.php');
 if($session->is_logged_in()) {redirect_to("index.php");}
 $message = "";
 if(isset($_POST['submit'])) {
