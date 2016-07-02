@@ -1,26 +1,28 @@
 <?php
-require_once(LIB_PATH.DS."database.php");
+require_once(LIB_PATH.DS.'database.php');
 class Admin extends DatabaseObject {
-    protected static $table_name = "admin";
-    public $id,
-    $username,
-    $password,
-    $first_name,
-    $last_name;
-    public function getFullName() {
-        return $this->first_name.' '.$this->last_name;
+    protected static $table_name = 'Admin_Account';
+    public $user_email;
+    public $password;
+    public $admin_id;
+    public $error;
+    protected static $auth_query = 'SELECT admin_id FROM Admin_Account WHERE user_email = ? AND password = ? LIMIT 1';
+    protected static $auth_param_type = 'ss';
+    
+    function __construct(){
+    }
+  
+    protected function auth_params(){
+        return array(self::$auth_param_type, $this->user_email, $this->password);
     }
     
-    public static function authenticate($username="", $password=""){
-        global $database;
-        $sql = "SELECT * FROM ".self::$table_name." WHERE username = ? && password = ? LIMIT 1";
-        $stmt =& $database->query($sql);
-        if (!($stmt->bind_param('ss', $username, $password))) {
-            echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
+    public function authenticate(){
+        $result_array = parent::any_select_query(self::$auth_query, $this->auth_params());
+        if(!empty($result_array)){
+            $this->admin_id = $result_array[0]->admin_id;
+            return true;
         }
-        $data =& $database->fetch_results($stmt);
-        $result_array =& self::makeUserObjectArray ($data);
-        return (!empty($result_array)) ? array_shift($result_array) : false ;
+        return false;
     }
 }
 ?>
