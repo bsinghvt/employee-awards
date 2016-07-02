@@ -1,24 +1,34 @@
 <?php
 require_once(__DIR__.'/website-files/initialize.php');
 if($session->is_logged_in()) {redirect_to("index.php");}
-$message = "";
-if(isset($_POST['submit'])) {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-    $found_user = User::authenticate($username, $password);
-    if($found_user) {
-        $session->login($found_user);
-        log_actions('Login', "{$found_user->username} logged in.");
-        redirect_to("index.php");
-    } else {
-        $message = "Username/password combination incorrect.";
+?>
+<?php 
+$session->check_user_login();
+if($session->is_logged_in()){
+    redirect_to('index.php');
+} 
+$msg = "";
+    if(isset($_POST["username"]) && isset($_POST["password"])){
+        $user_name = $_POST["username"];
+        $pwd = $_POST["password"];
+        if(trim($user_name) != "" && trim($pwd) != ""){
+            $user = new User();
+            $user->user_email = $user_name;
+            $user->password = $pwd;
+            if($user->authenticate()){
+                $session->login($user);
+                redirect_to('index.php');
+            }
+            else{
+                $msg = '<p style="color:red;"> <b>Invalid Login: Username or password wrong.</b></p>';
+            }
+        }
+        else{
+            $msg = '<p style="color:red;"> <b>Please Enter username/password field.</b></p>';
+        }
     }
-} else {
-    $username = "";
-    $password = "";
-}
 get_template("header.php");
-echo output_message($message); 
+echo output_message($msg); 
 ?>
 
 <div class="form-group">
