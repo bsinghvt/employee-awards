@@ -22,13 +22,13 @@ class Session {
     }
     public function login($user) {
         if($user) {
-            $this->user_id = $_SESSION['user_id'] = $user->id;
+            $this->user_id = $_SESSION['user_id'] = $user->uid;
             $this->logged_in = true;
         }
     }
      public function login_admin($admin) {
         if($admin) {
-            $this->admin_id = $_SESSION['admin_id'] = $admin->id;
+            $this->admin_id = $_SESSION['admin_id'] = $admin->admin_id;
             $this->admin_logged_in = true;
         }
     }
