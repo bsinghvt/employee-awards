@@ -1,7 +1,7 @@
 <?php
 //Database constants
-defined("DB_SERVER") ? null : define("DB_SERVER", "localhost");
-defined("DB_USER") ? null : define("DB_USER", "gallery");
-defined("DB_PASSWORD") ? null : define("DB_PASSWORD", "phppractice");
-defined("DB_NAME") ? null : define("DB_NAME", "photo_gallery");
+defined("DB_SERVER") ? null : define("DB_SERVER", "oniddb.cws.oregonstate.edu");
+defined("DB_USER") ? null : define("DB_USER", "harrings-db");
+defined("DB_PASSWORD") ? null : define("DB_PASSWORD", "minstFy7WEjCWSCr");
+defined("DB_NAME") ? null : define("DB_NAME", "harrings-db");
 ?>
