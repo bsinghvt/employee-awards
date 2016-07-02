@@ -1,0 +1,1 @@
+var variable = "hello world";

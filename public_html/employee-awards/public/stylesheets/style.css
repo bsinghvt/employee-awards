@@ -1,0 +1,101 @@
+#container {
+    width: 800px;
+    position: relative;
+    margin: auto;
+}
+
+form {
+    /* Just to center the form on the page */
+    margin: 0 auto;
+    width: 500px;
+    /* To see the outline of the form */
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
+}
+
+input:focus, textarea:focus {
+    /* To give a little highlight on active elements */
+    border-color: #000;
+}
+
+div.heading { 
+    background-color: azure;
+    margin: auto;
+    width: auto;
+}
+
+h2, h3 { 
+    text-align: center;
+    font-style: oblique;
+}
+
+#content {
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+.jumbotron {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 50px;
+}
+ .navbar.navbar-inverse.navbar-fixed-top {
+    background-color:darkmagenta;
+}
+img {
+    width: 100%;
+}
+footer {
+    background-color: orange;
+    text-align: center;
+    position: relative;
+    margin-top: 180px;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        position: relative;
+        min-height: 35px;
+        margin-bottom: 0;
+    }
+    .nav.navbar-nav li {
+        font-size: 12px;
+        height: 35px;
+        line-height: 35px;
+        float: left;
+    }
+    .nav.navbar-nav li:hover {
+        background-color: coral;
+    }
+    .nav.navbar-nav {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    .navbar-inverse .navbar-nav>.active>a {
+        background-color: transparent;
+        color:darkviolet;
+        font-weight: bold;
+        height: 35px;
+    }
+    .nav.navbar-nav a {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    nav.navbar.navbar-inverse.navbar-fixed-top{
+        background: transparent;
+        position: relative;
+    }
+    .jumbotron, #contents {
+        width: 100%;
+    }
+    #content {
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+    .jumbotron {
+        margin-top: 10px;
+    }
+}
