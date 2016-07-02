@@ -5,56 +5,74 @@ require_once(LIB_PATH.DS."database.php");
 class DatabaseObject {
     function __construct() {
 	 }
-
-	 //Find all rows from a table and return as array
-    public function &findAll($sql="") {
+    //Function to general select query
+    protected function any_select_query($sql='', $params=array()){
         global $database;
-        $stmt =& $database->query($sql);
-        $data =& $database->fetch_results($stmt);
-        return static::makeUserObjectArray ($data);
+        if(!$database->query($sql)){
+            $this->error = $database->error;
+            return false;
+        }
+        if(!empty($params)){
+            if(!$database->bind_params($params)){
+                $this->error = $database->error;
+                return false;
+            }
+        }
+        if(!$database->execution()) {
+            $this->error = $database->error;
+            return false;
+        }
+        $data =& $database->fetch_results();
+        return static::makeUserObjectArray($data);
+    }
+    
+    //Function to general select query
+    protected function update_or_delete_or_insert_query($sql='', $params=array()){
+        global $database;
+        if(!$database->query($sql)){
+            $this->error = $database->error;
+            return false;
+        }
+        if(!empty($params)){
+            if(!$database->bind_params($params)){
+                $this->error = $database->error;
+                return false;
+            }
+        }
+        
+        if(!$database->execution()) {
+            $this->error = $database->error;
+            return false;
+        }
+        if($database->affect_rows == 0){
+            return false;
+        }
+        return true;
     }
     
     //Count the number of records;
-    public function countAll($sql="") {
-        global $database;
-        $stmt =& $database->query($sql);
-        $data =& $database->fetch_results($stmt);
+    protected function count_query($sql="", $params=array()) {
+         if(!$database->query($sql)){
+            $this->error = $database->error;
+            return false;
+        }
+        if(!empty($params)){
+            $param = static::refValues(static::insert_params());
+            if(!$database->bind_params($param)){
+                $this->error = $database->error;
+                return false;
+            }
+        }
+        
+        if(!$database->execution()) {
+            $this->error = $database->error;
+            return false;
+        }
+        $data =& $database->fetch_results();
         return $data[0]['COUNT(*)'];
     }
-
-	 //Find a row by id and return as array
-    public function &findById($id = 0) {
-        global $database;
-        $sql = "SELECT * FROM ".static::$table_name." WHERE id = ? LIMIT 1";
-        $stmt =& $database->query($sql);
-        if (!($stmt->bind_param('i', $id))) {
-            echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
-        }
-        $data =& $database->fetch_results($stmt);
-        return static::makeUserObjectArray ($data);
-    }
-
-	 //FUnction to delete a row by id
-    public function deleteById($id=0) {
-        global $database;
-        $sql = "DELETE FROM ".static::$table_name." WHERE id = ? LIMIT 1";
-        $stmt =& $database->query($sql);
-        if (!($stmt->bind_param('i', $id))) {
-			  echo "Bind failed: "  . $stmt->errno . " " . $stmt->error;
-			  return false;
-        }
-      
-        //execute query
-        if(!$stmt->execute()){
-			  echo "Execute failed: "  . $stmt->errno . " " . $stmt->error;
-			  return false;
-        } 
-		  $stmt->close();
-		  return true;
-    }
-
 	 //Function to create array of objects
-    protected static function &makeUserObjectArray ($data) {
+    protected static function &makeUserObjectArray ($data){
         global $database;
         $object_array = array();
         foreach ($data as $row) {
@@ -64,10 +82,10 @@ class DatabaseObject {
     }
 
 	 //Function to create a user object
-    protected static function &makeUserObject ($data) {
+    protected static function &makeUserObject ($data){
         $class_name = get_called_class();
         $object = new  $class_name;
-        foreach($data as $attribute=>$value) {
+        foreach($data as $attribute=>$value){
             if ($object->has_attribute($attribute)) {
                 $object->$attribute = $value;
             }
