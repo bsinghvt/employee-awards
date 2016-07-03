@@ -8,7 +8,14 @@ require_once(__DIR__.'/../website-files/initialize.php');
 $session->check_adm_login();
 if(!$session->is_admin_logged_in()){
     redirect_to('login.php');
-} 
+}
+get_template("addnewadminaction.php");
+get_template("admin-header.php");
+if(isset($msg)){
+	echo output_message($msg);
+	unset($GLOBALS['msg']);
+}
+get_template("addnewadminform.php", $arr = Array("action" => "admin-users.php", "legend"=>"Add New Admin"));
 get_template("admin-header.php");
 
 ?>
