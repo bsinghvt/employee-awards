@@ -11,8 +11,11 @@ if(!$session->is_admin_logged_in()){
 }
 get_template("addnewuseraction.php");
 get_template("admin-header.php");
+if(isset($msg)){
+	echo output_message($msg);
+	unset($GLOBALS['msg']);
+}
 get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", "legend"=>"Add New User"));
-
 ?>
 <div id="normal-users">
                 <p><h4>All Normal Users</h4></p>
