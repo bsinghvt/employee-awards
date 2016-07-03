@@ -8,6 +8,7 @@ class Admin extends DatabaseObject {
     public $error;
     protected static $auth_query = 'SELECT admin_id FROM Admin_Account WHERE user_email = ? AND password = ? LIMIT 1';
     protected static $auth_param_type = 'ss';
+	 protected static $select_query_all = 'SELECT * from Admin_Account';
     
     function __construct(){
     }
@@ -23,6 +24,10 @@ class Admin extends DatabaseObject {
             return true;
         }
         return false;
+    }
+	
+	public function findAll(){
+       return parent::any_select_query(self::$select_query_all);
     }
 }
 ?>

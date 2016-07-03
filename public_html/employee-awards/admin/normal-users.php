@@ -13,9 +13,9 @@ get_template("admin-header.php");
 
 ?>
 <div id="normal-users">
-                <p><h5>All Normal Users</h5></p>
+                <p><h4>All Normal Users</h4></p>
             
-                <table id="dispcourse" class="table table-striped">
+                <table id="dispnormalusers" class="table table-striped">
                     <tr>
                         <th>First Name</th>
                         <th>Middle Name</th>
