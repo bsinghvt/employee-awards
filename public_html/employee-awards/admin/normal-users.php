@@ -1,15 +1,17 @@
 <?php
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 require_once(__DIR__.'/../website-files/initialize.php');
 ?>
 <?php 
 $session->check_adm_login();
 if(!$session->is_admin_logged_in()){
     redirect_to('login.php');
-} 
+}
+get_template("addnewuseraction.php");
 get_template("admin-header.php");
+get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", "legend"=>"Add New User"));
 
 ?>
 <div id="normal-users">

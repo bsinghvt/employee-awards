@@ -19,7 +19,8 @@ function output_message ($message = "") {
     }
 }
 
-function get_template($template = "") {
+function get_template($template = "", $arr = array()) {
+	extract($arr);
     include(SITE_ROOT.DS.'public'.DS.'layouts'.DS.$template);
 }
 function log_actions($action, $message="") {
