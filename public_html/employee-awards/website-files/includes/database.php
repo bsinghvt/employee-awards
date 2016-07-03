@@ -45,7 +45,7 @@ class MySQLDatabase {
     public function execution(){
        if(!($this->stmt->execute())){
            if($this->stmt->errno == 1062){
-               $this->error =  "Error: Duplicate Name or User Name.";
+               $this->error =  "Error: Duplicate User Name.";
                return false;
            }
            $this->error =  "Execute failed: "  . $this->stmt->errno . " " . $this->stmt->error;

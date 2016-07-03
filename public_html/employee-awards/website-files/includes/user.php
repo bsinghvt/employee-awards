@@ -24,7 +24,10 @@ class User extends DatabaseObject {
     protected function insert_params(){
         return array(self::$param_type, $this->user_email, $this->password, $this->first_name, $this->last_name, $this->middle_name, $this->job_title, $this->signature);
     }
-    
+	
+    public function add_new(){
+        return parent::update_or_delete_or_insert_query(self::$insert_query, $this->insert_params());
+    }
     protected function auth_params(){
         return array(self::$auth_param_type, $this->user_email, $this->password);
     }
