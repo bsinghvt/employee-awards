@@ -7,5 +7,10 @@ $session->check_adm_login();
 if(!$session->is_admin_logged_in()) {redirect_to("login.php");}
 get_template("admin-header.php");
 ?>
+  <div class="list-group">
+                <a href="normal-users.php" class="list-group-item">Normal User's Information</a>
+                <a href="admin-users.php" class="list-group-item">Admin User's Information</a>
+                <a href="awards.php" class="list-group-item">Award's Information</a>
+   </div>
 <?php get_template("footer.php"); 
  ?>
