@@ -18,6 +18,7 @@ class User extends DatabaseObject {
     protected static $auth_query = 'SELECT uid FROM User_Account WHERE user_email = ? AND password = ? LIMIT 1';
     protected static $auth_param_type = 'ss';
     protected static $select_query_all = 'SELECT * from User_Account';
+	protected static $delete_user_query = 'DELETE FROM User_Account WHERE uid = ? ';
  
     function __construct(){
     }
@@ -42,6 +43,10 @@ class User extends DatabaseObject {
     }
     public function findAll(){
         return parent::any_select_query(self::$select_query_all);
+    }
+	
+	public function delete_user(){
+        return parent::update_or_delete_or_insert_query(self::$delete_user_query, $arr=array('i', $this->uid));
     }
 }
 ?>

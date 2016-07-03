@@ -42,4 +42,4 @@ get_template("admin-header.php");
 <?php endforeach; ?>
                 </table>
 </div>
-<?php get_template($template = "footer.php"); ?>
+<?php get_template($template = "footer.php", $arr = array('script'=>'../public/javascripts/script.js')); ?>
