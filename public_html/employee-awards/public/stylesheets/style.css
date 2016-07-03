@@ -14,6 +14,11 @@ form {
     border-radius: 1em;
 }
 
+.form-group.required .control-label:after { 
+   content:"*";
+   color:red;
+}
+
 input:focus, textarea:focus {
     /* To give a little highlight on active elements */
     border-color: #000;
