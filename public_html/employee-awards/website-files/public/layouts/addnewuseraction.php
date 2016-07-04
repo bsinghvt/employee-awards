@@ -14,6 +14,7 @@ if(!empty($_POST)){
 				$detectedType = exif_imagetype($_FILES['signature']['tmp_name']);
 				if(!in_array($detectedType, $allowedTypes)){
 					$GLOBALS['msg'] = '<p style="color:red;"> <b>Error: Only JPG, JPEG, PNG & GIF files are allowed for signature.</b></p>';
+					return;
 				}
 				$image_check = getimagesize($_FILES['signature']['tmp_name']);
 				if($image_check==false)
