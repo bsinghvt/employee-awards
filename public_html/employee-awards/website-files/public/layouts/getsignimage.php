@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__.'/../../initialize.php');
-if(isset($_GET['id'];)){
+if(isset($_GET['id'])){
 	$user = new User();
 	$data = [];
 	$user->uid = $_GET['id'];
