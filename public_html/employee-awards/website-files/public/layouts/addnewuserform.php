@@ -2,15 +2,15 @@
     <form method="post" action="<?php echo $action; ?>"> 
         <fieldset>
 				<legend><?php echo $legend; ?></legend>
-				 <label class="control-label">User email (will be username): <input type="email" name="user_email" required /></label>
-		<label class="control-label">Password: <input type="password" name="password" required /></label>
-		<label class="control-label">First name: <input type="text" name="first_name" required /></label>
-		<label>Middle name (optional): <input type="text" name="middle_name" /></label>
-		<label class="control-label">Last name: <input type="text" name="last_name" required /></label>
-		<label class="control-label">Job Title: <input type="text" name="job_title" required /></label>
-		<label class="control-label">Signature: <input type="file" name="signature" accept="image/*"></label>
-		<br><br>
-		<input type="submit" value="Submit">
+		<label class="control-label" for="useremail">User email (will be username): </label><input id="useremail" class="form-control" type="email" name="user_email" required />
+		<label class="control-label" for="userpwd">Password: </label><input id="userpwd" class="form-control" type="password" name="password" required />
+		<label class="control-label" for="userfirstname">First name: </label><input id="userfirstname" class="form-control" type="text" name="first_name" required />
+		<label for="usermiddlename">Middle name (optional): </label><input id="usermiddlename" class="form-control" type="text" name="middle_name" />
+		<label class="control-label" for="userlastname">Last name: </label><input id="userlastname" class="form-control" type="text" name="last_name" required />
+		<label class="control-label" for="userjobtitle">Job Title: </label><input id="userjobtitle" class="form-control" type="text" name="job_title" required />
+		<label class="control-label" for="usersign">Signature: </label><input id="usersign" class="form-control" type="file" name="signature" accept="image/*">
+		<br>
+		<input class="btn btn-default" type="submit" value="Submit">
 		<p style="color:red;"> <b>(*) denotes required fields.</b></p>
         </fieldset>
 	 </form>
