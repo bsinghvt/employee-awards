@@ -22,15 +22,16 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
 <img src="../website-files/public/layouts/getsignimage.php?id=5" width="10" height="100" />
 <div id="normal-users">
                 <p><h4>User List</h4></p>
-                <table id="displaytable" class="table table-striped" cellspacing="0" width="100%" >
+                <table id="displaytable" class="table table-striped">
 				<thead>
                     <tr>
                         <th>First Name</th>
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Job Title</th>
-                        <th>Last Updated Time</th>
-						<th>Action</th>
+                        <th>Add/Update Time</th>
+						<th>Delete</th>
+						<th>Update</th>
                     </tr>
                 </thead>
 				<tfoot>
@@ -39,8 +40,9 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Job Title</th>
-                        <th>Last Updated Time</th>
-						<th>Action</th>
+                        <th>Add/Update Time</th>
+						<th>Delete</th>
+						<th>Update</th>
                     </tr>
                 </tfoot>
                 <!-- PHP-->
@@ -58,12 +60,17 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
      <td><?php echo $info->last_name; ?></td>
      <td><?php echo $info->job_title; ?></td>
 	 <td><?php echo $info->creation; ?></td>
-	 <td ><button name="delete" class="btn btn-default" onclick="deleteNormalUser(<?php echo $info->uid; ?>,'<?php echo "../website-files/public/layouts/deleteuser.php"; ?>')">Delete</button></td>
+	 <td >
+		<button name="delete" class="btn btn-warning" onclick="deleteNormalUser(<?php echo $info->uid; ?>,'<?php echo "../website-files/public/layouts/deleteuser.php"; ?>')">Delete User</button>
+	 </td>
+	 <td>
+		<a class="btn btn-info" role="button" href="update-user.php?uid=<?php echo $info->uid; ?>">Update user</a>
+	 </td>
 </tr>
 
 <?php endforeach; ?>
 </tbody>
                 </table>
-				<button id="exportsheet" class="btn btn-success">Export As Excel Sheet</button>
+				<button id="exportsheet" class="btn btn-success">Export list as excel sheet</button>
 </div>
 <?php get_template($template = "footer.php", $arr = array('script'=>'../public/javascripts/script.js', 'export_table'=>'../public/javascripts/jquery.table2excel.js')); ?>
