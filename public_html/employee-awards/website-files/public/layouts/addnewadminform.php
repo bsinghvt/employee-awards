@@ -2,10 +2,10 @@
     <form method="post" action="<?php echo $action; ?>"> 
         <fieldset>
 				<legend><?php echo $legend; ?></legend>
-				 <label class="control-label">User email (will be username): <input type="email" name="user_email" required /></label>
-		<label class="control-label">Password: <input type="password" name="password" required /></label>
+				 <label class="control-label" for="adminemail">User email (will be username): </label><input id="adminemail" class="form-control" type="email" name="user_email" required />
+		<label class="control-label" for="adminpwd">Password: </label><input id="adminpwd" class="form-control" type="password" name="password" required />
 		<br><br>
-		<input type="submit" value="Submit">
+		<input class="btn btn-default" type="submit" value="Submit">
 		<p style="color:red;"> <b>(*) denotes required fields.</b></p>
         </fieldset>
 	 </form>
