@@ -24,13 +24,13 @@ if(!empty($_POST)){
 				}
 				$data = file_get_contents($_FILES['signature']['tmp_name']);
 				$user = new User();
-				$user->user_email=$_POST["user_email"];
-				$user->password=$_POST["password"];
+				$user->user_email=$user_email=$_POST["user_email"];
+				$user->password=$pwd=$_POST["password"];
 				$user->signature=$data;
-				$user->first_name=$_POST["first_name"];
-				$user->last_name=$_POST["last_name"];
-				$user->job_title=$_POST["job_title"];
-				$user->middle_name=$_POST["middle_name"];
+				$user->first_name=$first_name=$_POST["first_name"];
+				$user->last_name=$last_name=$_POST["last_name"];
+				$user->job_title=$job_title=$_POST["job_title"];
+				$user->middle_name=$middle_name=$_POST["middle_name"];
 				if($user->add_new()){
 					$GLOBALS['msg'] = '<p style="color:green;"> <b>New User is added successfully.</b></p>';
 				}
