@@ -1,5 +1,5 @@
 #container {
-    width: 800px;
+    width: 1200px;
     position: relative;
     margin: auto;
 }
@@ -57,6 +57,16 @@ footer {
     text-align: center;
     position: relative;
     margin-top: 180px;
+}
+
+tfoot {
+    display: table-header-group;
+}
+
+tfoot input {
+	width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
