@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once(__DIR__.'/website-files/initialize.php');
 $error=0;
+get_template("header.php");
 if(isset($_POST['user_email'])) {
 	include 'pass.php';
 	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
@@ -48,7 +49,7 @@ if(isset($_POST['user_email'])) {
 	}
 	else if (in_array($_POST['user_email'], $accounts))
 	{
-		echo "Could not add account as there is already another user with that user_email click <a href=\"register.php\">here</a> to return to account creation screen";
+		echo "Could not add account as there is already another user name of " . $_POST["user_email"] . " click <a href=\"register.php\">here</a> to return to account creation screen";
 	}
 	else
 	{
@@ -99,7 +100,6 @@ else
 	$message = "Unable to register user as registration form was not completed";
 }	
 $links= "click <a href=\"register.php\">here</a> to return to account creation screen or click <a href=\"login.php\">here</a> to login";
-get_template("header.php");
 echo output_message($message); 
 echo output_message($links); 
 ?>
