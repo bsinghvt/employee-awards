@@ -19,7 +19,7 @@ class User extends DatabaseObject {
     protected static $auth_param_type = 'ss';
     protected static $select_query_all = 'SELECT * from User_Account';
 	protected static $delete_user_query = 'DELETE FROM User_Account WHERE uid = ? ';
- 
+	protected static $get_sign_query = 'SELECT signature FROM User_Account WHERE uid = ? ';
     function __construct(){
     }
     protected function insert_params(){
@@ -28,6 +28,9 @@ class User extends DatabaseObject {
 	
     public function add_new(){
         return parent::update_or_delete_or_insert_query(self::$insert_query, $this->insert_params());
+    }
+	public function get_sign(){
+        return parent::any_select_query(self::$get_sign_query, $arr=array('i', $this->uid));
     }
     protected function auth_params(){
         return array(self::$auth_param_type, $this->user_email, $this->password);
