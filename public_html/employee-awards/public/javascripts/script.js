@@ -16,11 +16,11 @@ $(document).ready(function() {
     // Setup - add a text input to each footer cell
     $('#displaytable tfoot th').each( function () {
         var title = $(this).text();
-        if(title.toUpperCase() === 'ACTION'){
+        if(title.toUpperCase() === 'UPDATE' || title.toUpperCase() === 'DELETE'){
             $(this).html( '<input type="hidden" />' );
         }
         else{
-            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+            $(this).html( '<input type="text" placeholder="'+title+'" />' );
         }
         
     } );
