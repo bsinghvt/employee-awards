@@ -15,9 +15,8 @@ if(isset($msg)){
 	echo output_message($msg);
 	unset($GLOBALS['msg']);
 }
+get_template('navbar.php', $arr = array('main'=>'index.php','sitename' =>'Green Arrow Consulting', 'navbar'=>array(array('link'=>'index.php', 'desc'=>'Home'), array('link'=>'normal-users.php', 'desc'=>'User Info'), array('link'=>'#', 'desc'=>'Admin Info'), array('link'=>'awards.php', 'desc'=>'Awards'))));
 get_template("addnewadminform.php", $arr = Array("action" => "admin-users.php", "legend"=>"Add New Admin"));
-get_template("admin-header.php");
-
 ?>
 <div id="admin-users">
                 <p><h4>Admin Users</h4></p>

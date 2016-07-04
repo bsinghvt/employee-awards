@@ -41,3 +41,12 @@ $(document).ready(function() {
         } );
     } );
 } );
+
+//Function to export data as excel sheet
+//http://www.jqueryscript.net/table/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel.html
+$("#exportsheet").click(function(){
+  $("#displaytable").table2excel({
+    exclude: ".noExl",
+    name: "Data"
+  }); 
+});
