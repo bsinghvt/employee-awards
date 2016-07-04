@@ -1,8 +1,16 @@
 <?php
 require_once(__DIR__.'/website-files/initialize.php');
-$session->check_user_login();
-if(!$session->is_logged_in()) {redirect_to("login.php");}
+ob_start(); //from stack overflow
+include 'pass.php';
+error_reporting(E_ALL);
+ini_set('display_errors','On');
+session_start();
+if (!isset($_SESSION["user_email"]))
+{
+    header("Location: login.php", true);
+}
 get_template("header.php");
 ?>
+<p> "You are at the core" </p>
 <?php get_template("footer.php"); 
  ?>
