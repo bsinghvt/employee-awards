@@ -9,6 +9,7 @@ $session->check_adm_login();
 if(!$session->is_admin_logged_in()){
     redirect_to('login.php');
 }
+get_template("updateuseraction.php");
 if(isset($_GET['uid'])){
 	$data = [];
     $user = new User();
@@ -26,14 +27,17 @@ if(isset($_GET['uid'])){
     $job_title = $info->job_title;
     $signature = $info->signature; 
 	$pwd = $info->password; 
-	get_template("addnewuseraction.php");
 	get_template("admin-header.php");
 	get_template('navbar.php', $arr = array('main'=>'index.php','sitename' =>'Green Arrow Consulting', 'navbar'=>array(array('link'=>'index.php', 'desc'=>'Home'), array('link'=>'#', 'desc'=>'User Info'), array('link'=>'admin-users.php', 'desc'=>'Admin Info'), array('link'=>'awards.php', 'desc'=>'Awards'))));
-	if(isset($msg)){
-		echo output_message($msg);
+	if(isset($GLOBALS['msg'])){
+		echo output_message($GLOBALS['msg']);
 		unset($GLOBALS['msg']);
 	}
-	get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", "legend"=>"Update User", "uid"=>$uid, "first_name"=>$first_name,"middle_name"=>$middle_name,
+	if(isset($_SESSION['msg'])){
+		echo output_message($_SESSION['msg']);
+		unset($_SESSION['msg']);
+	}
+	get_template("addnewuserform.php", $arr = Array("action" => "update-user.php", "legend"=>"Update User", "uid"=>$uid, "first_name"=>$first_name,"middle_name"=>$middle_name,
 												"user_email"=>$user_email,"last_name"=>$last_name,"job_title"=>$job_title, "signature"=>$signature, "pwd"=>$pwd));
 	get_template($template = "footer.php", $arr = array('script'=>'../public/javascripts/script.js', 'export_table'=>'../public/javascripts/jquery.table2excel.js')); 
 }?>

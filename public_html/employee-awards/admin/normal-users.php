@@ -13,9 +13,13 @@ if(!$session->is_admin_logged_in()){
 get_template("addnewuseraction.php");
 get_template("admin-header.php");
 get_template('navbar.php', $arr = array('main'=>'index.php','sitename' =>'Green Arrow Consulting', 'navbar'=>array(array('link'=>'index.php', 'desc'=>'Home'), array('link'=>'#', 'desc'=>'User Info'), array('link'=>'admin-users.php', 'desc'=>'Admin Info'), array('link'=>'awards.php', 'desc'=>'Awards'))));
-if(isset($msg)){
-	echo output_message($msg);
+if(isset($GLOBALS['msg'])){
+	echo output_message($GLOBALS['msg']);
 	unset($GLOBALS['msg']);
+}
+if(isset($_SESSION['msg'])){
+	echo output_message($_SESSION['msg']);
+	unset($_SESSION['msg']);
 }
 get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", "legend"=>"Add New User"));
 ?>

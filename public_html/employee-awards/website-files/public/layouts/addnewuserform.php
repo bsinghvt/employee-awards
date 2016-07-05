@@ -15,6 +15,7 @@
 		<label class="control-label" for="userjobtitle">Job Title: </label>
 		<input id="userjobtitle" class="form-control" type="text" name="job_title" maxlength="30" value="<?php if(isset($job_title))echo htmlentities($job_title); else echo "";?>" required />
 		<label for="maxsize"><input id="maxsize" class="form-control" type="hidden" name="MAX_FILE_SIZE" value="204800" />
+		<label for="uid"><input id="uid" class="form-control" type="hidden" name="uid" value="<?php if(isset($uid))echo htmlentities($uid); else echo "";?>" />
 		<label class="control-label" for="usersign">Signature (Max : 200KB): </label>
 		<input id="usersign" class="form-control" type="file" name="signature" value="<?php if(isset($signature))echo htmlentities($signature); else echo "";?>" accept="image/*">
 		<br>
