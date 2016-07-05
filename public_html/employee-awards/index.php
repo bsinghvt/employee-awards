@@ -10,7 +10,9 @@ if (!isset($_SESSION["user_email"]))
     header("Location: login.php", true);
 }
 get_template("header.php");
+get_template("nav2.php");
 ?>
+
 <p> "You are at the core" </p>
 <?php get_template("footer.php"); 
  ?>

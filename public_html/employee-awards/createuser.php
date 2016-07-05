@@ -31,7 +31,7 @@ if(isset($_POST['user_email'])) {
 	{
 		echo "Error to add an account it must have a password click <a href=\"register.php\">here</a> to return to account creation screen";
 	}
-	else if (($_POST["signature"]==null))
+	else if (($_FILES["signature"]==null))
 	{
 		echo "Error to add an account it must have a signature click <a href=\"register.php\">here</a> to return to account creation screen";
 	}
@@ -53,9 +53,25 @@ if(isset($_POST['user_email'])) {
 	}
 	else
 	{
+		if($_FILES["signature"]['size'] > 204800){
+					echo'<p style="color:red;"> <b>Error: Image of your signature cannot be greater than 200KB.</b></p>';
+					return;
+				}
+				$allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
+				$detectedType = exif_imagetype($_FILES["signature"]['tmp_name']);
+				if(!in_array($detectedType, $allowedTypes)){
+					echo'<p style="color:red;"> <b>Error: Only JPG, JPEG, PNG & GIF files are allowed for signature.</b></p>';
+					return;
+				}
+				$image_check = getimagesize($_FILES["signature"]['tmp_name']);
+				if($image_check==false)
+				{
+					echo'<p style="color:red;"> <b>Error: Please upload a valid image of your signature.</b></p>';
+					return;
+				}
+				$signature = file_get_contents($_FILES["signature"]['tmp_name']);
 		$user_email=$_POST["user_email"];
 		$password=$_POST["password"];
-		$signature=$_POST["signature"];
 		$first_name=$_POST["first_name"];
 		$last_name=$_POST["last_name"];
 		$job_title=$_POST["job_title"];

@@ -8,7 +8,7 @@ echo output_message($message);
 ?>
 
 <div class="form-group">
-    <form method="post" action="createuser.php"> 
+    <form method="post" action="createuser.php" enctype="multipart/form-data"> 
         <fieldset>
 				<legend>Registration</legend>
 				<p>User email (will be username): <input type="email" name="user_email" required /></p>
