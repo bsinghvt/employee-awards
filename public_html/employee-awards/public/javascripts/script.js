@@ -50,3 +50,13 @@ $("#exportsheet").click(function(){
     name: "Data"
   }); 
 });
+
+//Prevent form submission when fields are empty
+$('#userform').submit(function() {
+    if ($.trim($("#useremail").val()) === "" || $.trim($("#userpwd").val()) === ""
+        || $.trim($("#userfirstname").val()) === "" || $.trim($("#userlastname").val()) === ""
+        || $.trim($("#userjobtitle").val()) === "" || $.trim($("#usersign").val()) === "") {
+        alert('Please fill all required fields and upload a valid signature image');
+        return false;
+    }
+});

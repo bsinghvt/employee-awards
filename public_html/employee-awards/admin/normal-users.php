@@ -29,6 +29,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Job Title</th>
+						<th># Awards Created</th>
                         <th>Add/Update Time</th>
 						<th>Delete</th>
 						<th>Update</th>
@@ -40,6 +41,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Job Title</th>
+						<th># Awards Created</th>
                         <th>Add/Update Time</th>
 						<th>Delete</th>
 						<th>Update</th>
@@ -59,6 +61,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
      <td><?php echo $info->middle_name; ?></td>
      <td><?php echo $info->last_name; ?></td>
      <td><?php echo $info->job_title; ?></td>
+	 <td><?php echo $info->total_awards; ?></td>
 	 <td><?php echo $info->creation; ?></td>
 	 <td >
 		<button name="delete" class="btn btn-warning" onclick="deleteNormalUser(<?php echo $info->uid; ?>,'<?php echo "../website-files/public/layouts/deleteuser.php"; ?>')">Delete User</button>

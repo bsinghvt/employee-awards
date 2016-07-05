@@ -1,5 +1,5 @@
 <div class="form-group required">
-    <form enctype="multipart/form-data" method="post" action="<?php echo $action; ?>"> 
+    <form id="userform" enctype="multipart/form-data" method="post" action="<?php echo $action; ?>"> 
         <fieldset>
 				<legend><?php echo $legend; ?></legend>
 		<label class="control-label" for="useremail">User email (will be username): </label>
@@ -15,7 +15,8 @@
 		<label class="control-label" for="userjobtitle">Job Title: </label>
 		<input id="userjobtitle" class="form-control" type="text" name="job_title" maxlength="30" value="<?php if(isset($job_title))echo htmlentities($job_title); else echo "";?>" required />
 		<label for="maxsize"><input id="maxsize" class="form-control" type="hidden" name="MAX_FILE_SIZE" value="204800" />
-		<label class="control-label" for="usersign">Signature (Max : 200KB): </label><input id="usersign" class="form-control" type="file" name="signature" accept="image/*">
+		<label class="control-label" for="usersign">Signature (Max : 200KB): </label>
+		<input id="usersign" class="form-control" type="file" name="signature" value="<?php if(isset($signature))echo htmlentities($signature); else echo "";?>" accept="image/*">
 		<br>
 		<input class="btn btn-default" type="submit" value="Submit">
 		<p style="color:red;"> <b>(*) denotes required fields.</b></p>
