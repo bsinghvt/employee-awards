@@ -4,6 +4,7 @@ class Session {
     private $admin_logged_in;
     public $user_id;
     public $admin_id;
+	public $admin_username;
     function __construct() {
          session_start();
     }
@@ -29,6 +30,7 @@ class Session {
      public function login_admin($admin) {
         if($admin) {
             $this->admin_id = $_SESSION['admin_id'] = $admin->admin_id;
+			$this->admin_username = $_SESSION['admin_username'] = $admin->user_email;
             $this->admin_logged_in = true;
         }
     }
@@ -41,6 +43,8 @@ class Session {
     public function admin_logout() {
         unset($_SESSION['admin_id']);
         unset($this->admin_id);
+		unset($_SESSION['admin_username']);
+        unset($this->admin_username);
         $this->admin_logged_in = false;
     }
     private function check_login() {
@@ -54,11 +58,13 @@ class Session {
     }
     
     private function check_admin_login() {
-        if(isset($_SESSION['admin_id'])) {
+        if(isset($_SESSION['admin_id']) && isset($_SESSION['admin_username'])) {
             $this->admin_id = $_SESSION['admin_id'];
+			$this->admin_username = $_SESSION['admin_username'];
             $this->admin_logged_in = true;
         } else {
             unset($this->admin_id);
+			unset($this->admin_username);
             $this->admin_logged_in = false;
         }
     }
