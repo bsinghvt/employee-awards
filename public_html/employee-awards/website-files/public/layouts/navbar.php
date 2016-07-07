@@ -15,5 +15,10 @@
         <?php endif; ?>
         <?php endforeach; ?>
     </ul>
+	<ul class="nav pull-right">
+          <li>
+            <a href="<?php if(isset($logoutLink)) echo $logoutLink; else echo "#"; ?>" >Logout</a>
+          </li>
+    </ul>
   </div>
 </nav>
