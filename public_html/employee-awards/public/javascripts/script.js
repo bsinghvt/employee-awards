@@ -1,8 +1,11 @@
 //Function to delete a user
-function deleteNormalUser(key, URL){
+function deleteNormalUser(username, key, URL){
     var row = document.getElementById(key);
-    $.ajax({url: URL,
-            data: {"uid":key},
+    $.ajax({
+        method: "POST",
+        url: URL,
+            data: {
+                "uid":key, "name" : username},
             success: function(data){
                 $("#msg").html(data.msg);
                 if(data.success === 'yes'){

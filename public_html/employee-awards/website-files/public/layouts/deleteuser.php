@@ -10,8 +10,8 @@ if(!$session->is_admin_logged_in()){
 <?php
 $GLOBALS['msg'] = "";
 $success = 'not';
-    if(isset($_GET["uid"])){
-        $uid = $_GET["uid"];
+    if(isset($_POST["uid"])){
+        $uid = $_POST["uid"];
     
         if(trim($uid) != ""){
             $user = new User();
@@ -19,6 +19,10 @@ $success = 'not';
             if($user->delete_user()){
                 $GLOBALS['msg'] = '<p style="color:green; text-align: center;"><b>User is deleted Successfully.</b></p>';
                 $success = 'yes';
+				$admin_action = new AdminActions();
+				$admin_action->admin_id = $session->admin_id;
+				$admin_action->action = 'Admin '.$session->admin_username.' deleted '.$_POST["name"];
+				$admin_action->add_new();
             }
             else{
                 $GLOBALS['msg'] = '<p style="color:red; text-align: center;"><b>Data base error. Try Again.</b></p>';

@@ -12,5 +12,6 @@ require_once(LIB_PATH.DS."database.php");
 require_once(LIB_PATH.DS."database-object.php");
 require_once(LIB_PATH.DS."user.php");
 require_once(LIB_PATH.DS."admin.php");
+require_once(LIB_PATH.DS."admin-action.php");
 require_once(LIB_PATH.DS."awards.php");
 ?>
