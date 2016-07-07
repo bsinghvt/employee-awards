@@ -9,7 +9,7 @@ $session->check_adm_login();
 if(!$session->is_admin_logged_in()){
     redirect_to('login.php');
 }
-get_template("updateuseraction.php");
+get_template("updateuseraction.php", Array('session'=>$session));
 if(isset($_GET['uid'])){
 	$data = [];
     $user = new User();

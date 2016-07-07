@@ -1,4 +1,8 @@
 <?php
+$session->check_adm_login();
+if(!$session->is_admin_logged_in()){
+    redirect_to('login.php');
+}
 if(!empty($_POST)){
 	if(isset($_POST["user_email"]) && isset($_POST["password"])
 		&& isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["job_title"]) && isset($_POST["uid"])) {
@@ -34,6 +38,10 @@ if(!empty($_POST)){
 				$user->middle_name=$middle_name=$_POST["middle_name"];
 				if($user->update()){
 					$_SESSION['msg'] = '<p style="color:green;"> <b>User is updated successfully.</b></p>';
+					$admin_action = new AdminActions();
+					$admin_action->admin_id = $session->admin_id;
+					$admin_action->action = 'Admin '.$session->admin_username.' updated '.$_POST["user_email"];
+					$admin_action->add_new();
 					unset($_POST);
 					redirect_to('normal-users.php');
 				}
