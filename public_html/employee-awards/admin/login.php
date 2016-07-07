@@ -4,7 +4,12 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);*/
 require_once(__DIR__.'/../website-files/initialize.php');
 ?>
-<?php 
+<?php
+if(isset($_GET['logout'])){
+	if($_GET['logout'] === 'true'){
+		$session->admin_logout();
+	}
+}
 $session->check_adm_login();
 if($session->is_admin_logged_in()){
     redirect_to('index.php');
