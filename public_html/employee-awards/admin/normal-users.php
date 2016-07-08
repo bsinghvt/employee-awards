@@ -27,6 +27,31 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
 <img src="../website-files/public/layouts/getsignimage.php?id=5" width="10" height="100" />
 <div id="normal-users">
                 <p><h4>User List</h4></p>
+				<form style="border:none;">
+    <div class="form-group">
+      <div class="col-xs-6">
+        <label for="minaward">Minimum Awards Created:</label>
+        <input class="form-control" id="minaward" type="number" placeholder="0">
+      </div>
+      <div class="col-xs-6">
+        <label for="maxaward">Maximum Awards Created:</label>
+        <input class="form-control" id="maxaward" type="number" placeholder="5000">
+      </div>
+    </div>
+  </form>
+  			<form style="border:none;">
+    <div class="form-group">
+      <div class="col-xs-6">
+        <label for="mindate">User Added/Update After:</label>
+        <input class="form-control" id="mindate" type="date" value="1970-01-31">
+      </div>
+	  <div class="col-xs-6">
+        <label for="maxdate">User Added/Update Before:</label>
+        <input class="form-control" id="maxdate" type="date" value="2070-01-31">
+      </div>
+    </div>
+  </form>
+  <button id="filterdata" name="filter" class="btn btn-success">Filter</button>
                 <table id="displaytable" class="table table-striped">
 				<thead>
                     <tr>
@@ -35,7 +60,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                         <th>Last Name</th>
                         <th>Job Title</th>
 						<th># Awards Created</th>
-                        <th>Add/Update Time</th>
+                        <th>Add/Update Date</th>
 						<th>Delete</th>
 						<th>Update</th>
                     </tr>
@@ -47,7 +72,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                         <th>Last Name</th>
                         <th>Job Title</th>
 						<th># Awards Created</th>
-                        <th>Add/Update Time</th>
+                        <th>Add/Update Date</th>
 						<th>Delete</th>
 						<th>Update</th>
                     </tr>
@@ -61,13 +86,13 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
     }?>
 	<tbody>
    <?php foreach($data as $info): ?>
- <tr id="<?php echo $info->uid ?>">
+ <tr class="data" id="<?php echo $info->uid ?>">
      <td><?php echo $info->first_name; ?></td>
      <td><?php echo $info->middle_name; ?></td>
      <td><?php echo $info->last_name; ?></td>
      <td><?php echo $info->job_title; ?></td>
 	 <td><?php echo $info->total_awards; ?></td>
-	 <td><?php echo $info->creation; ?></td>
+	 <td><?php echo date_format(date_create($info->creation), 'm/d/Y'); ?></td>
 	 <td >
 		<button name="delete" class="btn btn-warning" onclick="deleteNormalUser('<?php echo $info->user_email; ?>',<?php echo $info->uid; ?>,'<?php echo "../website-files/public/layouts/deleteuser.php"; ?>')">Delete User</button>
 	 </td>

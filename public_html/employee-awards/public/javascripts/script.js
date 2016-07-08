@@ -63,3 +63,46 @@ $('#userform').submit(function() {
         return false;
     }
 });
+
+$("#filterdata").click(function(){
+    var minAward = "0";
+    var maxAward = "50000";
+    var maxDate = "01/01/2070";
+    var minDate = "01/01/1970";
+    if($.trim($("#minaward").val()) !== ""){
+        minAward = $("#minaward").val();
+    }
+  
+    if($.trim($("#maxaward").val()) !== ""){
+        maxAward = $("#maxaward").val();
+    }
+   
+    if($.trim($("#mindate").val()) !== ""){
+        minDate = $("#mindate").val();
+    }
+ 
+    if($.trim($("#maxdate").val()) !== ""){
+        maxDate = $("#maxdate").val();
+    }
+
+    $("tr.odd").each(function(index, element){
+        var row = $(element).children();
+        if(row[4].textContent >= minAward && row[4].textContent <= maxAward && 
+            new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)){
+            $(element).show();
+        }
+        else{
+            $(element).hide();
+        }
+    });
+    $("tr.even").each(function(index, element){
+        var row = $(element).children();
+        if(row[4].textContent >= minAward && row[4].textContent <= maxAward && 
+            new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)){
+            $(element).show();
+        }
+        else{
+            $(element).hide();
+        }
+    });
+});
