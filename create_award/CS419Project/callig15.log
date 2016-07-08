@@ -1,0 +1,13 @@
+This is METAFONT, Version 2.718281 (TeX Live 2013) (base=mf 2016.3.16)  27 JUN 2016 11:33
+**\mode:=ljfour; mag:=1; nonstopmode; input callig15
+(/nfs/stak/students/t/tanabana/CS419/callig15.mf
+! I can't find file `calligra'.
+l.8 input calligra
+                  ;
+Please type another input file name
+! Emergency stop.
+l.8 input calligra
+                  ;
+*** (job aborted, file error in nonstop mode)
+
+

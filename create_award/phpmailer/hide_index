@@ -1,0 +1,26 @@
+<?php
+require_once 'vendor/autoload.php';
+
+$m = new PHPMailer;
+
+$m->isSMTP();
+$m->SMTPAuth = true;
+$m->SMTPDebug = 2;
+
+$m->Host = 'smtp.gmail.com';
+$m->Username = 'akane.tanaban@gmail.com';
+$m->Password = 'N1ck8tec0rn';
+$m->SMTPSecure = 'ssl';
+$m->Port = 465;
+
+$m->From = 'akane.tanaban@gmail.com';
+$m->FromName = 'Akane Tanaban';
+$m->addReplyTo('atanaban@yahoo.com', 'Reply address');
+$m->addAddress('atanaban@yahoo.com', 'Akane Yahoo');
+
+$m->Subject = 'Here is an email';
+$m->Body = 'This is the body of an email';
+$m->AltBody = 'This is the body of an email';
+
+var_dump($m->send());
+?>

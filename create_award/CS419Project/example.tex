@@ -1,0 +1,125 @@
+%%
+%% This is file `example.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% niceframe.dtx  (with options: `example')
+%% 
+%%  This file is distributed in the hope that it will be useful,
+%%  but WITHOUT ANY WARRANTY; without even the implied warranty of
+%%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%% 
+%% This work has the LPPL maintenance status `maintained'.
+%% 
+%% The Current Maintainer of this work is Marcus Ohlhaut.
+%% 
+%% This work consists of the files niceframe.dtx and niceframe.ins
+%% and the derived file niceframe.sty.
+%% 
+%% Copyright (C) 2009 Marcus Ohlhaut (marcus@ohlhaut.de).
+%% All rights reserved.
+%% 
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%%
+\def\fileversion{1.1c}
+\def\filedate{2009/31/08}
+\documentclass[a4paper]{article}
+\usepackage{niceframe}
+
+\begin{document}
+\pagestyle{empty}
+
+\parindent 0pt
+\niceframe{%
+ \begin{center}
+  May the road rise to meet you\\
+  May the wind be always at your back\\
+  May the sun shine warm upon your face\\
+  The rain fall soft upon your fields\\
+  And until we meet again\\
+  May God hold you in the hollow of his hand\\
+ \end{center}
+ \bigskip
+ \hfill The Blessing of St.~Patrick
+}
+\vfill
+\centerline{%
+ \curlyframe[0.75\textwidth]{%
+  \begin{center}
+   \LARGE I am not flexible!\\
+   Just disorganized!\\
+  \end{center}
+}}
+\vfill
+\centerline{or is it\dots}
+\vfill
+\artdecoframe{%
+ \begin{center}
+  \LARGE I am not disorganized!\\
+  Just flexible!\\
+ \end{center}
+}
+\newpage
+\font\border=karta15
+\generalframe{\border\char'307}{\border\char'324}{\border\char'322}
+             {\border\char'310}                  {\border\char'323}
+             {\border\char'174}{\border\char'325}{\border\char'175}
+             {This is a \texttt{generalframe}, using eight different
+              characters from font \texttt{karta15} as parts of the
+              framework. One might use it to point other people to
+              important notes, hints and/or messages.
+             }
+\vfill
+\font\border=umranda
+\generalframe{\border\char'136}{\border\char'137}{\border\char'140}
+             {\border\char'145}                  {\border\char'141}
+             {\border\char'144}{\border\char'143}{\border\char'142}
+             {This \texttt{generalframe} uses symbols from Alexander
+              Schrell's \texttt{umranda} (his eMail is:
+              alexander\_ schrell@w2.maus.de) collection.
+              The material to be framed consists of quite a few lines to
+              emphasize the fact that virtually anything can go
+              inside a \texttt{generalframe}. Note that we are limited
+              by \TeX's memory as the material to frame has to be passed
+              as an argument. You can't cheat by passing a \texttt{vbox}
+              that has already been set (as you might with some other
+              macros) since \texttt{generalframe} has to re-set all of it.
+             }
+\vfill
+\font\border=umrandb
+\generalframe{\border\char'165}{\border\char'151}{\border\char'164}%
+             {\border\char'150}                  {\border\char'150}%
+             {\border\char'166}{\border\char'151}{\border\char'167}
+             {Last, but not least! This \texttt{generalframe} (with
+              symbols from \texttt{umrandb}) displays some math:
+              $$ E = mc^2 $$
+              which everyone will immediately recognize as the famous
+              Einstein formula for energy-mass-equivalence.
+             }
+\end{document}
+\endinput
+%%
+%% End of file `example.tex'.

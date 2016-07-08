@@ -1,0 +1,169 @@
+% This latex file can be processed with either latex (plus dvips) or pdflatex,
+% provided the files cat.eps and cat.pdf reside in the same folder as this file.
+
+\documentclass[11pt]{article}          % article class
+\usepackage{graphicx}                  % provides \includegraphics command
+\usepackage[colorlinks,urlcolor=blue]{hyperref} % for live links in pdf output
+\topmargin -.7in \textheight 9.35in
+\oddsidemargin 0in \textwidth 6.5in
+
+%%%%%%%%%%%%%%%%%%%%%%% How to use the fancyhdr package %%%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}                % use fancyhdr to customize hdrs & ftrs
+\renewcommand{\headrulewidth}{0pt}   % suppress rule across top(fancyhdr default)
+\headheight=13.6pt                   % make enough room for header
+% The lines below set values for left, right, center for header & footer:
+\lhead{\textit{Including EPS Graphics in \LaTeX}}  % left head
+\chead{}                             % empty center head
+\rhead{\thepage}                     % page number on right head
+\lfoot{Academic \& Research Computing, RPI}  % text for left foot
+\cfoot{}                             % empty center foot              
+\rfoot{\today}                       % today's date on right foot
+\pagestyle{fancy}                    % use fancyhdr style
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\vspace*{-.9in}\textbf{Including Graphics in \LaTeX}\vspace{-12pt}}
+% Use substitute author & date arguments to get desired text and spacing:
+\author{\textit{To get the most out of this document, also view the file
+  \texttt{graphics.tex}}\\
+\textit{to see the commands that included the graphics}}
+\date{\vspace{-30pt}} 
+
+\begin{document}                       % Begin document text
+\maketitle                             % prints title information
+
+\section*{The graphicx package and the figure environment}
+\LaTeX\ provides a graphics package that allows you to include in
+your finished document graphics files which you have prepared using
+a graphics program such as Xfig, CorelDraw, MayuraDraw, Gnuplot,
+Maple, Matlab, etc.  It's also possible to create an eps
+(Encapsulated PostScript) file from any Windows application by
+printing to a file, as described in the
+section below. A general rule of thumb for graphics formats: use pdf
+or eps for vector graphics (line art, graphs, etc), jpg for
+photographs, and png for screen shots.
+
+When you use \LaTeX\ plus \texttt{dvips},% to process your document,
+your graphics files must be in eps format.  pdf\LaTeX\ (which
+produces a pdf file directly) accepts pdf, jpg, and png,
+but \textit{not} eps.  If you want to use pdf\LaTeX\ and your
+graphics files are in eps format, you can convert them to pdf using
+the \texttt{epstopdf} utility, which is most likely on your system.
+There is also a \texttt{jpeg2ps} utility for converting jpg files to
+eps.
+
+For illustrating how to use the \textbf{graphicx} package to
+include graphics, we will use a small line drawing of a cat that exists
+in both eps and pdf formats (called \texttt{cat.eps} and \texttt{cat.pdf}).  
+These files are in the same folder as this file (\texttt{graphics.tex}), 
+which means \LaTeX\ and pdf\LaTeX\ can find them. (It's easiest to
+keep your \texttt{.eps} and/or \texttt{.pdf} files 
+in the same folder as the \LaTeX\ file that uses them. \LaTeX\ looks for files
+first in the current directory and then in its normal input path.)  
+Below we use the \verb+\includegraphics+ command from the 
+\textbf{graphicx} package to insert the picture of the cat right
+here:
+\includegraphics{cat}  % just plop the graphic right here.
+Note that if you use the command \verb+\includegraphics{cat}+, omitting the
+filename extension, \LaTeX\ will find \texttt{cat.eps} and
+pdf\LaTeX\ will find \texttt{cat.pdf}.  
+ 
+For a more sophisticated treatment, we can put the \verb+\includegraphics+ 
+command inside the \texttt{figure} environment, which will float the graphic 
+to be sure there is room for it. (See Figure~\ref{fig:cat}.) 
+% Run latex twice to resolve this reference.
+LaTeX usually places it at the top or bottom of the current page or
+at the top of the following page. In this example, we'll center,
+scale and rotate the graphic. Look for it at the bottom of this page.
+The figure environment also provides a ``caption" command.
+ 
+\begin{figure}[b]  % "b" specifies that it goes at the bottom of page
+\centering         % declaration corresponding to the center environment
+\includegraphics[scale=2,angle=90]{cat}
+\caption{A bigger pussycat, on its side}
+\label{fig:cat}    % \label the figure to be able to \ref it in the text
+\end{figure}
+
+\section*{How to make EPS files from Windows applications}
+Even if the application you are using to create your figure cannot
+export as EPS, you can still create an EPS file from a Windows
+application (such as Word or Excel) as long as you have a
+(non-Microsoft) PostScript printer driver installed on the PC.  The
+plain, generic Apple LaserWriter 16/600 PS is good for black \& white 
+graphics. If you don't have such a PS printer on your PC, use the 
+Add Printer feature to add it; do \textbf{\textit{not}} use a Microsoft,
+HP, or Tektronix driver. If you need color, use the Generic Adobe PS
+printer; you will probably need to download this from the Adobe web site
+(\url{http://www.adobe.com/support/downloads/detail.jsp?ftpID=1500})
+before using Add Printer. Hint: When adding this printer, select that
+it's a local printer connected to your computer. Then, select
+``FILE local port" from the list of ports.
+
+\subsection*{Step 1: Printing to a file}
+From your PC application, select Print. When the Print window appears, 
+choose to print to a file, and select the generic PS printer from your
+list of printers. Then be sure to select the EPS format from among the 
+printer options, as follows:\\ 
+On WinXP, click Properties, then click the ``Advanced...''
+button.  In the next window, click the ``+'' next to PostScript Options, 
+then change PostScript Output Options to ``Encapsulated PostScript (EPS)".
+
+You will be asked to supply a file name. Windows will insist on
+giving the name a .prn extension, so afterwards you must rename the
+file with a .ps extension (e.g., mygraphic.ps). (NOTE: if you type
+quotes (``...") around your file name, Windows will not add the .prn
+extension and you can avoid the renaming step.)
+
+After making a minor correction (Step 2 below), during which you can
+give your file a .eps extension, you should be able
+to import this new eps file into your LaTeX file.
+
+\begin{quote}\small
+\textbf{PowerPoint Note:} The EPS produced from PowerPoint is especially 
+nasty, containing some illegal code, and therefore requires an extra step
+to clean it up before doing  Step 2. (Also note that, when creating your 
+graphic in PowerPoint, it's best to use a portrait page with no background.)
+You can clean up the PowerPoint PS file as follows:\\[2pt]
+- Using GSView, open the .ps file you just created.\\
+- From the File menu, select ``Convert...''\\
+- In the Device box at the left, select ``epswrite'', 
+and for Resolution, select 300dpi. Click OK.\\[2pt]
+(When you are asked for a file name, it's easiest to choose a name with
+the extension .ps, saving the .eps extension for the final step, below).
+\end{quote}
+ 
+\subsection*{Step 2: Correcting the Bounding Box}
+Windows printer drivers usually create the EPS graphic with a
+``Bounding Box" (an invisible box that determines the boundaries of
+the graphic) the size of a full page, even if the graphic itself is
+small. To change the BB to include only the graphic, open the .ps
+file in GSView. To display the BB, pull down the Options menu and
+click on ``Show Bounding Box." To correct the BB, from the File
+menu, select ``PS to EPS". In the window that appears, check
+``Automatically calculate Bounding Box" and click ``Yes". You will
+then be asked to provide a name for a new file with the correct BB;
+this time give it the .eps extension.
+You can use the File menu to open the new file and view the
+corrected BB. Your new file should import correctly into LaTeX using
+the \verb+\includegraphics+ command as described above.  
+
+\section*{For more information}
+In Memo RPI.109, \href{http://www.rpi.edu/campus/doc/acs.memos/rpi109.pdf}
+{Text Formatting with \LaTeX}, you can find more
+on the figure environment in section 4.12, and more information on
+including graphics in section 7.4.\medskip
+
+The RPI example file \texttt{exrotating.pdf} and it’s corresponding \LaTeX\ file 
+\texttt{exrotating.tex} show how to
+include landscape figures and tables:\\[2pt]
+\url{http://www.rpi.edu/dept/arc/training/latex/Examples/exrotating.pdf}\\
+\url{http://www.rpi.edu/dept/arc/training/latex/Examples/exrotating.tex}\medskip
+
+Official documentation for the \LaTeX's graphics bundle is in \texttt{grfguide.pdf}; 
+look for it on your system. 
+The information on the \texttt{graphicx} package is in Section 4.4.\medskip
+
+For an exhaustive treatment of including graphics in LaTeX documents see
+the excellent document, ``Using Imported Graphics in \LaTeX 2e." You can
+find it at\\ \url{http://www.ctan.org/tex-archive/info/epslatex.pdf}. 
+
+\end{document}

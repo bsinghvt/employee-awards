@@ -1,0 +1,9 @@
+\glossaryentry{1.0> =General:>Adapted this to LaTeX2e}{1}
+\glossaryentry{1.0a> =General:>Added CurlyFrame and ArtDecoFrame}{1}
+\glossaryentry{1.0b> =General:>Fixed documentation}{1}
+\glossaryentry{1.0c> =General:>Fixed 8+3 names}{1}
+\glossaryentry{1.1> =General:>Redesign of GeneralFrame}{1}
+\glossaryentry{1.1b> =General:>Fixed alignment of right vleaders}{1}
+\glossaryentry{1.1b> =General:>Changed command names to lowercase}{1}
+\glossaryentry{1.1b> =General:>Adapted installation to new version of docstrip}{1}
+\glossaryentry{1.1c> =General:>Changed license to LPPL 1.3}{1}
