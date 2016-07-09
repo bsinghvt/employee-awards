@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['added'] = false;
 if(!empty($_POST)){
 	if(isset($_POST["user_email"]) && isset($_POST["password"])) {
 		
@@ -8,6 +9,7 @@ if(!empty($_POST)){
 			$user->password=$_POST["password"];
 			if($user->add_new()){
 				$GLOBALS['msg'] = '<p style="color:green;"> <b>New Admin is added successfully.</b></p>';
+				$GLOBALS['added'] = true;
 			}
 			else{
 				$GLOBALS['msg'] = '<p style="color:red;"> <b>'.$user->error.'</b></p>';

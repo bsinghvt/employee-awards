@@ -10,11 +10,19 @@ $session->check_adm_login();
 if(!$session->is_admin_logged_in()){
     redirect_to('login.php');
 }
+$GLOBALS['added'] = false;
 get_template("addnewuseraction.php");
 get_template("admin-header.php");
 get_template('navbar.php', $arr = array('logoutLink'=>'login.php?logout=true','main'=>'index.php','sitename' =>'Green Arrow Consulting', 'navbar'=>array(array('link'=>'index.php', 'desc'=>'Home'), array('link'=>'#', 'desc'=>'User Info'), array('link'=>'admin-users.php', 'desc'=>'Admin Info'), array('link'=>'awards.php', 'desc'=>'Awards'))));
 if(isset($GLOBALS['msg'])){
 	echo output_message($GLOBALS['msg']);
+	if($GLOBALS['added'] == true){
+		$admin_action = new AdminActions();
+		$admin_action->admin_id = $session->admin_id;
+		$admin_action->action = 'Admin '.$session->admin_username.' added new user '.$_POST["user_email"];
+		$admin_action->add_new();
+	}
+	unset($GLOBALS['added']);
 	unset($GLOBALS['msg']);
 }
 if(isset($_SESSION['msg'])){

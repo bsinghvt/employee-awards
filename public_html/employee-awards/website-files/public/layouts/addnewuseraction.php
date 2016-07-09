@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['added'] = false;
 if(!empty($_POST)){
 	if(isset($_POST["user_email"]) && isset($_POST["password"])
 		&& isset($_POST["first_name"]) && isset($_POST["last_name"]) && isset($_POST["job_title"])) {
@@ -33,6 +34,7 @@ if(!empty($_POST)){
 				$user->middle_name=$middle_name=$_POST["middle_name"];
 				if($user->add_new()){
 					$GLOBALS['msg'] = '<p style="color:green;"> <b>New User is added successfully.</b></p>';
+					$GLOBALS['added'] = true;
 				}
 				else{
 					$GLOBALS['msg'] = '<p style="color:red;"> <b>'.$user->error.'</b></p>';
