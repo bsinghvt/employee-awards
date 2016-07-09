@@ -23,28 +23,16 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
 				<form style="border:none;">
     <div class="form-group">
       <div class="col-xs-6">
-        <label for="minaward">Minimum Awards Created:</label>
+        <label for="minaward">Minimum Awards Received:</label>
         <input class="form-control" id="minaward" type="number" placeholder="0">
       </div>
       <div class="col-xs-6">
-        <label for="maxaward">Maximum Awards Created:</label>
+        <label for="maxaward">Maximum Awards Received:</label>
         <input class="form-control" id="maxaward" type="number" placeholder="5000">
       </div>
     </div>
   </form>
-  			<form style="border:none;">
-    <div class="form-group">
-      <div class="col-xs-6">
-        <label for="mindate">User Added/Updated After:</label>
-        <input class="form-control" id="mindate" type="date" value="2016-01-31">
-      </div>
-	  <div class="col-xs-6">
-        <label for="maxdate">User Added/Updated Before:</label>
-        <input class="form-control" id="maxdate" type="date" value="2018-01-31">
-      </div>
-    </div>
-  </form>
-  <button id="filterdata" name="filter" class="btn btn-success">Filter</button>
+  <button id="filterdataawardrec" name="filter" class="btn btn-success">Filter</button>
                 <table id="displaytable" class="table table-striped">
 				<thead>
                     <tr>

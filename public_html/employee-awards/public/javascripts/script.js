@@ -1,4 +1,6 @@
-//Function add filters to data tabel
+/*********************************** */
+/*Function add filters to data tabel*/
+/********************************** */
 function addFilter() {
     //Function to filter usesrs https://datatables.net/examples/api/
     // Setup - add a text input to each footer cell
@@ -24,14 +26,18 @@ function addFilter() {
         });
     });
 }
-//Function to append more options how many records to display
-function moreOptions(){
+/********************************** */
+//Function to append more options for how many records to display
+/********************************** */
+function moreOptions() {
     $("select[name = 'displaytable_length']").append('<option value="500">500</option>');
     $("select[name = 'displaytable_length']").append('<option value="1000">1000</option>');
     $("select[name = 'displaytable_length']").append('<option value="5000">5000</option>');
     $("select[name = 'displaytable_length']").append('<option value="10000">10000</option>');
 }
+/********************************** */
 //Function to delete a user
+/********************************** */
 function deleteNormalUser(username, key, URL) {
     var row = document.getElementById(key);
     $.ajax({
@@ -50,7 +56,9 @@ function deleteNormalUser(username, key, URL) {
         }
     });
 }
+/********************************** */
 //Function to delete a user
+/********************************** */
 function deleteAdmin(username, key, URL) {
     var row = document.getElementById(key);
     $.ajax({
@@ -69,66 +77,102 @@ function deleteAdmin(username, key, URL) {
         }
     });
 }
+/********************************** */
+//Function to dynamically filter data
+/********************************** */
+function filterData(event) {
+    var minAward = 0;
+    var maxAward = 50000;
+    var maxDate = "01/01/2070";
+    var minDate = "01/01/1970";
+    if ($.trim($("#minaward").val()) !== "" && !isNaN($("#minaward").val())) {
+        minAward = parseInt($("#minaward").val());
+    }
+
+    if ($.trim($("#maxaward").val()) !== "" && !isNaN($("#maxaward").val())) {
+        maxAward = parseInt($("#maxaward").val());
+    }
+
+    if ($.trim($("#mindate").val()) !== "") {
+        minDate = $("#mindate").val();
+    }
+
+    if ($.trim($("#maxdate").val()) !== "") {
+        maxDate = $("#maxdate").val();
+    }
+
+    $("tr.odd").each(function(index, element) {
+        var row = $(element).children();
+        if (row[4].textContent >= minAward && row[4].textContent <= maxAward &&
+            new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)) {
+            $(element).show();
+            $(element).removeClass("noExl");
+        } else {
+            $(element).hide();
+            $(element).addClass("noExl");
+        }
+    });
+    $("tr.even").each(function(index, element) {
+        var row = $(element).children();
+        if (row[4].textContent >= minAward && row[4].textContent <= maxAward &&
+            new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)) {
+            $(element).show();
+            $(element).removeClass("noExl");
+        } else {
+            $(element).hide();
+            $(element).addClass("noExl");
+        }
+    });
+}
+/********************************** */
+//Function to display awards based on user input
+/********************************** */
+function dispOptions(event) {
+    var maxDate = "2070-01-01";
+    var minDate = "1970-01-01";
+    if ($.trim($("#mindate").val()) !== "") {
+        minDate = $("#mindate").val();
+    }
+
+    if ($.trim($("#maxdate").val()) !== "") {
+        maxDate = $("#maxdate").val();
+    }
+
+    $.ajax({
+        method: "POST",
+        url: event.data.url,
+        data: {
+            "mindate": minDate,
+            "maxdate": maxDate
+        },
+        complete: function(r) {
+            $("#awards").html(r.responseText);
+            addFilter();
+            moreOptions();
+        }
+    });
+}
+/********************************** */
+/********************************** */
+//OnDocument ready
+/********************************** */
+/********************************** */
 $(document).ready(function() {
     //Function to export data as excel sheet
     //http://www.jqueryscript.net/table/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel.html
-    $(document).on("click", "#exportsheet" , function() {
+    $(document).on("click", "#exportsheet", function() {
         $("#displaytable").table2excel({
             exclude: ".noExl",
             name: "Results"
         });
     });
 
-    $('#dispallawards').on('click', function(e) {
-        var maxDate = "2070-01-01";
-        var minDate = "1970-01-01";
-        if ($.trim($("#mindate").val()) !== "") {
-            minDate = $("#mindate").val();
-        }
-
-        if ($.trim($("#maxdate").val()) !== "") {
-            maxDate = $("#maxdate").val();
-        }
-
-        $.ajax({
-            method: "POST",
-            url: '../website-files/public/layouts/dispallawards.php',
-            data: {
-                "mindate": minDate,
-                "maxdate": maxDate
-            },
-            complete: function(r) {
-                $("#awards").html(r.responseText);
-                addFilter();
-                moreOptions();
-            }
-        });
-    });
-    $('#dispawardsbyrec').on('click', function(e) {
-        var maxDate = "2070-01-01";
-        var minDate = "1970-01-01";
-        if ($.trim($("#mindate").val()) !== "") {
-            minDate = $("#mindate").val();
-        }
-
-        if ($.trim($("#maxdate").val()) !== "") {
-            maxDate = $("#maxdate").val();
-        }
-
-        $.ajax({
-            method: "POST",
-            url: '../website-files/public/layouts/dispawardsbyrec.php',
-            data: {
-                "mindate": minDate,
-                "maxdate": maxDate
-            },
-            complete: function(r) {
-                $("#awards").html(r.responseText);
-                addFilter();
-                moreOptions();
-            }
-        });
-    });
+    $(document).on('click', '#dispallawards', {
+        url: "../website-files/public/layouts/dispallawards.php"
+    }, dispOptions);
+    $(document).on('click', '#dispawardsbyrec', {
+        url: '../website-files/public/layouts/dispawardsbyrec.php'
+    }, dispOptions);
     addFilter();
     //Prevent form submission when fields are empty
     $('#userform').submit(function() {
@@ -141,52 +185,17 @@ $(document).ready(function() {
     });
 
     //Function to filter data between dates and min and max awards
-     $(document).on("click", "#filterdata", function() {
-        var minAward = 0;
-        var maxAward = 50000;
-        var maxDate = "01/01/2070";
-        var minDate = "01/01/1970";
-        if ($.trim($("#minaward").val()) !== "" && !isNaN($("#minaward").val())) {
-            minAward = parseInt($("#minaward").val());
-        }
+    $(document).on("click", "#filterdata", {
+        param1: "Hello",
+        param2: "World"
+    }, filterData);
 
-        if ($.trim($("#maxaward").val()) !== "" && !isNaN($("#maxaward").val())) {
-            maxAward = parseInt($("#maxaward").val());
-        }
-
-        if ($.trim($("#mindate").val()) !== "") {
-            minDate = $("#mindate").val();
-        }
-
-        if ($.trim($("#maxdate").val()) !== "") {
-            maxDate = $("#maxdate").val();
-        }
-
-        $("tr.odd").each(function(index, element) {
-            var row = $(element).children();
-            if (row[4].textContent >= minAward && row[4].textContent <= maxAward &&
-                new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)) {
-                $(element).show();
-                $(element).removeClass("noExl");
-            } else {
-                $(element).hide();
-                $(element).addClass("noExl");
-            }
-        });
-        $("tr.even").each(function(index, element) {
-            var row = $(element).children();
-            if (row[4].textContent >= minAward && row[4].textContent <= maxAward &&
-                new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)) {
-                $(element).show();
-                $(element).removeClass("noExl");
-            } else {
-                $(element).hide();
-                $(element).addClass("noExl");
-            }
-        });
-    });
 });
-
+/********************************** */
+/********************************** */
+//On Window load
+/********************************** */
+/********************************** */
 $(window).load(function() {
     moreOptions();
 });

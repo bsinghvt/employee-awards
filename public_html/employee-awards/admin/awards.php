@@ -29,7 +29,7 @@ if(isset($_SESSION['msg'])){
 }
 ?>
 <p><form style="border:none;">
-	<legend>Display awards granted between</legend>
+	<legend>Display awards received between</legend>
 		<div class="form-group">
 			<div class="col-xs-6">
 				<label for="mindate">Start Date:</label>
@@ -45,7 +45,7 @@ if(isset($_SESSION['msg'])){
 <div class="list-group">
                 <button id="dispallawards" class="list-group-item">Display All Awards</button>
 				<button id="dispawardsbyrec" class="list-group-item">Display Awards Group by Recipient</button>
-				<button id="dispawardsbygranter" class="list-group-item">Display Awards Group by Award Giver</button>
+				<button id="dispawardsbygiver" class="list-group-item">Display Awards Group by Award Giver</button>
 				<button id="dispawardsbytype" class="list-group-item">Display Awards Group by Award Type</button>
 </div>
 <div id="awards">
