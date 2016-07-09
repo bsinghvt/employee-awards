@@ -5,10 +5,11 @@ class Admin extends DatabaseObject {
     public $user_email;
     public $password;
     public $admin_id;
+	public $total_actions;
     public $error;
     protected static $auth_query = 'SELECT admin_id FROM Admin_Account WHERE user_email = ? AND password = ? LIMIT 1';
     protected static $auth_param_type = 'ss';
-	protected static $select_query_all = 'SELECT * from Admin_Account';
+	protected static $select_query_all = 'SELECT Admin_Account.admin_id, Admin_Account.user_email, CASE WHEN Admin_Actions.action_id IS NULL THEN 0 ELSE COUNT( Admin_Actions.action_id ) END AS total_actions from Admin_Account left join Admin_Actions on Admin_Actions.admin_id = Admin_Account.admin_id group by Admin_Account.admin_id';
 	protected static $param_type = 'ss';
 	protected static $update_param_type = 'ssi';
     protected static $insert_query = 'INSERT INTO Admin_Account (user_email, password) VALUES(?, ?)';

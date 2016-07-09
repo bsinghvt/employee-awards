@@ -29,6 +29,7 @@ get_template("addnewadminform.php", $arr = Array("action" => "admin-users.php", 
 				<thead>
                     <tr>
                         <th>Email</th>
+						<th># Actions</th>
 						<th>Delete</th>
 						<th>Update</th>
                     </tr>
@@ -36,6 +37,7 @@ get_template("addnewadminform.php", $arr = Array("action" => "admin-users.php", 
 					<tfoot>
                     <tr class="noExl">
                         <th>Email</th>
+						<th># Actions</th>
 						<th>Delete</th>
 						<th>Update</th>
                     </tr>
@@ -50,6 +52,7 @@ get_template("addnewadminform.php", $arr = Array("action" => "admin-users.php", 
     foreach($data as $info): ?>
  <tr id="<?php echo $info->admin_id ?>">
      <td><?php echo $info->user_email; ?></td>
+	 <td><a href="admin-actions.php?id=<?php echo $info->admin_id; ?>&name=<?php echo $info->user_email; ?>"><?php echo $info->total_actions; ?></a></td>
 	  <td><button name="delete" class="btn btn-warning" onclick="deleteAdmin('<?php echo $info->user_email; ?>',<?php echo $info->admin_id; ?>,'<?php echo "../website-files/public/layouts/deleteadmin.php"; ?>')" >Delete Admin</button></td>
 	   <td><a class="btn btn-info" role="button" href="update-admin.php?id=<?php echo $info->admin_id; ?>">Update Admin</a></td>
 </tr>

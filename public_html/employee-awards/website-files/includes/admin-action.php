@@ -6,10 +6,12 @@ class AdminActions extends DatabaseObject {
     public $action_id;
     public $error;
 	public $admin_id;
+	public $action_timestamp;
     
 	protected static $param_type = 'si';
     protected static $insert_query = 'INSERT INTO Admin_Actions (action, admin_id) VALUES(?, ?)';
     protected static $select_query_all = 'SELECT * from Admin_Actions';
+	protected static $select_query_admin = 'SELECT * from Admin_Actions WHERE admin_id = ?';
  
     function __construct(){
     }
@@ -21,6 +23,10 @@ class AdminActions extends DatabaseObject {
     }
     public function findAll(){
         return parent::any_select_query(self::$select_query_all);
+    }
+	
+	public function find_by_admin_id(){
+		return parent::any_select_query(self::$select_query_admin, Array('i', $this->admin_id));
     }
 }
 ?>
