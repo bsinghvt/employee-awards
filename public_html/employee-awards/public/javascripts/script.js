@@ -105,3 +105,10 @@ $(document).ready(function() {
         });
     });
 });
+
+$( window ).load(function() {
+    $("select[name = 'displaytable_length']").append('<option value="500">500</option>');
+    $("select[name = 'displaytable_length']").append('<option value="1000">1000</option>');
+    $("select[name = 'displaytable_length']").append('<option value="5000">5000</option>');
+    $("select[name = 'displaytable_length']").append('<option value="10000">10000</option>');
+});
