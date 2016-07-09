@@ -10,6 +10,7 @@ function deleteNormalUser(username, key, URL){
             $("#msg").html(data.msg);
             if(data.success === 'yes'){
                 row.style.display = "none";
+                row.remove();
             }
         }
     });
@@ -26,6 +27,7 @@ function deleteAdmin(username, key, URL){
             $("#msg").html(data.msg);
             if(data.success === 'yes'){
                 row.style.display = "none";
+                row.remove();
             }
             console.log(data.msg);
         }
