@@ -45,7 +45,7 @@ if(isset($_SESSION['msg'])){
 <div class="list-group">
                 <button id="dispallawards" class="list-group-item">Display All Awards</button>
 				<button id="dispawardsbyrec" class="list-group-item">Display Awards Group by Recipient</button>
-				<button id="dispawardsbygranter" class="list-group-item">Display Awards Group by Granter</button>
+				<button id="dispawardsbygranter" class="list-group-item">Display Awards Group by Award Giver</button>
 				<button id="dispawardsbytype" class="list-group-item">Display Awards Group by Award Type</button>
 </div>
 <div id="awards">
