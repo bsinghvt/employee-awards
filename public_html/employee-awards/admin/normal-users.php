@@ -42,12 +42,12 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
   			<form style="border:none;">
     <div class="form-group">
       <div class="col-xs-6">
-        <label for="mindate">User Added/Update After:</label>
-        <input class="form-control" id="mindate" type="date" value="1970-01-31">
+        <label for="mindate">User Added/Updated After:</label>
+        <input class="form-control" id="mindate" type="date" value="2016-01-31">
       </div>
 	  <div class="col-xs-6">
-        <label for="maxdate">User Added/Update Before:</label>
-        <input class="form-control" id="maxdate" type="date" value="2070-01-31">
+        <label for="maxdate">User Added/Updated Before:</label>
+        <input class="form-control" id="maxdate" type="date" value="2018-01-31">
       </div>
     </div>
   </form>
@@ -59,7 +59,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Job Title</th>
-						<th># Awards Created</th>
+						<th>#Awards Created</th>
                         <th>Add/Update Date</th>
 						<th>Delete</th>
 						<th>Update</th>
@@ -71,7 +71,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Job Title</th>
-						<th># Awards Created</th>
+						<th>#Awards Created</th>
                         <th>Add/Update Date</th>
 						<th>Delete</th>
 						<th>Update</th>
