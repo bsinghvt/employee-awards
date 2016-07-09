@@ -94,17 +94,20 @@ function filterData(event) {
     }
 
     if ($.trim($("#mindate").val()) !== "") {
-        minDate = $("#mindate").val();
+        var dateArr = ($("#mindate").val()).split('-');
+        minDate = dateArr[1] + '/' + dateArr[2] + '/' + dateArr[0];
     }
 
     if ($.trim($("#maxdate").val()) !== "") {
-        maxDate = $("#maxdate").val();
+        var dateArr = ($("#maxdate").val()).split('-');
+        maxDate = dateArr[1] + '/' + dateArr[2] + '/' + dateArr[0];
     }
 
     $("tr.odd").each(function(index, element) {
         var row = $(element).children();
-        if (row[4].textContent >= minAward && row[4].textContent <= maxAward &&
-            new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)) {
+        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
+            new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) >= new Date(minDate).setHours(0,0,0,0)
+             && new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) <= new Date(maxDate).setHours(0,0,0,0)) {
             $(element).show();
             $(element).removeClass("noExl");
         } else {
@@ -114,8 +117,9 @@ function filterData(event) {
     });
     $("tr.even").each(function(index, element) {
         var row = $(element).children();
-        if (row[4].textContent >= minAward && row[4].textContent <= maxAward &&
-            new Date(row[5].textContent) >= new Date(minDate) && new Date(row[5].textContent) <= new Date(maxDate)) {
+        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
+            new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) >= new Date(minDate).setHours(0,0,0,0) 
+            && new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) <= new Date(maxDate).setHours(0,0,0,0)) {
             $(element).show();
             $(element).removeClass("noExl");
         } else {
@@ -173,6 +177,8 @@ $(document).ready(function() {
     $(document).on('click', '#dispawardsbyrec', {
         url: '../website-files/public/layouts/dispawardsbyrec.php'
     }, dispOptions);
+
+    //Call function to add filter to data table
     addFilter();
     //Prevent form submission when fields are empty
     $('#userform').submit(function() {
@@ -186,8 +192,9 @@ $(document).ready(function() {
 
     //Function to filter data between dates and min and max awards
     $(document).on("click", "#filterdata", {
-        param1: "Hello",
-        param2: "World"
+        isDateFilter: true,
+        dateRow: 5,
+        awardRow: 4
     }, filterData);
 
 });
