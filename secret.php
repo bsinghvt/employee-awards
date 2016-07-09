@@ -1,0 +1,3 @@
+<?php
+$myPassword = 'Leprechaun333';
+?>
