@@ -1,3 +1,19 @@
+ //Function to delete a user
+function deleteNormalUser(username, key, URL){
+    var row = document.getElementById(key);
+    $.ajax({
+        method: "POST",
+        url: URL,
+        data: {
+            "uid":key, "name" : username},
+        success: function(data){
+            $("#msg").html(data.msg);
+            if(data.success === 'yes'){
+                row.style.display = "none";
+            }
+        }
+    });
+}
 $(document).ready(function() {
     //Function to export data as excel sheet
     //http://www.jqueryscript.net/table/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel.html
@@ -88,21 +104,4 @@ $(document).ready(function() {
             }
         });
     });
-
-    //Function to delete a user
-    function deleteNormalUser(username, key, URL){
-        var row = document.getElementById(key);
-        $.ajax({
-            method: "POST",
-            url: URL,
-                data: {
-                    "uid":key, "name" : username},
-                success: function(data){
-                    $("#msg").html(data.msg);
-                    if(data.success === 'yes'){
-                        row.style.display = "none";
-                    }
-                }
-            });
-        }
 });
