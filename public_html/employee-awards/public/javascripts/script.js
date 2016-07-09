@@ -1,3 +1,4 @@
+//Function add filters to data tabel
 function addFilter() {
     //Function to filter usesrs https://datatables.net/examples/api/
     // Setup - add a text input to each footer cell
@@ -22,6 +23,13 @@ function addFilter() {
             }
         });
     });
+}
+//Function to append more options how many records to display
+function moreOptions(){
+    $("select[name = 'displaytable_length']").append('<option value="500">500</option>');
+    $("select[name = 'displaytable_length']").append('<option value="1000">1000</option>');
+    $("select[name = 'displaytable_length']").append('<option value="5000">5000</option>');
+    $("select[name = 'displaytable_length']").append('<option value="10000">10000</option>');
 }
 //Function to delete a user
 function deleteNormalUser(username, key, URL) {
@@ -92,6 +100,32 @@ $(document).ready(function() {
             complete: function(r) {
                 $("#awards").html(r.responseText);
                 addFilter();
+                moreOptions();
+            }
+        });
+    });
+    $('#dispawardsbyrec').on('click', function(e) {
+        var maxDate = "2070-01-01";
+        var minDate = "1970-01-01";
+        if ($.trim($("#mindate").val()) !== "") {
+            minDate = $("#mindate").val();
+        }
+
+        if ($.trim($("#maxdate").val()) !== "") {
+            maxDate = $("#maxdate").val();
+        }
+
+        $.ajax({
+            method: "POST",
+            url: '../website-files/public/layouts/dispawardsbyrec.php',
+            data: {
+                "mindate": minDate,
+                "maxdate": maxDate
+            },
+            complete: function(r) {
+                $("#awards").html(r.responseText);
+                addFilter();
+                moreOptions();
             }
         });
     });
@@ -154,8 +188,5 @@ $(document).ready(function() {
 });
 
 $(window).load(function() {
-    $("select[name = 'displaytable_length']").append('<option value="500">500</option>');
-    $("select[name = 'displaytable_length']").append('<option value="1000">1000</option>');
-    $("select[name = 'displaytable_length']").append('<option value="5000">5000</option>');
-    $("select[name = 'displaytable_length']").append('<option value="10000">10000</option>');
+    moreOptions();
 });
