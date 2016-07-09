@@ -1,7 +1,7 @@
 <?php
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 require_once(__DIR__.'/../../initialize.php');
 $session->check_adm_login();
 if(!$session->is_admin_logged_in()){
@@ -15,7 +15,7 @@ $success = 'not';
     
         if(trim($id) != ""){
             $admin = new Admin();
-			$admin->id = $id;
+			$admin->admin_id = $id;
             if($admin->delete_admin()){
                 $GLOBALS['msg'] = '<p style="color:green; text-align: center;"><b>Admin is deleted Successfully.</b></p>';
                 $success = 'yes';
@@ -25,8 +25,7 @@ $success = 'not';
 				$admin_action->add_new();
             }
             else{
-				$re=$admin->delete_admin();
-                $GLOBALS['msg'] = '<p style="color:red; text-align: center;"><b>Data base error.Try Again.</b></p>'.$re;
+                $GLOBALS['msg'] = '<p style="color:red; text-align: center;"><b>Data base error.Try Again.</b></p>';
             }
         }
         else{

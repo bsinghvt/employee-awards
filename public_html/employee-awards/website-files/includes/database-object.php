@@ -26,7 +26,7 @@ class DatabaseObject {
         return static::makeUserObjectArray($data);
     }
     
-    //Function to general select query
+    //Function to general query
     protected function update_or_delete_or_insert_query($sql='', $params=array()){
         global $database;
         if(!$database->query($sql)){
@@ -45,6 +45,7 @@ class DatabaseObject {
             return false;
         }
         if($database->affect_rows == 0){
+			$this->error = $database->error;
             return false;
         }
         return true;
@@ -81,7 +82,7 @@ class DatabaseObject {
         return $object_array;
     }
 
-	 //Function to create a user object
+	 //Function to create a object
     protected static function &makeUserObject ($data){
         $class_name = get_called_class();
         $object = new  $class_name;
