@@ -14,7 +14,7 @@ class Admin extends DatabaseObject {
     protected static $insert_query = 'INSERT INTO Admin_Account (user_email, password) VALUES(?, ?)';
 	protected static $select_query_id = 'SELECT * FROM Admin_Account WHERE admin_id = ? LIMIT 1 ';
 	protected static $update_query = 'UPDATE Admin_Account SET user_email = ?, password = ? WHERE admin_id = ? ';
-	protected static $delete_query = 'DELETE FROM Admin_Account WHERE admin_id = ?';
+	protected static $delete_query = 'DELETE FROM Admin_Account WHERE admin_id = ? ';
     
     function __construct(){
     }

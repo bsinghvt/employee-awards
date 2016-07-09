@@ -14,6 +14,23 @@ function deleteNormalUser(username, key, URL){
         }
     });
 }
+ //Function to delete a user
+function deleteAdmin(username, key, URL){
+    var row = document.getElementById(key);
+    $.ajax({
+        method: "POST",
+        url: URL,
+        data: {
+            "id":key, "name" : username},
+        success: function(data){
+            $("#msg").html(data.msg);
+            if(data.success === 'yes'){
+                row.style.display = "none";
+            }
+            console.log(data.msg);
+        }
+    });
+}
 $(document).ready(function() {
     //Function to export data as excel sheet
     //http://www.jqueryscript.net/table/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel.html
