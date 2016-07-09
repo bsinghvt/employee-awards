@@ -1,23 +1,72 @@
 <?php
-require_once("../../../website-files/includes/initialize.php");
-if(!$session->is_logged_in()) {redirect_to("login.php");}
-get_template("admin-header.php");
+/*ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);*/
+require_once(__DIR__.'/../website-files/initialize.php');
 ?>
-<h2>Photographs</h2>
-<?php echo output_message($message); ?>
-<div class="row">
+<?php 
+$session->check_adm_login();
+if(!$session->is_admin_logged_in()){
+    redirect_to('login.php');
+}
+$GLOBALS['added'] = false;
+get_template("addnewadminaction.php");
+get_template("admin-header.php");
+get_template('navbar.php', $arr = array('logoutLink'=>'login.php?logout=true', 'main'=>'index.php','sitename' =>'Green Arrow Consulting', 'navbar'=>array(array('link'=>'index.php', 'desc'=>'Home'), array('link'=>'normal-users.php', 'desc'=>'User Info'), array('link'=>'#', 'desc'=>'Admin Info'), array('link'=>'awards.php', 'desc'=>'Awards'))));
+if(isset($GLOBALS['msg'])){
+	echo output_message($GLOBALS['msg']);
+	if($GLOBALS['added'] == true){
+		$admin_action = new AdminActions();
+		$admin_action->admin_id = $session->admin_id;
+		$admin_action->action = 'Admin '.$session->admin_username.' added new admin '.$_POST["user_email"];
+		$admin_action->add_new();
+	}
+	unset($GLOBALS['added']);
+	unset($GLOBALS['msg']);
+}
+if(isset($_SESSION['msg'])){
+	echo output_message($_SESSION['msg']);
+	unset($_SESSION['msg']);
+}
+get_template("addnewadminform.php", $arr = Array("action" => "admin-users.php", "legend"=>"Add New Admin"));
+?>
+<div id="admin-users">
+                <p><h4>Admin Users</h4></p>
+            
+                <table id="displaytable" class="table table-striped">
+				<thead>
+                    <tr>
+                        <th>Email</th>
+						<th># Actions</th>
+						<th>Delete</th>
+						<th>Update</th>
+                    </tr>
+					</thead>
+					<tfoot>
+                    <tr class="noExl">
+                        <th>Email</th>
+						<th># Actions</th>
+						<th>Delete</th>
+						<th>Update</th>
+                    </tr>
+					</tfoot>
+					<tbody>
+<?php
+    $data = [];
+    $users = new Admin();
+    if(!$data = $users->findAll()){
+        echo '<p style="color:red;"><b>Error in database. The admins cannot be displayed. Please try again</b></p';
+    }
+    foreach($data as $info): ?>
+ <tr id="<?php echo $info->admin_id ?>">
+     <td><?php echo $info->user_email; ?></td>
+	 <td><a href="admin-actions.php?id=<?php echo $info->admin_id; ?>&name=<?php echo $info->user_email; ?>"><?php echo $info->total_actions; ?></a></td>
+	  <td><button name="delete" class="btn btn-warning" onclick="deleteAdmin('<?php echo $info->user_email; ?>',<?php echo $info->admin_id; ?>,'<?php echo "../website-files/public/layouts/deleteadmin.php"; ?>')" >Delete Admin</button></td>
+	   <td><a class="btn btn-info" role="button" href="update-admin.php?id=<?php echo $info->admin_id; ?>">Update Admin</a></td>
+</tr>
 
-<?php $photos = new PhotoGraph();
-$allPhotos =& $photos->findAllAdmin();
-foreach($allPhotos as $photo): ?>
-   <div class="col-md-4">
-      <p><?php echo $photo->filename.", ".$photo->caption; ?></p>
-		<img src="<?php echo $photo->imagePath("../"); ?>" style="width:150px;height:150px">
-		<p>Size: <?php echo $photo->photo_size(); ?></p>
-		<a href="delete-photo.php?id=<?php echo $photo->id; ?>"> Delete Photo</a>
-   </div>
 <?php endforeach; ?>
+</tbody>
+                </table>
 </div>
-<br>
-<p style="text-align:center;"><a href="photo-upload.php" class="thumbnail"> Upload new photo</a></p>
-<?php get_template("footer.php"); ?>
+<?php get_template($template = "footer.php", $arr = array('script'=>'../public/javascripts/script.js', 'export_table'=>'../public/javascripts/jquery.table2excel.js')); ?>
