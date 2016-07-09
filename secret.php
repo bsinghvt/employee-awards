@@ -1,3 +1,3 @@
 <?php
-$myPassword = 'Leprechaun333';
+$myPassword = 'Seanjohn69';
 ?>

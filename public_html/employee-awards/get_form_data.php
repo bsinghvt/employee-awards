@@ -104,7 +104,7 @@ $m->SMTPDebug = 2;
 
 $m->Host = 'smtp.gmail.com';
 $m->Username = 'zmax.8000@gmail.com';
-$m->Password = 'Seanjohn69';
+$m->Password =  $myPassword;
 $m->SMTPSecure = 'ssl';
 $m->Port = 465;
 
