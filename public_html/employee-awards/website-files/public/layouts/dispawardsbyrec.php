@@ -54,10 +54,16 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
     $awards = new Award();
 	$awards->min_date = $_POST['mindate'];
 	$awards->max_date = $_POST['maxdate'];
-    if(!$data = $awards->group_by_rec()){
+	$data = $awards->group_by_rec();
+	 if(!is_array($data)){
         echo '<p style="color:red;"><b>Error in database. The awards cannot be displayed. Please try again</b></p';
 		return;
-    }?>
+    }
+	else if(empty($data)){
+		echo '<p style="color:red;"><b>No data to display. Please try again by changing filters.</b></p';
+		return;
+	}
+    ?>
 	<tbody>
    <?php foreach($data as $info): ?>
  <tr class="data" id="<?php echo $info->adid ?>">
