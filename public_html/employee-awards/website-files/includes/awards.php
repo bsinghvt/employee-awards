@@ -62,12 +62,15 @@ class Award extends DatabaseObject {
 			$this->middle_name = "";
 		}
 		if(!isset($this->first_name)){
-			$this->first_name = "";
-		}
-		if(!isset($this->last_name)){
-			$this->last_name = "";
+			return "Unknown/Deleted";
 		}
 		return $this->first_name.' '.$this->middle_name.' '.$this->last_name;
+	}
+	public function user_email(){
+		if(!isset($this->user_email)){
+			return "Unknown/Deleted";
+		}
+		return $this->user_email;
 	}
 }
 ?>

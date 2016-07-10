@@ -68,7 +68,7 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
    <?php foreach($data as $info): ?>
  <tr class="data" >
 	<td><?php echo $info->g_full_name(); ?></td>
-     <td><?php echo $info->user_email; ?></td>
+     <td><?php echo $info->user_email(); ?></td>
      <td><?php echo $info->total_awards_giv; ?></td>
 </tr>
 
