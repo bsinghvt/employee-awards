@@ -13,7 +13,10 @@ function addFilter() {
         }
     });
     // DataTable
-    var table = $('#displaytable').DataTable();
+    var table = $('#displaytable').DataTable({
+        "bInfo" : false,
+         "paging": true
+    });
     // Apply the search
     table.columns().every(function() {
         var that = this;
@@ -34,6 +37,7 @@ function moreOptions() {
     $("select[name = 'displaytable_length']").append('<option value="1000">1000</option>');
     $("select[name = 'displaytable_length']").append('<option value="5000">5000</option>');
     $("select[name = 'displaytable_length']").append('<option value="10000">10000</option>');
+    $("select[name = 'displaytable_length']").append('<option value="100000">100000</option>');
 }
 /********************************** */
 //Function to delete a user
@@ -81,7 +85,6 @@ function deleteAdmin(username, key, URL) {
 //Function to dynamically filter data with date
 /********************************** */
 function withDateFilter(event, minAward, maxAward, minDate, maxDate) {
-    var table = $('#displaytable').DataTable();
     $("tr.data").each(function(index, element) {
         var row = $(element).children();
         if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
