@@ -50,8 +50,8 @@ function deleteNormalUser(username, key, URL) {
         success: function(data) {
             $("#msg").html(data.msg);
             if (data.success === 'yes') {
-                row.style.display = "none";
-                row.remove();
+                var table = $('#displaytable').DataTable();
+                table.row(row).remove().draw();
             }
         }
     });
@@ -71,8 +71,8 @@ function deleteAdmin(username, key, URL) {
         success: function(data) {
             $("#msg").html(data.msg);
             if (data.success === 'yes') {
-                row.style.display = "none";
-                row.remove();
+                var table = $('#displaytable').DataTable();
+                table.row(row).remove().draw();
             }
         }
     });
@@ -81,19 +81,8 @@ function deleteAdmin(username, key, URL) {
 //Function to dynamically filter data with date
 /********************************** */
 function withDateFilter(event, minAward, maxAward, minDate, maxDate) {
-    $("tr.odd").each(function(index, element) {
-        var row = $(element).children();
-        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
-            new Date(row[event.data.dateRow].textContent).setHours(0, 0, 0, 0) >= new Date(minDate).setHours(0, 0, 0, 0) &&
-            new Date(row[event.data.dateRow].textContent).setHours(0, 0, 0, 0) <= new Date(maxDate).setHours(0, 0, 0, 0)) {
-            $(element).show();
-            $(element).removeClass("noExl");
-        } else {
-            $(element).hide();
-            $(element).addClass("noExl");
-        }
-    });
-    $("tr.even").each(function(index, element) {
+    var table = $('#displaytable').DataTable();
+    $("tr.data").each(function(index, element) {
         var row = $(element).children();
         if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
             new Date(row[event.data.dateRow].textContent).setHours(0, 0, 0, 0) >= new Date(minDate).setHours(0, 0, 0, 0) &&
@@ -110,17 +99,7 @@ function withDateFilter(event, minAward, maxAward, minDate, maxDate) {
 //Function to dynamically filter data without date
 /********************************** */
 function withoutDateFilter(event, minAward, maxAward) {
-    $("tr.odd").each(function(index, element) {
-        var row = $(element).children();
-        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward) {
-            $(element).show();
-            $(element).removeClass("noExl");
-        } else {
-            $(element).hide();
-            $(element).addClass("noExl");
-        }
-    });
-    $("tr.even").each(function(index, element) {
+    $("tr.data").each(function(index, element) {
         var row = $(element).children();
         if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward) {
             $(element).show();
