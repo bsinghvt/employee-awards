@@ -32,7 +32,7 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
       </div>
     </div>
   </form>
-  <button id="filterdataawardrec" name="filter" class="btn btn-success">Filter</button>
+  <button id="filterdataaward" name="filter" class="btn btn-success">Filter</button>
                 <table id="displaytable" class="table table-striped">
 				<thead>
                     <tr>
@@ -66,7 +66,7 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
     ?>
 	<tbody>
    <?php foreach($data as $info): ?>
- <tr class="data" id="<?php echo $info->adid ?>">
+ <tr>
 	<td><?php echo $info->r_full_name(); ?></td>
      <td><?php echo $info->recepient_email; ?></td>
      <td><?php echo $info->total_awards_rec; ?></td>

@@ -78,6 +78,60 @@ function deleteAdmin(username, key, URL) {
     });
 }
 /********************************** */
+//Function to dynamically filter data with date
+/********************************** */
+function withDateFilter(event, minAward, maxAward, minDate, maxDate) {
+    $("tr.odd").each(function(index, element) {
+        var row = $(element).children();
+        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
+            new Date(row[event.data.dateRow].textContent).setHours(0, 0, 0, 0) >= new Date(minDate).setHours(0, 0, 0, 0) &&
+            new Date(row[event.data.dateRow].textContent).setHours(0, 0, 0, 0) <= new Date(maxDate).setHours(0, 0, 0, 0)) {
+            $(element).show();
+            $(element).removeClass("noExl");
+        } else {
+            $(element).hide();
+            $(element).addClass("noExl");
+        }
+    });
+    $("tr.even").each(function(index, element) {
+        var row = $(element).children();
+        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
+            new Date(row[event.data.dateRow].textContent).setHours(0, 0, 0, 0) >= new Date(minDate).setHours(0, 0, 0, 0) &&
+            new Date(row[event.data.dateRow].textContent).setHours(0, 0, 0, 0) <= new Date(maxDate).setHours(0, 0, 0, 0)) {
+            $(element).show();
+            $(element).removeClass("noExl");
+        } else {
+            $(element).hide();
+            $(element).addClass("noExl");
+        }
+    });
+}
+/********************************** */
+//Function to dynamically filter data without date
+/********************************** */
+function withoutDateFilter(event, minAward, maxAward) {
+    $("tr.odd").each(function(index, element) {
+        var row = $(element).children();
+        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward) {
+            $(element).show();
+            $(element).removeClass("noExl");
+        } else {
+            $(element).hide();
+            $(element).addClass("noExl");
+        }
+    });
+    $("tr.even").each(function(index, element) {
+        var row = $(element).children();
+        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward) {
+            $(element).show();
+            $(element).removeClass("noExl");
+        } else {
+            $(element).hide();
+            $(element).addClass("noExl");
+        }
+    });
+}
+/********************************** */
 //Function to dynamically filter data
 /********************************** */
 function filterData(event) {
@@ -102,31 +156,11 @@ function filterData(event) {
         var dateArr = ($("#maxdate").val()).split('-');
         maxDate = dateArr[1] + '/' + dateArr[2] + '/' + dateArr[0];
     }
-
-    $("tr.odd").each(function(index, element) {
-        var row = $(element).children();
-        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
-            new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) >= new Date(minDate).setHours(0,0,0,0)
-             && new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) <= new Date(maxDate).setHours(0,0,0,0)) {
-            $(element).show();
-            $(element).removeClass("noExl");
-        } else {
-            $(element).hide();
-            $(element).addClass("noExl");
-        }
-    });
-    $("tr.even").each(function(index, element) {
-        var row = $(element).children();
-        if (row[event.data.awardRow].textContent >= minAward && row[event.data.awardRow].textContent <= maxAward &&
-            new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) >= new Date(minDate).setHours(0,0,0,0) 
-            && new Date(row[event.data.dateRow].textContent).setHours(0,0,0,0) <= new Date(maxDate).setHours(0,0,0,0)) {
-            $(element).show();
-            $(element).removeClass("noExl");
-        } else {
-            $(element).hide();
-            $(element).addClass("noExl");
-        }
-    });
+    if (event.data.isDateFilter) {
+        withDateFilter(event, minAward, maxAward, minDate, maxDate);
+    } else {
+        withoutDateFilter(event, minAward, maxAward);
+    }
 }
 /********************************** */
 //Function to display awards based on user input
@@ -177,6 +211,9 @@ $(document).ready(function() {
     $(document).on('click', '#dispawardsbyrec', {
         url: '../website-files/public/layouts/dispawardsbyrec.php'
     }, dispOptions);
+    $(document).on('click', '#dispawardsbygiver', {
+        url: '../website-files/public/layouts/dispawardsbygiver.php'
+    }, dispOptions);
 
     //Call function to add filter to data table
     addFilter();
@@ -195,6 +232,11 @@ $(document).ready(function() {
         isDateFilter: true,
         dateRow: 5,
         awardRow: 4
+    }, filterData);
+    //Function to filter data between min and max awards
+    $(document).on("click", "#filterdataaward", {
+        isDateFilter: false,
+        awardRow: 2
     }, filterData);
 
 });

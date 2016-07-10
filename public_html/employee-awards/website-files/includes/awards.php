@@ -20,12 +20,14 @@ class Award extends DatabaseObject {
 	public $middle_name;
 	public $job_title;
 	public $total_awards_rec;
+	public $total_awards_giv;
    
     protected static $param_type = 'ssssssii';
     protected static $insert_query = 'INSERT INTO Award (recepient_email, r_first_name, r_last_name, r_middle_name, award_type, granted, public, uid) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
     protected static $select_query_all = 'SELECT Award.award_type, Award.recepient_email, Award.r_first_name, Award.r_middle_name, Award.r_last_name, Award.granted, User_Account.user_email, User_Account.first_name, User_Account.last_name, User_Account.middle_name, User_Account.job_title from Award left join User_Account on User_Account.uid = Award.uid Where Award.granted >= ? and Award.granted <= ?';
 	protected static $select_rec_group = 'SELECT Award.recepient_email, Award.r_first_name, Award.r_middle_name, Award.r_last_name, count(Award.adid) as total_awards_rec from Award Where Award.granted >= ? and Award.granted <= ? group by Award.recepient_email';
-    function __construct(){
+    protected static $select_giv_group = 'SELECT User_Account.user_email, User_Account.first_name, User_Account.last_name, User_Account.middle_name, User_Account.job_title, count(Award.adid) as total_awards_giv from Award left join User_Account on User_Account.uid = Award.uid Where Award.granted >= ? and Award.granted <= ? GROUP BY Award.uid';
+	function __construct(){
     }
     protected function insert_params(){
         return array(self::$param_type, $this->recepient_email, $this->r_first_name, $this->r_last_name, $this->r_middle_name, $this->award_type, $this->granted, $this->public, $this->uid);
@@ -36,6 +38,10 @@ class Award extends DatabaseObject {
 	
 	public function group_by_rec(){
         return parent::any_select_query(self::$select_rec_group, $arr=array('ss', $this->min_date, $this->max_date));
+    }
+	
+	public function group_by_giv(){
+        return parent::any_select_query(self::$select_giv_group, $arr=array('ss', $this->min_date, $this->max_date));
     }
 	
 	public function r_full_name(){

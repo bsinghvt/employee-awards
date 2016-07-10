@@ -8,6 +8,8 @@ if(!$session->is_admin_logged_in()){
     echo "unauthorized access";
 	return;
 }
+//$_POST['mindate'] = '2016-01-31';
+//$_POST['maxdate'] = '2017-01-31';
 if(!isset($_POST['mindate']) || !isset($_POST['maxdate'])){
 	return;
 }
@@ -17,28 +19,33 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
 }
 ?>
 
- <p><h4>All Awards</h4></p>
+ <p><h4>Awards Group by Award Giver</h4></p>
+				<form style="border:none;">
+    <div class="form-group">
+      <div class="col-xs-6">
+        <label for="minaward">Minimum Awards Given:</label>
+        <input class="form-control" id="minaward" type="number" placeholder="0">
+      </div>
+      <div class="col-xs-6">
+        <label for="maxaward">Maximum Awards Given:</label>
+        <input class="form-control" id="maxaward" type="number" placeholder="5000">
+      </div>
+    </div>
+  </form>
+  <button id="filterdataaward" name="filter" class="btn btn-success">Filter</button>
                 <table id="displaytable" class="table table-striped">
 				<thead>
                     <tr>
-                        <th>Recipient Full Name</th>
-                        <th>Recipient Email</th>
                         <th>Award Giver Full Name</th>
-						<th>Award Giver Email</th>
-                        <th>Award Giver Job Title</th>
-						<th>Award Granted Date</th>
-                        <th>Award Type</th>
+                        <th>Award Giver Email</th>
+                        <th>Total Awards Given</th>
                     </tr>
                 </thead>
 				<tfoot>
                     <tr class="noExl">
-                        <th>Recipient Full Name</th>
-                        <th>Recipient Email</th>
-                        <th>Award Giver Full Name</th>
-						<th>Award Giver Email</th>
-                        <th>Award Giver Job Title</th>
-						<th>Award Granted Date</th>
-                        <th>Award Type</th>
+                       <th>Award Giver Full Name</th>
+                        <th>Award Giver Email</th>
+                        <th>Total Awards Given</th>
                     </tr>
                 </tfoot>
                 <!-- PHP-->
@@ -47,25 +54,22 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
     $awards = new Award();
 	$awards->min_date = $_POST['mindate'];
 	$awards->max_date = $_POST['maxdate'];
-	$data = $awards->findAll();
-    if(!is_array($data)){
+	$data = $awards->group_by_giv();
+	 if(!is_array($data)){
         echo '<p style="color:red;"><b>Error in database. The awards cannot be displayed. Please try again</b></p';
 		return;
     }
 	else if(empty($data)){
 		echo '<p style="color:red;"><b>No data to display. Please try again by changing filters.</b></p';
 		return;
-	}?>
+	}
+    ?>
 	<tbody>
    <?php foreach($data as $info): ?>
- <tr class="data" >
-	<td><?php echo $info->r_full_name(); ?></td>
-     <td><?php echo $info->recepient_email; ?></td>
-     <td><?php echo $info->g_full_name(); ?></td>
+ <tr>
+	<td><?php echo $info->g_full_name(); ?></td>
      <td><?php echo $info->user_email; ?></td>
-     <td><?php echo $info->job_title; ?></td>
-     <td><?php echo date_format(date_create($info->granted), 'm/d/Y'); ?></td>
-     <td><?php echo $info->award_type; ?></td>
+     <td><?php echo $info->total_awards_giv; ?></td>
 </tr>
 
 <?php endforeach; ?>
