@@ -58,7 +58,7 @@ if(isset($_POST['a-first-name'], $_POST['r-first-name'])) {
 	$RLastName = $_POST['r-last-name']; //Recipient's last name
 }
 else {
-	echo "Need email addresses\r";
+	echo "Need recipient's name and awarder's name.\r";
 }
 include 'pass.php';
 	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
@@ -103,7 +103,7 @@ $m->SMTPAuth = true;
 $m->SMTPDebug = 2;
 
 $m->Host = 'smtp.gmail.com';
-$m->Username = 'zmax.8000@gmail.com';
+$m->Username = 'webrecogapp@gmail.com';
 $m->Password =  $myPassword;
 $m->SMTPSecure = 'ssl';
 $m->Port = 465;
