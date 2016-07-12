@@ -53,9 +53,15 @@ if(isset($_SESSION['msg'])){
     $data = [];
     $actions = new AdminActions();
 	$actions->admin_id = trim($_GET['id']);
-    if(!$data = $actions->find_by_admin_id()){
+	$data = $actions->find_by_admin_id();
+	if(!is_array($data)){
         echo '<p style="color:red;"><b>Error in database. The admin actions cannot be displayed. Please try again</b></p';
+		return;
     }
+	else if(empty($data)){
+		echo '<p style="color:red;"><b>No actions performed by admin '.$_GET['name'].'</b></p';
+		return;
+	}
     foreach($data as $info): ?>
  <tr id="<?php echo $info->action_id ?>">
      <td><?php echo $info->action; ?></td>
