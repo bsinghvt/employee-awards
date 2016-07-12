@@ -63,9 +63,8 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                 <table id="displaytable" class="table table-striped">
 				<thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
                         <th>Job Title</th>
 						<th>#Awards Created</th>
                         <th>Add/Update Date</th>
@@ -75,9 +74,8 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
                 </thead>
 				<tfoot>
                     <tr class="noExl">
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
                         <th>Job Title</th>
 						<th>#Awards Created</th>
                         <th>Add/Update Date</th>
@@ -95,10 +93,9 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
 	<tbody>
    <?php foreach($data as $info): ?>
  <tr class="data" id="<?php echo $info->uid ?>">
-     <td><?php echo $info->first_name; ?></td>
-     <td><?php echo $info->middle_name; ?></td>
-     <td><?php echo $info->last_name; ?></td>
-     <td><?php echo $info->job_title; ?></td>
+     <td><?php echo $info->full_name(); ?></td>
+     <td><?php echo $info->user_email(); ?></td>
+     <td><?php echo $info->job_title(); ?></td>
 	 <td><?php echo $info->total_awards; ?></td>
 	 <td><?php echo date_format(date_create($info->creation), 'm/d/Y'); ?></td>
 	 <td >

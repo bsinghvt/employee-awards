@@ -70,7 +70,28 @@ class Award extends DatabaseObject {
 		if(!isset($this->user_email)){
 			return "Unknown/Deleted";
 		}
+		if(trim($this->user_email) == ""){
+			return "Unknown/Deleted";
+		}
 		return $this->user_email;
+	}
+	public function g_job_title(){
+		if(!isset($this->job_title)){
+			return "Unknown/Deleted";
+		}
+		if(trim($this->job_title) == ""){
+			return "Unknown/Deleted";
+		}
+		return $this->job_title;
+	}
+	public function recepient_email(){
+		if(!isset($this->recepient_email)){
+			return "Unknown/Deleted";
+		}
+		if(trim($this->recepient_email) == ""){
+			return "Unknown/Deleted";
+		}
+		return $this->recepient_email;
 	}
 }
 ?>

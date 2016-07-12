@@ -60,10 +60,10 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
    <?php foreach($data as $info): ?>
  <tr class="data" >
 	<td><?php echo $info->r_full_name(); ?></td>
-     <td><?php echo $info->recepient_email; ?></td>
+     <td><?php echo $info->recepient_email(); ?></td>
      <td><?php echo $info->g_full_name(); ?></td>
-     <td><?php echo $info->user_email; ?></td>
-     <td><?php echo $info->job_title; ?></td>
+     <td><?php echo $info->user_email(); ?></td>
+     <td><?php echo $info->g_job_title(); ?></td>
      <td><?php echo date_format(date_create($info->granted), 'm/d/Y'); ?></td>
      <td><?php echo $info->award_type; ?></td>
 </tr>

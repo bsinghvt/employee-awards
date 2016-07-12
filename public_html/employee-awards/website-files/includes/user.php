@@ -64,5 +64,33 @@ class User extends DatabaseObject {
 	public function delete_user(){
         return parent::update_or_delete_or_insert_query(self::$delete_user_query, $arr=array('i', $this->uid));
     }
+	
+	public function full_name(){
+		if(!isset($this->middle_name)){
+			$this->middle_name = "";
+		}
+		if(!isset($this->first_name)){
+			return "Unknown/Deleted";
+		}
+		return $this->first_name.' '.$this->middle_name.' '.$this->last_name;
+	}
+	public function user_email(){
+		if(!isset($this->user_email)){
+			return "Unknown/Deleted";
+		}
+		if(trim($this->user_email) == ""){
+			return "Unknown/Deleted";
+		}
+		return $this->user_email;
+	}
+	public function job_title(){
+		if(!isset($this->job_title)){
+			return "Unknown/Deleted";
+		}
+		if(trim($this->job_title) == ""){
+			return "Unknown/Deleted";
+		}
+		return $this->job_title;
+	}
 }
 ?>
