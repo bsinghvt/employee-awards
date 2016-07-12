@@ -9,15 +9,13 @@ if (!isset($_SESSION["user_email"]))
 {
     header("Location: login.php", true);
 }
-get_template("header.php");
-get_template("nav2.php");
 include 'pass.php';
 $uid=$_SESSION["uid"];
 	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
     if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 	}
-	if (!($stmt = $mysqli->prepare("SELECT first_name, middle_name, last_name, job_title from User_Account WHERE uid=?"))) {
+	if (!($stmt = $mysqli->prepare("SELECT signature from User_Account WHERE uid=?"))) {
      echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 if (!$stmt->bind_param("i", $uid)) {
@@ -26,14 +24,11 @@ if (!$stmt->bind_param("i", $uid)) {
 if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 }
-$stmt->bind_result($AFirstName, $AMiddleName, $ALastName, $job_title);
+$stmt->bind_result($sig);
 
     
     $stmt->fetch();
 $stmt->close();
+header("Content-type: image/png");
+  echo $sig;
 ?>
-<body>
-<img src="getImage.php" width="175" height="200" />
-</body>
-<?php get_template("footer.php"); 
- ?>

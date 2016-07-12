@@ -70,6 +70,9 @@ if(isset($_POST['user_email'])) {
 					return;
 				}
 				$signature = file_get_contents($_FILES["signature"]['tmp_name']);
+
+
+fclose($fp);
 		$user_email=$_POST["user_email"];
 		$password=$_POST["password"];
 		$first_name=$_POST["first_name"];
@@ -107,7 +110,7 @@ if(isset($_POST['user_email'])) {
 		}
 		else
 		{
-			echo "Error there is already an account with that user name click <a href=\"index.php\">here</a> to return to login page";
+			$message= "Error there is already an account with that user name click <a href=\"index.php\">here</a> to return to login page";
 		}
 	}
 }
