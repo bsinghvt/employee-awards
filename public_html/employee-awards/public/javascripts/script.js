@@ -212,7 +212,9 @@ $(document).ready(function () {
    $(document).on('click', '#dispawardsbygiver', {
       url: '../website-files/public/layouts/dispawardsbygiver.php'
    }, dispOptions);
-
+   $(document).on('click', '#dispawardsbytype', {
+      url: '../website-files/public/layouts/dispawardsbytype.php'
+   }, dispOptions);
    //Call function to add filter to data table
    addFilter();
    //Prevent form submission when fields are empty
@@ -235,6 +237,11 @@ $(document).ready(function () {
    $(document).on("click", "#filterdataaward", {
       isDateFilter: false
       , awardRow: 2
+   }, filterData);
+    //Function to filter data between min and max awards
+   $(document).on("click", "#filterdataawardtype", {
+      isDateFilter: false
+      , awardRow: 1
    }, filterData);
 
 });
