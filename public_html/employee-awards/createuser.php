@@ -49,7 +49,7 @@ if(isset($_POST['user_email'])) {
 	}
 	else if (in_array($_POST['user_email'], $accounts))
 	{
-		echo "Could not add account as there is already another user name of " . $_POST["user_email"] . " click <a href=\"register.php\">here</a> to return to account creation screen";
+		$message= "Could not add account as there is already another user name of " . $_POST["user_email"] . " click <a href=\"register.php\">here</a> to return to account creation screen";
 	}
 	else
 	{
@@ -72,7 +72,7 @@ if(isset($_POST['user_email'])) {
 				$signature = file_get_contents($_FILES["signature"]['tmp_name']);
 
 
-fclose($fp);
+//fclose($fp);
 		$user_email=$_POST["user_email"];
 		$password=$_POST["password"];
 		$first_name=$_POST["first_name"];
@@ -88,7 +88,7 @@ fclose($fp);
 			 echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 			 $error=1;
 		}
-		if (!$stmt->bind_param("ssssssss", $user_email, $password, $creation, $signature, $first_name, $middle_name, $last_name, $job_title)) {
+		if (!$stmt->bind_param("sssbssss", $user_email, $password, $creation, $signature, $first_name, $middle_name, $last_name, $job_title)) {
 			echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
 			$error=1;
 		}

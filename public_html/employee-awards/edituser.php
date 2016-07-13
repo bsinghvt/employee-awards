@@ -17,7 +17,7 @@ $uid=$_SESSION["uid"];
     if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 	}
-	if (!($stmt = $mysqli->prepare("SELECT first_name, middle_name, last_name, job_title from User_Account WHERE uid=?"))) {
+	if (!($stmt = $mysqli->prepare("SELECT first_name, middle_name, last_name, job_title, password from User_Account WHERE uid=?"))) {
      echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 if (!$stmt->bind_param("i", $uid)) {
@@ -26,14 +26,31 @@ if (!$stmt->bind_param("i", $uid)) {
 if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 }
-$stmt->bind_result($AFirstName, $AMiddleName, $ALastName, $job_title);
+$stmt->bind_result($AFirstName, $AMiddleName, $ALastName, $job_title, $pass);
 
     
     $stmt->fetch();
 $stmt->close();
 ?>
 <body>
+<div class="form-group">
+    <form method="post" action="edituserinfo.php" enctype="multipart/form-data"> 
+        <fieldset>
+				<legend>Registration</legend>
+				<p>User email (will be username): <input type="email" name="user_email" value="<?php echo htmlspecialchars($_SESSION["user_email"]); ?>" required /></p>
+		<p>Password: <input type="password" name="password" value="<?php echo htmlspecialchars($pass); ?>" required /></p>
+		<p>First name: <input type="text" name="first_name" value="<?php echo htmlspecialchars($AFirstName); ?>" required /></p>
+		<p>Middle name (optional): <input type="text" name="middle_name" value="<?php echo htmlspecialchars($AMiddleName); ?>" /></p>
+		<p>Last name: <input type="text" name="last_name" required value="<?php echo htmlspecialchars($ALastName); ?>" /></p>
+		<p>Job Title: <input type="text" name="job_title" required value="<?php echo htmlspecialchars($job_title); ?>" /></p>
+		<p>New Signature:  <input type="file" name="signature" accept="image/*"/> </p>
+		<label>Current Signature</label>
 <img src="getImage.php" width="175" height="200" />
+		<br><br>
+		<input type="submit" value="Update">
+        </fieldset>
+	 </form>
+</div>
 </body>
 <?php get_template("footer.php"); 
  ?>
