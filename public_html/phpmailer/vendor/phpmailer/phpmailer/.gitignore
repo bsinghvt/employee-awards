@@ -3,4 +3,3 @@ test/message.txt
 test/testbootstrap.php
 test/*.pem
 build/
-vendor/
