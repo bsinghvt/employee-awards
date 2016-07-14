@@ -6,6 +6,8 @@ class Session {
     public $admin_id;
 	public $admin_username;
     function __construct() {
+		 session_save_path(__DIR__.'/../temp');
+		 ini_set('session.gc_probability', 1);
          session_start();
     }
     public function check_user_login(){
