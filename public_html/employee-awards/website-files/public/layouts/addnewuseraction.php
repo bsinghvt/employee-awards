@@ -23,21 +23,34 @@ if(!empty($_POST)){
 					$GLOBALS['msg'] = '<p style="color:red;"> <b>Error: Please upload a valid image of your signature.</b></p>';
 					return;
 				}
-				$data = file_get_contents($_FILES['signature']['tmp_name']);
-				$user = new User();
-				$user->user_email=$user_email=$_POST["user_email"];
-				$user->password=$pwd=$_POST["password"];
-				$user->signature=$data;
-				$user->first_name=$first_name=$_POST["first_name"];
-				$user->last_name=$last_name=$_POST["last_name"];
-				$user->job_title=$job_title=$_POST["job_title"];
-				$user->middle_name=$middle_name=$_POST["middle_name"];
-				if($user->add_new()){
-					$GLOBALS['msg'] = '<p style="color:green;"> <b>New User is added successfully.</b></p>';
-					$GLOBALS['added'] = true;
+				$file_name = uniqid(); //basename($_FILES['signature']['name']); //$data = file_get_contents($_FILES['signature']['tmp_name']);
+				$temp_path = $_FILES['signature']['tmp_name'];
+				$target_path = SIG_IMAGES.DS.$file_name;
+				//Check if file already exists
+				if(file_exists($target_path)){
+					$GLOBALS['msg'] = '<p style="color:red;"> <b>Error: Please try again.</b></p>';
+					return;
+				}
+				if(move_uploaded_file($temp_path, $target_path)){
+					$user = new User();
+					$user->user_email=$user_email=$_POST["user_email"];
+					$user->password=$pwd=$_POST["password"];
+					$user->signature=$file_name;
+					$user->first_name=$first_name=$_POST["first_name"];
+					$user->last_name=$last_name=$_POST["last_name"];
+					$user->job_title=$job_title=$_POST["job_title"];
+					$user->middle_name=$middle_name=$_POST["middle_name"];
+					if($user->add_new()){
+						$GLOBALS['msg'] = '<p style="color:green;"> <b>New User is added successfully.</b></p>';
+						$GLOBALS['added'] = true;
+					}
+					else{
+						$GLOBALS['msg'] = '<p style="color:red;"> <b>'.$user->error.'</b></p>';
+					}
 				}
 				else{
-					$GLOBALS['msg'] = '<p style="color:red;"> <b>'.$user->error.'</b></p>';
+					$GLOBALS['msg'] = '<p style="color:red;"> <b>Error: Please try again.</b></p>';
+					return;
 				}
 			}
 			else{
@@ -48,8 +61,7 @@ if(!empty($_POST)){
 			$GLOBALS['msg'] = '<p style="color:red;"> <b>Please Enter all required fields.</b></p>';
 		}
 	}
-	else
-	{
+	else{
 		$GLOBALS['msg'] = '<p style="color:red;"> <b>Please Enter all required fields.</b></p>';
 	}
 }	 

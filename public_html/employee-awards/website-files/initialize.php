@@ -3,6 +3,7 @@
 defined("DS") ? null : define("DS", DIRECTORY_SEPARATOR);
 
 defined("SITE_ROOT") ? null : define("SITE_ROOT", __DIR__);
+defined("SIG_IMAGES") ? null : define("SIG_IMAGES", SITE_ROOT.DS.'sig-images');
 
 defined("LIB_PATH") ? null : define("LIB_PATH", SITE_ROOT.DS.'includes');
 require_once(LIB_PATH.DS."config.php");
