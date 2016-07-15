@@ -1,6 +1,7 @@
 <?php
-session_start();
-ob_start(); //from stack overflow
+require_once(__DIR__.'/website-files/initialize.php');
+//session_start();
+//ob_start(); //from stack overflow
 error_reporting(E_ALL);
 ini_set('display_errors','On');
 session_unset();

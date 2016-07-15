@@ -1,14 +1,17 @@
 <?php
-ob_start(); //from stack overflow
+//ob_start(); //from stack overflow
+require_once(__DIR__.'/website-files/initialize.php');
 include 'pass.php';
 error_reporting(E_ALL);
 ini_set('display_errors','On');
-session_start();
+//session_start();
 if (!isset($_SESSION["user_email"]))
 {
     header("Location: login.php", true);
 }
 $uid=$_SESSION["uid"];
+
+
 // output headers so that the file is downloaded rather than displayed
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename=data.csv');
@@ -17,36 +20,39 @@ ini_set('display_errors', 'On');
 require_once '../phpmailer/vendor/autoload.php';
 include("../../secret.php");
 include 'pass.php';
-	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
-    if ($mysqli->connect_errno) {
-		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-	}
-	if (!($stmt = $mysqli->prepare("SELECT signature, first_name, middle_name, last_name, job_title from User_Account WHERE uid=?"))) {
-     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+
+$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
+if ($mysqli->connect_errno) 
+{
+	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;	
+}
+if (!($stmt = $mysqli->prepare("SELECT signature, first_name, middle_name, last_name, job_title from User_Account WHERE uid=?"))) 
+{
+	echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 if (!$stmt->bind_param("i", $uid)) {
     echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
 }
-if (!$stmt->execute()) {
-    echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+if (!$stmt->execute()) 
+{
+	echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 }
+
 $stmt->bind_result($sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
 
-    
-    $stmt->fetch();
+$certificate_data = array($_POST['r-first-name'], $_POST['r-middle-name'], $_POST['r-last-name'], $_POST['award-type'], $_POST['date']);
+
+while($stmt->fetch())
+{
+	array_push($certificate_data, $sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
+}
+
 $stmt->close();
-if(isset($_POST['r-last-name'], $_POST['r-first-name'])) {
-	$certificate_data = array($_POST['r-first-name'], $_POST['r-middle-name'], $_POST['r-last-name'], $_POST['award-type'], $_POST['date'], $sig, $AFirstName, $AMiddleName, $ALastName, $job_title,);
-	echo "awarder's full name is " . $certificate_data[6] . " " . $certificate_data[7] . " " . $certificate_data[8] . "\r\r";
-}
-else {
-	echo "didn't work";
-}
 
 
 
-//Output a csv file from POST data
 
+//Output a csv file from POST (create award form) data and user's data retrieved from database
 
 // create a file pointer connected to the output stream
 $file = fopen('data.csv', 'w');
@@ -54,11 +60,12 @@ $file = fopen('data.csv', 'w');
 // output the column headings
 fputcsv($file, array('RFirstName', 'RMiddleName', 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle'));
 
-//fetch single row of data from POST variable
+//input row of certificate data
 fputcsv($file, $certificate_data);
 
 fclose($file);
 
+//make the certificate
 exec("/usr/bin/pdflatex certificate_style3.ltx 2>&1");
 
 

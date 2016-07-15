@@ -1,9 +1,10 @@
 <?php
-ob_start(); //from stack overflow
+require_once(__DIR__.'/website-files/initialize.php');
+//ob_start(); //from stack overflow
 include 'pass.php';
 error_reporting(E_ALL);
 ini_set('display_errors','On');
-session_start();
+//session_start();
 $username=$_POST["username"];
 $password=$_POST["password"];
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
@@ -31,7 +32,7 @@ if ($units>0)
 	$_SESSION["user_email"]=$username;
 	
 }
-
+ echo $_SESSION["uid"];
 
 
 ?>
