@@ -17,7 +17,7 @@ echo output_message($message);
 		<p>Middle name (optional): <input type="text" name="middle_name" /></p>
 		<p>Last name: <input type="text" name="last_name" required /></p>
 		<p>Job Title: <input type="text" name="job_title" required /></p>
-		<p>Signature: <input type="file" name="signature" accept="image/*" required/> </p>
+		<p>Signature: <input type="file" name="signature" accept="image/*" required/> </p>  <!-- Need error chechink to make it so only png, jpg, gif files are accepted here -->
 		<br><br>
 <!-- 	<input type="submit" value="Submit"> --> 
 		<button type="submit" name="btn-upload">Submit</button>       
