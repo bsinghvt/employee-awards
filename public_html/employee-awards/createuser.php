@@ -1,5 +1,5 @@
 <?php
-ob_start(); //from stack overflow
+//ob_start(); //from stack overflow
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -83,7 +83,8 @@ if(isset($_POST['user_email']))
 			//$file = rand(1000,100000)."-".$_FILES['signature']['name'];
 			$file_loc = $_FILES['signature']['tmp_name'];
 			$folder=__DIR__."/website-files/sig-images/";
-			 
+			$file_type = $_FILES['signature']['type'];
+			echo "file type = " . $file_type; 
 			// make file name in lower case
 			//$new_file_name = strtolower($file);
 
@@ -91,6 +92,25 @@ if(isset($_POST['user_email']))
 			//$final_file=str_replace(' ','-',$new_file_name);
 		 
 			$final_file = uniqid();
+
+			if ($file_type == "image/jpg" || $file_type == "image/jpeg" )
+			{
+				$final_file = $final_file . ".jpg";
+			}
+			elseif ($file_type == "image/png") 
+			{
+				$final_file = $final_file . ".png";
+			}
+			elseif ($file_type == "image/gif") 
+			{
+				$final_file = $final_file . ".gif";
+			}
+			else
+			{
+				echo "not the right file type";
+			}
+			//$final_file $final_file . '.' . $file_type;
+
 			$user_email=$_POST["user_email"];
 			$password=$_POST["password"];
 			$first_name=$_POST["first_name"];
