@@ -10,12 +10,13 @@ if(!$session->is_admin_logged_in()){
 <?php
 $GLOBALS['msg'] = "";
 $success = 'not';
-    if(isset($_POST["uid"])){
+    if(isset($_POST["uid"]) && isset($_POST["sig"])){
         $uid = $_POST["uid"];
-    
-        if(trim($uid) != ""){
+		$sig = $_POST["sig"];
+        if(trim($uid) != "" && trim($sig) != ""){
             $user = new User();
 			$user->uid = $uid;
+			$target_path= SIG_IMAGES.DS.$sig;
             if($user->delete_user()){
                 $GLOBALS['msg'] = '<p style="color:green; text-align: center;"><b>User is deleted Successfully.</b></p>';
                 $success = 'yes';
@@ -23,6 +24,9 @@ $success = 'not';
 				$admin_action->admin_id = $session->admin_id;
 				$admin_action->action = 'Admin '.$session->admin_username.' deleted '.$_POST["name"];
 				$admin_action->add_new();
+				if(file_exists($target_path)){
+					unlink($target_path);
+				}
             }
             else{
                 $GLOBALS['msg'] = '<p style="color:red; text-align: center;"><b>Data base error. Try Again.</b></p>';

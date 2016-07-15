@@ -32,7 +32,6 @@ if(isset($_SESSION['msg'])){
 get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", "legend"=>"Add New User"));
 ?>
 <div id="msg"></div>
-<img src="../website-files/public/layouts/getsignimage.php?id=5" width="10" height="100" />
 <div id="normal-users">
                 <p><h4>User List</h4></p>
 				<form style="border:none;">
@@ -99,7 +98,7 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
 	 <td><?php echo $info->total_awards; ?></td>
 	 <td><?php echo date_format(date_create($info->creation), 'm/d/Y'); ?></td>
 	 <td >
-		<button name="delete" class="btn btn-warning" onclick="deleteNormalUser('<?php echo $info->user_email; ?>',<?php echo $info->uid; ?>,'<?php echo "../website-files/public/layouts/deleteuser.php"; ?>')">Delete User</button>
+		<button name="delete" class="btn btn-warning" onclick="deleteNormalUser('<?php echo $info->user_email; ?>',<?php echo $info->uid; ?>,'<?php echo $info->signature; ?>','<?php echo "../website-files/public/layouts/deleteuser.php"; ?>')">Delete User</button>
 	 </td>
 	 <td>
 		<a class="btn btn-info" role="button" href="update-user.php?uid=<?php echo $info->uid; ?>">Update user</a>

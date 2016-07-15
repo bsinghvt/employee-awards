@@ -42,7 +42,7 @@ function moreOptions() {
 /********************************** */
 //Function to delete a user
 /********************************** */
-function deleteNormalUser(username, key, URL) {
+function deleteNormalUser(username, key, sig, URL) {
    var row = document.getElementById(key);
    $.ajax({
       method: "POST"
@@ -50,6 +50,7 @@ function deleteNormalUser(username, key, URL) {
       , data: {
          "uid": key
          , "name": username
+         , "sig" : sig
       }
       , success: function (data) {
          $("#msg").html(data.msg);

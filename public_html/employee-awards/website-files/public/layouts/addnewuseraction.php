@@ -46,6 +46,7 @@ if(!empty($_POST)){
 					}
 					else{
 						$GLOBALS['msg'] = '<p style="color:red;"> <b>'.$user->error.'</b></p>';
+						unlink($target_path);
 					}
 				}
 				else{
