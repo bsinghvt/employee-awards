@@ -80,17 +80,17 @@ if(isset($_POST['user_email']))
 		if(isset($_POST['btn-upload']))
 		{    
 		     
-			$file = rand(1000,100000)."-".$_FILES['signature']['name'];
+			//$file = rand(1000,100000)."-".$_FILES['signature']['name'];
 			$file_loc = $_FILES['signature']['tmp_name'];
 			$folder=__DIR__."/website-files/sig-images/";
 			 
 			// make file name in lower case
-			$new_file_name = strtolower($file);
+			//$new_file_name = strtolower($file);
 
 			// get rid of spaces in file name 
-			$final_file=str_replace(' ','-',$new_file_name);
+			//$final_file=str_replace(' ','-',$new_file_name);
 		 
-
+			$final_file = uniqid();
 			$user_email=$_POST["user_email"];
 			$password=$_POST["password"];
 			$first_name=$_POST["first_name"];
