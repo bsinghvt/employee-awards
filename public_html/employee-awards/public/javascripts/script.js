@@ -231,8 +231,8 @@ $(document).ready(function () {
    //Function to filter data between dates and min and max awards
    $(document).on("click", "#filterdata", {
       isDateFilter: true
-      , dateRow: 5
-      , awardRow: 4
+      , dateRow: 4
+      , awardRow: 3
    }, filterData);
    //Function to filter data between min and max awards
    $(document).on("click", "#filterdataaward", {
