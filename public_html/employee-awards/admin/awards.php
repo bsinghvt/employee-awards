@@ -27,6 +27,7 @@ if(isset($_SESSION['msg'])){
 	echo output_message($_SESSION['msg']);
 	unset($_SESSION['msg']);
 }
+$dispSet = false;
 ?>
 <p><form style="border:none;">
 	<legend>Display awards received between</legend>
@@ -42,11 +43,17 @@ if(isset($_SESSION['msg'])){
 		</div>
 </form></p>
 <br><br>
+<?php 
+$disp = "";
+if(isset($_GET['disp'])){
+	$disp = $_GET['disp'];
+}
+?>
 <div class="list-group">
-                <button id="dispallawards" class="list-group-item">Display All Awards</button>
-				<button id="dispawardsbyrec" class="list-group-item">Display Awards Group by Recipient</button>
-				<button id="dispawardsbygiver" class="list-group-item">Display Awards Group by Award Giver</button>
-				<button id="dispawardsbytype" class="list-group-item">Display Awards Group by Award Type</button>
+                <button style="<?php if($disp == "all"){echo "background-color:#90EE90;"; } ?>" id="dispallawards" class="list-group-item">Display All Awards</button>
+				<button style="<?php if($disp == "rec"){echo "background-color:#90EE90;"; } ?>" id="dispawardsbyrec" class="list-group-item">Display Awards Group by Recipient</button>
+				<button style="<?php if($disp == "giv"){echo "background-color:#90EE90;"; } ?>" id="dispawardsbygiver" class="list-group-item">Display Awards Group by Award Giver</button>
+				<button style="<?php if($disp == "type"){echo "background-color:#90EE90;"; } ?>" id="dispawardsbytype" class="list-group-item">Display Awards Group by Award Type</button>
 </div>
 <div id="awards">
 <?php
