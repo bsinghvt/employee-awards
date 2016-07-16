@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 1);
+/*ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once(__DIR__.'/../../initialize.php');
@@ -14,7 +14,7 @@ if(!isset($_POST['mindate']) || !isset($_POST['maxdate'])){
 
 if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
 	return;
-}
+}*/
 ?>
 
  <p><h4>All Awards</h4></p>
@@ -45,8 +45,8 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
 <?php
     $data = [];
     $awards = new Award();
-	$awards->min_date = $_POST['mindate'];
-	$awards->max_date = $_POST['maxdate'];
+	$awards->min_date = $min_date;
+	$awards->max_date = $max_date;
 	$data = $awards->findAll();
     if(!is_array($data)){
         echo '<p style="color:red;"><b>Error in database. The awards cannot be displayed. Please try again</b></p';

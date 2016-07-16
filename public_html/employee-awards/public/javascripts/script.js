@@ -153,20 +153,8 @@ function dispOptions(event) {
    if($.trim($("#maxdate").val()) !== "") {
       maxDate = $("#maxdate").val();
    }
-
-   $.ajax({
-      method: "POST"
-      , url: event.data.url
-      , data: {
-         "mindate": minDate
-         , "maxdate": maxDate
-      }
-      , complete: function(r) {
-         $("#awards").html(r.responseText);
-         addFilter();
-         moreOptions();
-      }
-   });
+   var url = event.data.url;
+   window.location.href = window.location.href.split('?')[0]+"?disp="+url+"&mindate="+minDate+"&maxdate="+maxDate;
 }
 /********************************** */
 /********************************** */
@@ -184,16 +172,16 @@ $(document).ready(function() {
    });
 
    $(document).on('click', '#dispallawards', {
-      url: "../website-files/public/layouts/dispallawards.php"
+      url: "all"
    }, dispOptions);
    $(document).on('click', '#dispawardsbyrec', {
-      url: '../website-files/public/layouts/dispawardsbyrec.php'
+      url: 'rec'
    }, dispOptions);
    $(document).on('click', '#dispawardsbygiver', {
-      url: '../website-files/public/layouts/dispawardsbygiver.php'
+      url: 'giv'
    }, dispOptions);
    $(document).on('click', '#dispawardsbytype', {
-      url: '../website-files/public/layouts/dispawardsbytype.php'
+      url: 'type'
    }, dispOptions);
    //Call function to add filter to data table
    addFilter();

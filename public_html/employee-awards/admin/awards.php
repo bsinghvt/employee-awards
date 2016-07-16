@@ -1,7 +1,7 @@
 <?php
-/*ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);*/
+error_reporting(E_ALL);
 require_once(__DIR__.'/../website-files/initialize.php');
 ?>
 <?php 
@@ -49,6 +49,22 @@ if(isset($_SESSION['msg'])){
 				<button id="dispawardsbytype" class="list-group-item">Display Awards Group by Award Type</button>
 </div>
 <div id="awards">
-     
+<?php
+if(isset($_GET['mindate']) && isset($_GET['maxdate']) && isset($_GET['disp'])){
+	if(trim($_GET['mindate']) != "" && trim($_GET['maxdate']) != ""){
+		if($_GET['disp'] == "all"){
+			get_template("dispallawards.php", $arr=array('min_date'=>$_GET['mindate'], 'max_date'=>$_GET['maxdate']));
+		}
+		else if($_GET['disp'] == "rec"){
+			get_template("dispawardsbyrec.php", $arr=array('min_date'=>$_GET['mindate'], 'max_date'=>$_GET['maxdate']));
+		}
+		else if($_GET['disp'] == "giv"){
+			get_template("dispawardsbygiver.php", $arr=array('min_date'=>$_GET['mindate'], 'max_date'=>$_GET['maxdate']));
+		}
+		else if($_GET['disp'] == "type"){
+			get_template("dispawardsbytype.php", $arr=array('min_date'=>$_GET['mindate'], 'max_date'=>$_GET['maxdate']));
+		}
+	}
+}?>
 </div>
 <?php get_template($template = "footer.php", $arr = array('script'=>'../public/javascripts/script.js', 'export_table'=>'../public/javascripts/jquery.table2excel.js')); ?>
