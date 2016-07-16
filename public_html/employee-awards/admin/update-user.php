@@ -38,7 +38,12 @@ if(isset($_GET['uid'])){
 		echo output_message($_SESSION['msg']);
 		unset($_SESSION['msg']);
 	}?>
-	<img src="../website-files/sig-images/<?php echo $signature; ?>" alt="Signature" class="img-rounded" width="304" height="236"></img>
+	<form>
+	<fieldset>
+	<label>Current Signature</label>
+	<img src="../website-files/sig-images/<?php echo $signature; ?>" alt="Signature" class="img-rounded" width="175" height="200" />
+	</fieldset>
+	</form>
 	<?php
 	get_template("addnewuserform.php", $arr = Array("action" => "update-user.php", "legend"=>"Update User", "uid"=>$uid, "first_name"=>$first_name,"middle_name"=>$middle_name,
 												"user_email"=>$user_email,"last_name"=>$last_name,"job_title"=>$job_title, "signature"=>$signature, "pwd"=>$pwd));
