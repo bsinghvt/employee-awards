@@ -15,6 +15,7 @@ if(!empty($_POST)){
 					return;
 				}
 				$allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
+				$extension = array(IMAGETYPE_PNG=>'.png', IMAGETYPE_JPEG=>'.jpg', IMAGETYPE_GIF=>'.gif');
 				$detectedType = exif_imagetype($_FILES['signature']['tmp_name']);
 				if(!in_array($detectedType, $allowedTypes)){
 					$_SESSION['msg'] = '<p style="color:red;"> <b>Error: Only JPG, JPEG, PNG & GIF files are allowed for signature.</b></p>';
@@ -26,7 +27,7 @@ if(!empty($_POST)){
 					$_SESSION['msg'] = '<p style="color:red;"> <b>Error: Please upload a valid image of your signature.</b></p>';
 					return;
 				}
-				$file_name = uniqid(); //basename($_FILES['signature']['name']); //$data = file_get_contents($_FILES['signature']['tmp_name']);
+				$file_name = uniqid().$extension[$detectedType]; //basename($_FILES['signature']['name']); //$data = file_get_contents($_FILES['signature']['tmp_name']);
 				$temp_path = $_FILES['signature']['tmp_name'];
 				$target_path = SIG_IMAGES.DS.$file_name;
 				$delete_path = SIG_IMAGES.DS.$_POST["sign"];
