@@ -4,7 +4,7 @@
 function addFilter() {
    //Function to filter usesrs https://datatables.net/examples/api/
    // Setup - add a text input to each footer cell
-   $('#displaytable tfoot th').each(function () {
+   $('#displaytable tfoot th').each(function() {
       var title = $(this).text();
       if(title.toUpperCase() === 'UPDATE' || title.toUpperCase() === 'DELETE') {
          $(this).html('<input type="hidden" />');
@@ -18,9 +18,9 @@ function addFilter() {
       , "paging": true
    });
    // Apply the search
-   table.columns().every(function () {
+   table.columns().every(function() {
       var that = this;
-      $('input', this.footer()).on('keyup change', function () {
+      $('input', this.footer()).on('keyup change', function() {
          if(that.search() !== this.value) {
             that
                .search(this.value)
@@ -50,9 +50,9 @@ function deleteNormalUser(username, key, sig, URL) {
       , data: {
          "uid": key
          , "name": username
-         , "sig" : sig
+         , "sig": sig
       }
-      , success: function (data) {
+      , success: function(data) {
          $("#msg").html(data.msg);
          if(data.success === 'yes') {
             var table = $('#displaytable').DataTable();
@@ -73,7 +73,7 @@ function deleteAdmin(username, key, URL) {
          "id": key
          , "name": username
       }
-      , success: function (data) {
+      , success: function(data) {
          $("#msg").html(data.msg);
          if(data.success === 'yes') {
             var table = $('#displaytable').DataTable();
@@ -86,7 +86,7 @@ function deleteAdmin(username, key, URL) {
 //Function to dynamically filter data with date
 /********************************** */
 function withDateFilter(event) {
-   $.fn.dataTable.ext.search.push(function (settings, oData, dataIndex) {
+   $.fn.dataTable.ext.search.push(function(settings, oData, dataIndex) {
       var minAward = parseInt($("#minaward").val(), 10);
       var maxAward = parseInt($("#maxaward").val(), 10);
       if(isNaN(minAward)) {
@@ -111,7 +111,7 @@ function withDateFilter(event) {
 //Function to dynamically filter data without date
 /********************************** */
 function withoutDateFilter(event) {
-   $.fn.dataTable.ext.search.push(function (settings, oData, dataIndex) {
+   $.fn.dataTable.ext.search.push(function(settings, oData, dataIndex) {
       var minAward = parseInt($("#minaward").val(), 10);
       var maxAward = parseInt($("#maxaward").val(), 10);
       if(isNaN(minAward)) {
@@ -132,31 +132,10 @@ function withoutDateFilter(event) {
 //Function to dynamically filter data
 /********************************** */
 function filterData(event) {
-   var minAward = 0;
-   var maxAward = 50000;
-   var maxDate = "01/01/2070";
-   var minDate = "01/01/1970";
-   if($.trim($("#minaward").val()) !== "" && !isNaN($("#minaward").val())) {
-      minAward = parseInt($("#minaward").val());
-   }
-
-   if($.trim($("#maxaward").val()) !== "" && !isNaN($("#maxaward").val())) {
-      maxAward = parseInt($("#maxaward").val());
-   }
-
-   if($.trim($("#mindate").val()) !== "") {
-      var dateArr = ($("#mindate").val()).split('-');
-      minDate = dateArr[1] + '/' + dateArr[2] + '/' + dateArr[0];
-   }
-
-   if($.trim($("#maxdate").val()) !== "") {
-      var dateArr = ($("#maxdate").val()).split('-');
-      maxDate = dateArr[1] + '/' + dateArr[2] + '/' + dateArr[0];
-   }
    if(event.data.isDateFilter) {
-      withDateFilter(event, minAward, maxAward, minDate, maxDate);
+      withDateFilter(event);
    } else {
-      withoutDateFilter(event, minAward, maxAward);
+      withoutDateFilter(event);
    }
    var table = $('#displaytable').DataTable();
    table.draw();
@@ -182,7 +161,7 @@ function dispOptions(event) {
          "mindate": minDate
          , "maxdate": maxDate
       }
-      , complete: function (r) {
+      , complete: function(r) {
          $("#awards").html(r.responseText);
          addFilter();
          moreOptions();
@@ -194,10 +173,10 @@ function dispOptions(event) {
 //OnDocument ready
 /********************************** */
 /********************************** */
-$(document).ready(function () {
+$(document).ready(function() {
    //Function to export data as excel sheet
    //http://www.jqueryscript.net/table/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel.html
-   $(document).on("click", "#exportsheet", function () {
+   $(document).on("click", "#exportsheet", function() {
       $("#displaytable").table2excel({
          exclude: ".noExl"
          , name: "Results"
@@ -219,7 +198,7 @@ $(document).ready(function () {
    //Call function to add filter to data table
    addFilter();
    //Prevent form submission when fields are empty
-   $('#userform').submit(function () {
+   $('#userform').submit(function() {
       if($.trim($("#useremail").val()) === "" || $.trim($("#userpwd").val()) === "" ||
          $.trim($("#userfirstname").val()) === "" || $.trim($("#userlastname").val()) === "" ||
          $.trim($("#userjobtitle").val()) === "" || $.trim($("#usersign").val()) === "") {
@@ -239,7 +218,7 @@ $(document).ready(function () {
       isDateFilter: false
       , awardRow: 2
    }, filterData);
-    //Function to filter data between min and max awards
+   //Function to filter data between min and max awards
    $(document).on("click", "#filterdataawardtype", {
       isDateFilter: false
       , awardRow: 1
@@ -251,6 +230,6 @@ $(document).ready(function () {
 //On Window load
 /********************************** */
 /********************************** */
-$(window).load(function () {
+$(window).load(function() {
    moreOptions();
 });
