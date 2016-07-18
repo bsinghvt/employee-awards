@@ -11,6 +11,20 @@ if (!isset($_SESSION["user_email"]))
 }
 get_template("header.php");
 get_template("nav2.php");
+if (isset($_SESSION["new_award"]))
+{
+	if ($_SESSION["new_award"]==1)
+	{
+		echo "Award succesfully created";
+		$_SESSION["new_award"]=0;
+	}
+	else if ($_SESSION["new_award"]==-1)
+	{
+		echo "Error in creating Award";
+		$_SESSION["new_award"]=0;
+	}
+}
+
 ?>
 
 

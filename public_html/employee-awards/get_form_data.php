@@ -115,6 +115,7 @@ $r_middle_name= $_POST['r-middle-name'];
 if ($error==0)
 		{
 			echo "registered successfully";
+			$_SESSION["new_award"]=1;
 		}
 $m = new PHPMailer;
 
@@ -143,6 +144,7 @@ $m->AddAttachment('certificate_style3.pdf');
 //send the message, check for errors
 if (!$m->send()) {
     echo "Mailer Error: " . $m->ErrorInfo;
+	$_SESSION["new_award"]=-1;
 } else {
     echo "Message sent!";
 }
