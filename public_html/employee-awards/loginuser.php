@@ -5,6 +5,7 @@ include 'pass.php';
 error_reporting(E_ALL);
 ini_set('display_errors','On');
 session_start();
+$units=0;
 $username=$_POST["username"];
 $password=$_POST["password"];
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
