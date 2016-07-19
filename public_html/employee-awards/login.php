@@ -1,7 +1,5 @@
 <?php
 require_once(__DIR__.'/website-files/initialize.php');
-?>
-<?php 
 //ob_start(); //from stack overflow
 include 'pass.php';
 error_reporting(E_ALL);

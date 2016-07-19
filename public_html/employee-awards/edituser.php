@@ -51,6 +51,7 @@ $stmt->close();
         </fieldset>
 	 </form>
 </div>
+<p>If you would like to delete your account <a href="deleteaconfirm.php"> click here </a>
 </body>
 <?php get_template("footer.php"); 
  ?>
