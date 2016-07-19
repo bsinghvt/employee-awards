@@ -8,7 +8,10 @@
 		<ul class="nav navbar-nav">
               <li><a href="viewaward.php">View My Awards</a></li>
 		    <ul class="nav navbar-nav">
+			<ul class="nav navbar-nav">
+              <li><a href="publicawards.php">View all public Awards</a></li>
               <li><a href="edituser.php">Edit Account</a></li>
+			  
     <ul class="nav navbar-nav">
               <li><a href="logout.php">Logout</a></li>
 
