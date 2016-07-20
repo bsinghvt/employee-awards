@@ -3,8 +3,8 @@ require_once(__DIR__.'/website-files/initialize.php');
 ob_start(); //from stack overflow
 include 'pass.php';
 error_reporting(E_ALL);
-ini_set('display_errors','On');
-session_start();
+//ini_set('display_errors','On');
+//session_start();
 $units=0;
 $username=$_POST["username"];
 $password=$_POST["password"];

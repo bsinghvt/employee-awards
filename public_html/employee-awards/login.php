@@ -4,26 +4,23 @@ require_once(__DIR__.'/website-files/initialize.php');
 include 'pass.php';
 error_reporting(E_ALL);
 ini_set('display_errors','On');
-get_template("header.php"); 
+get_template("header.php");
 ?>
 
-
 <div class="form-group">
-
-<script src="jquery.min.js"></script>
-<script src="jquery.ui.shake.js"></script>
+		<script src="jquery.min.js"></script>
+		<script src="jquery.ui.shake.js"></script>
 	<script> //used online tutorial for how to do shake animation
 			$(document).ready(function() {
-			
 			$('#login').click(function()
 			{
 			var username=$("#username").val();
 			var password=$("#password").val();
 			if (username==''||password=='')
 			{
-			$('#loginfo').shake();
 			 $("#login").val('Login')
 			 $("#invalid").html("<span style='color:#cc0000'>Error:</span> Must enter both username and password. ");
+			 $('#loginfo').shake();
 			}
 		    var dataString = 'username='+username+'&password='+password;
 			if($.trim(username).length>0 && $.trim(password).length>0)
@@ -43,9 +40,9 @@ get_template("header.php");
             }
             else
             {
-             $('#loginfo').shake();
 			 $("#login").val('Login')
 			 $("#invalid").html("<span style='color:#cc0000'>Error:</span> Invalid username and password. ");
+			 $('#loginfo').shake();
             }
             }
             });
