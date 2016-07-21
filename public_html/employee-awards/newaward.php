@@ -1,10 +1,10 @@
 <?php
 require_once(__DIR__.'/website-files/initialize.php');
-ob_start(); //from stack overflow
+//ob_start(); //from stack overflow
 include 'pass.php';
 error_reporting(E_ALL);
 ini_set('display_errors','On');
-session_start();
+//session_start();
 if (!isset($_SESSION["user_email"]))
 {
     header("Location: login.php", true);
