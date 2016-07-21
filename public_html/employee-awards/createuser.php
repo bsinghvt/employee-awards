@@ -193,8 +193,8 @@ else
 	$message = "Unable to register user as registration form was not completed";
 }	
 $links= "click <a href=\"register.php\">here</a> to return to account creation screen or click <a href=\"login.php\">here</a> to login";
-echo output_message($message); 
-echo output_message($links); 
+if(isset($message)){ echo output_message($message); } 
+if(isset($links)){ echo output_message($links); }
 ?>
 
 

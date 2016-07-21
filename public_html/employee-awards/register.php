@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once(__DIR__.'/website-files/initialize.php'); 
 get_template("header.php");
-echo output_message($message); 
+if(isset($message)){echo output_message($message);} 
 ?>
 
 <div class="form-group">
