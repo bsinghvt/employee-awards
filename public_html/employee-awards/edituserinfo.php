@@ -62,7 +62,7 @@ if(isset($_POST['user_email'])) {
 	{
 		$user_email=$_POST["user_email"];
 		$_SESSION["user_email"]=$user_email;
-		$password=$_POST["password"];
+		$password=password_hash($_POST["password"], PASSWORD_DEFAULT);
 		$first_name=$_POST["first_name"];
 		$last_name=$_POST["last_name"];
 		$job_title=$_POST["job_title"];
