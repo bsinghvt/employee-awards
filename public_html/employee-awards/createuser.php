@@ -112,7 +112,8 @@ if(isset($_POST['user_email']))
 			//$final_file $final_file . '.' . $file_type;
 
 			$user_email=$_POST["user_email"];
-			$password=$_POST["password"];
+			$password=password_hash($_POST["password"], PASSWORD_DEFAULT); //Create a hash from password to store in database.
+			//$password=$_POST["password"];
 			$first_name=$_POST["first_name"];
 			$last_name=$_POST["last_name"];
 			$job_title=$_POST["job_title"];
