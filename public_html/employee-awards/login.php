@@ -22,6 +22,7 @@ get_template("header.php");
 
 </section>	
 <p>Not Registered? <a href="register.php"> Register Here.</a></p>
+<p>Forgot Your Password? <a href="forgot_password.php"> Click Here.</a></p>
 </div>
 </div>
         <footer>
