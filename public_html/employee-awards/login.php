@@ -8,6 +8,25 @@ get_template("header.php");
 ?>
 
 <div class="form-group">
+<section id="loginfo">
+    <form id="userloginform" method="post" action=""> 
+        <fieldset>
+            <legend>Login</legend>
+            <p>Username <input type="text" name="username" class="input" autocomplete="off" id="username"/></p>
+<p>Password <input type="password" name="password" class="input" autocomplete="off" id="password"/></p>
+<input type="submit" class="button button-primary" value="Login" id="login"/> 
+        </fieldset>
+	 </form>
+</section>
+<section id="invalid">
+
+</section>	
+<p>Not Registered? <a href="register.php"> Register Here.</a></p>
+</div>
+</div>
+        <footer>
+            <p >Copyright&copy;&nbsp;<?php echo date("Y", time());?>&nbsp;Green Arrow Consulting</p>
+        </footer>
 		<script src="jquery.min.js"></script>
 		<script src="jquery.ui.shake.js"></script>
 	<script> //used online tutorial for how to do shake animation
@@ -16,12 +35,14 @@ get_template("header.php");
 			{
 			var username=$("#username").val();
 			var password=$("#password").val();
-			if (username==''||password=='')
+			if ($.trim($("#username").val()) === "" || $.trim($("#password").val()) === "")
 			{
 			 $("#login").val('Login')
 			 $("#invalid").html("<span style='color:#cc0000'>Error:</span> Must enter both username and password. ");
 			 $('#loginfo').shake();
+			 return false;
 			}
+			else{
 		    var dataString = 'username='+username+'&password='+password;
 			if($.trim(username).length>0 && $.trim(password).length>0)
 			{
@@ -49,24 +70,10 @@ get_template("header.php");
 			
 			}
 			return false;
-			});
+			}});
 			
 				
 			});
 		</script>
-<section id="loginfo">
-    <form method="post" action=""> 
-        <fieldset>
-            <legend>Login</legend>
-            <p>Username <input type="text" name="username" class="input" autocomplete="off" id="username"/></p>
-<p>Password <input type="password" name="password" class="input" autocomplete="off" id="password"/></p>
-<input type="submit" class="button button-primary" value="Log In" id="login"/> 
-        </fieldset>
-	 </form>
-</section>
-<section id="invalid">
-
-</section>	
-<p>Not Registered? <a href="register.php"> Register Here.</a></p>
-</div>
-<?php get_template($template = "footer.php"); ?>
+    </body>
+</html>
