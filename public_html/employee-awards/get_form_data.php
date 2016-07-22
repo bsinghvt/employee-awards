@@ -3,7 +3,7 @@
 require_once(__DIR__.'/website-files/initialize.php');
 include 'pass.php';
 error_reporting(E_ALL);
-ini_set('display_errors','On');
+//ini_set('display_errors','On');
 //session_start();
 if (!isset($_SESSION["user_email"]))
 {
@@ -16,7 +16,7 @@ $uid=$_SESSION["uid"];
 // output headers so that the file is downloaded rather than displayed
 header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename=data.csv');
-ini_set('display_errors', 'On');
+// ini_set('display_errors', 'On');
 
 require_once '../phpmailer/vendor/autoload.php';
 include("../../secret.php");
@@ -99,12 +99,31 @@ fclose($file);
 //make the certificate
 exec("/usr/bin/pdflatex certificate_style3.ltx 2>&1");
 
+
+if(isset($_POST['r-email'])) {
+	$AEmail = $_SESSION['user_email']; //Awarder's email 
+	$REmail = $_POST['r-email']; //Recipient's email
+}
+else {
+	echo "Need email addresses\r";
+}
+if(isset($_POST['r-first-name'])) {
+	$RFirstName = $_POST['r-first-name']; //Recipient's first name
+	$RLastName = $_POST['r-last-name']; //Recipient's last name
+}
+else {
+	echo "Need recipient's name and awarder's name.\r";
+}
+
 //add award to db
 $award_type=$_POST['award-type'];
 $granted=$_POST['date'];
-$uid=$_SESSION['uid'];
-$error=0;
 $r_middle_name= $_POST['r-middle-name'];
+
+$uid=$_SESSION['uid'];
+//echo "uid = " . $uid . "\r";
+$error=0;
+
 		if (($_POST["public"]=="public"))
 		{
 			$public=1;
@@ -122,31 +141,19 @@ $r_middle_name= $_POST['r-middle-name'];
 			$error=1;
 		}
 		if (!$stmt->execute()) {
-			//echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 			$error=1;
 		}
+
 		$stmt->close();
 if ($error==0)
 		{
 			echo "registered successfully";
 		}
 
-//*******Send the certificate via email
-if(isset($_POST['r-email'])) {
-	$AEmail = $_SESSION['user_email']; //Awarder's email 
-	$REmail = $_POST['r-email']; //Recipient's email
-}
-else {
-	echo "Need email addresses\r";
-}
-if(isset($_POST['r-first-name'])) {
-	$RFirstName = $_POST['r-first-name']; //Recipient's first name
-	$RLastName = $_POST['r-last-name']; //Recipient's last name
-}
-else {
-	echo "Need recipient's name and awarder's name.\r";
-}
 
+
+//*******Send the certificate via email
 $m = new PHPMailer;
 
 $m->isSMTP();
