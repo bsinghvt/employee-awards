@@ -10,6 +10,7 @@ if (!isset($_SESSION["user_email"]))
     header("Location: login.php", true);
 }
 $uid=$_SESSION["uid"];
+//$uid=123;
 
 
 // output headers so that the file is downloaded rather than displayed
@@ -26,6 +27,8 @@ if ($mysqli->connect_errno)
 {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;	
 }
+
+//Get information from database about user for the making of the certificate.
 if (!($stmt = $mysqli->prepare("SELECT signature, first_name, middle_name, last_name, job_title from User_Account WHERE uid=?"))) 
 {
 	echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
@@ -40,7 +43,20 @@ if (!$stmt->execute())
 
 $stmt->bind_result($sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
 
-$certificate_data = array($_POST['r-first-name'], $_POST['r-middle-name'], $_POST['r-last-name'], $_POST['award-type'], $_POST['date']);
+$certificate_data = array();
+array_push($certificate_data, $_POST['r-first-name']);
+array_push($certificate_data, $_POST['r-middle-name']);
+array_push($certificate_data, $_POST['r-last-name']);
+array_push($certificate_data, $_POST['award-type']);
+array_push($certificate_data, $_POST['date']);
+
+// foreach ($certificate_data as $data)
+// {
+// 	echo "certificate data = " . $data . "\r";
+
+// }
+
+$tmp = array();
 
 while($stmt->fetch())
 {
@@ -49,6 +65,11 @@ while($stmt->fetch())
 
 $stmt->close();
 
+// foreach ($certificate_data as $data)
+// {
+// 	echo "certificate data = " . $data . "\r";
+
+// }
 
 
 
@@ -56,36 +77,29 @@ $stmt->close();
 
 // create a file pointer connected to the output stream
 $file = fopen('data.csv', 'w');
+$heading = array('RFirstName', 'RMiddleName', 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle');
 
-// output the column headings
-fputcsv($file, array('RFirstName', 'RMiddleName', 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle'));
+// output the headings
+fputcsv($file, $heading);
+// foreach ($heading as $column) 
+// {
+//     fputcsv($file, $column);
+// }
 
-//input row of certificate data
+
+// output row of data needed for certificate making
 fputcsv($file, $certificate_data);
+// foreach ($certificate_data as $field) 
+// {
+//     fputcsv($file, $field);
+// }
 
 fclose($file);
 
 //make the certificate
 exec("/usr/bin/pdflatex certificate_style3.ltx 2>&1");
 
-
-//*******Send the certificate via email
-if(isset($_POST['r-email'])) {
-	$AEmail = $_SESSION['user_email']; //Awarder's email 
-	$REmail = $_POST['r-email']; //Recipient's email
-}
-else {
-	echo "Need email addresses\r";
-}
-if(isset($_POST['r-first-name'])) {
-	$RFirstName = $_POST['r-first-name']; //Recipient's first name
-	$RLastName = $_POST['r-last-name']; //Recipient's last name
-}
-else {
-	echo "Need recipient's name and awarder's name.\r";
-}
-
-//adds award to db
+//add award to db
 $award_type=$_POST['award-type'];
 $granted=$_POST['date'];
 $uid=$_SESSION['uid'];
@@ -116,6 +130,23 @@ if ($error==0)
 		{
 			echo "registered successfully";
 		}
+
+//*******Send the certificate via email
+if(isset($_POST['r-email'])) {
+	$AEmail = $_SESSION['user_email']; //Awarder's email 
+	$REmail = $_POST['r-email']; //Recipient's email
+}
+else {
+	echo "Need email addresses\r";
+}
+if(isset($_POST['r-first-name'])) {
+	$RFirstName = $_POST['r-first-name']; //Recipient's first name
+	$RLastName = $_POST['r-last-name']; //Recipient's last name
+}
+else {
+	echo "Need recipient's name and awarder's name.\r";
+}
+
 $m = new PHPMailer;
 
 $m->isSMTP();
@@ -134,9 +165,9 @@ $m->addReplyTo($REmail, 'Reply address');
 $m->addAddress($REmail, $RFirstName . " " . $RLastName);
 
 $m->MsgHTML(file_get_contents('contents.html'), dirname(__FILE__));
-$m->Subject = 'Here is your award';
-$m->Body = 'This is the body of an email';
-$m->AltBody = 'This is the body of an email';
+$m->Subject = 'You Have Received an Award';
+$m->Body = '<h1>Congratulations!</h1><br><p>You have been nominated for an award for your outstanding work performance.</p>';
+$m->AltBody = 'Congratulations! You have been nominated for an award for your outstanding work performance.';
 //Make sure relative path to certificate pic is correct here
 $m->AddAttachment('certificate_style3.pdf');
 
@@ -150,17 +181,5 @@ if (!$m->send()) {
 	$_SESSION["new_award"]=1;
 	header("Location: login.php", true);
 }
-
-
-
-//header("Location: /CS419Project/send_award.php");
-//echo $output;
-// fetch the data from database
-//mysql_connect('localhost', 'username', 'password');
-//mysql_select_db('database');
-//$rows = mysql_query('SELECT field1,field2,field3 FROM table');
-
-// loop over the rows, outputting them
-//while ($row = mysql_fetch_assoc($rows)) fputcsv($output, $row);
 
 
