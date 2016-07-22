@@ -45,7 +45,7 @@ $stmt->close();
 		<p>Job Title: <input type="text" name="job_title" required value="<?php echo htmlspecialchars($job_title); ?>" /></p>
 		<p>New Signature:  <input type="file" name="signature" accept="image/*"/> </p>
 		<label>Current Signature</label>
-<?php echo "<img src=".__DIR__."'/website-files/sig-images/".$signature. "' width=\"175\" height=\"200\" />" ?>
+<?php echo "<img src=./website-files/sig-images/".$signature. " width=\"175\" height=\"200\" />" ?>
 		<br><br>
 		<input type="submit" value="Update">
         </fieldset>
