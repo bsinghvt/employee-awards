@@ -112,7 +112,7 @@ _MAIL_;
 		else
 		{
 			echo "A link has been
-			emailed to the address you entered below.
+			emailed to the address you entered.<br>
 			Please follow the link in the email to reset the password for 
 			your account.<br>";
 		}
