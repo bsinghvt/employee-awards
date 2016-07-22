@@ -122,7 +122,7 @@ $r_middle_name= $_POST['r-middle-name'];
 			$error=1;
 		}
 		if (!$stmt->execute()) {
-			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+			//echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 			$error=1;
 		}
 		$stmt->close();
