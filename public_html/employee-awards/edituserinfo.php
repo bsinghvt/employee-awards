@@ -101,24 +101,57 @@ if(isset($_POST['user_email'])) {
 						echo'<p style="color:red;"> <b>Error: Please upload a valid image of your signature.</b></p>';
 						return;
 					}
-					$signature = file_get_contents($_FILES["signature"]['tmp_name']);
+					$signature = file_get_contents($_FILES["signature"]['tmp_name']);   
+						 
+						//$file = rand(1000,100000)."-".$_FILES['signature']['name'];
+						$file_loc = $_FILES['signature']['tmp_name'];
+						$folder=__DIR__."/website-files/sig-images/";
+						$file_type = $_FILES['signature']['type'];
+						echo "file type = " . $file_type; 
+						// make file name in lower case
+						//$new_file_name = strtolower($file);
+
+						// get rid of spaces in file name 
+						//$final_file=str_replace(' ','-',$new_file_name);
+					 
+						$final_file = uniqid();
+
+						if ($file_type == "image/jpg" || $file_type == "image/jpeg" )
+						{
+							$final_file = $final_file . ".jpg";
+						}
+						elseif ($file_type == "image/png") 
+						{
+							$final_file = $final_file . ".png";
+						}
+						elseif ($file_type == "image/gif") 
+						{
+							$final_file = $final_file . ".gif";
+						}
+						else
+						{
+							echo "not the right file type";
+						}
+					
 
 
 	//fclose($fp);
-			
-			if (!($stmt = $mysqli->prepare("Update User_Account SET user_email=?, password=?, signature=?, first_name=?, middle_name=?, last_name=?, job_title=? WHERE uid='$uid'"))) {
-				 echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-				 $error=1;
-			}
-			if (!$stmt->bind_param("ssbssss", $user_email, $password, $signature, $first_name, $middle_name, $last_name, $job_title)) {
-				echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-				$error=1;
-			}
-			if (!$stmt->execute()) {
-				//echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-				$error=1;
-			}
-			$stmt->close();
+				if(move_uploaded_file($file_loc,$folder.$final_file))
+				{
+				if (!($stmt = $mysqli->prepare("Update User_Account SET user_email=?, password=?, signature=?, first_name=?, middle_name=?, last_name=?, job_title=? WHERE uid='$uid'"))) {
+					 echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+					 $error=1;
+				}
+				if (!$stmt->bind_param("sssssss", $user_email, $password, $final_file, $first_name, $middle_name, $last_name, $job_title)) {
+					echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+					$error=1;
+				}
+				if (!$stmt->execute()) {
+					//echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+					$error=1;
+				}
+				$stmt->close();
+				}
 			
 		}
 		if ($error==0)
