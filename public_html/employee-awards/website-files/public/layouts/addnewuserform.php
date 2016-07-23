@@ -5,7 +5,7 @@
 		<label class="control-label" for="useremail">User email (will be username): </label>
 		<input id="useremail" class="form-control" type="email" name="user_email" maxlength="30" value="<?php if(isset($user_email))echo htmlentities($user_email); else echo "";?>" required />
 		<label class="control-label" for="userpwd">Password: </label>
-		<input id="userpwd" class="form-control" type="password" name="password" maxlength="30" value="<?php if(isset($pwd)){echo htmlentities($pwd);} else {echo "";} ?>" />
+		<input id="userpwd" class="form-control" type="password" name="password" maxlength="30"  />
 		<label class="control-label" for="userfirstname">First name: </label>
 		<input id="userfirstname" class="form-control" type="text" name="first_name" maxlength="30" value="<?php if(isset($first_name))echo htmlentities($first_name); else echo "";?>" required />
 		<label for="usermiddlename">Middle name (optional): </label>

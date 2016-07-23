@@ -43,7 +43,7 @@ if(!empty($_POST)){
 				$user = new User();
 				$user->uid = $_POST["uid"];
 				$user->user_email=$user_email=$_POST["user_email"];
-				$user->password=$pwd=$_POST["password"];
+				$user->password=$pwd=password_hash($_POST["password"], PASSWORD_DEFAULT);
 				$user->signature=$file_name;
 				$user->first_name=$first_name=$_POST["first_name"];
 				$user->last_name=$last_name=$_POST["last_name"];
