@@ -9,7 +9,7 @@ if(!empty($_POST)){
 			$admin = new Admin();
 			$admin->admin_id = $_POST["id"];
 			$admin->user_email=$user_email=$_POST["user_email"];
-			$admin->password=$pwd=$_POST["password"];
+			$admin->password=$pwd=password_hash($_POST["password"], PASSWORD_DEFAULT);
 			if($admin->update()){
 				$_SESSION['msg'] = '<p style="color:green;"> <b>Admin is updated successfully.</b></p>';
 				$admin_action = new AdminActions();
