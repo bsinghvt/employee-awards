@@ -21,8 +21,7 @@ $msg = "";
         if(trim($user_name) != "" && trim($pwd) != ""){
             $user = new Admin();
             $user->user_email = $user_name;
-            $user->password = $pwd;
-            if($user->authenticate()){
+            if($user->authenticate($pwd)){
                 $session->login_admin($user);
                 redirect_to('index.php');
             }

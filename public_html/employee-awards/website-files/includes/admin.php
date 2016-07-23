@@ -7,8 +7,8 @@ class Admin extends DatabaseObject {
     public $admin_id;
 	public $total_actions;
     public $error;
-    protected static $auth_query = 'SELECT admin_id FROM Admin_Account WHERE user_email = ? AND password = ? LIMIT 1';
-    protected static $auth_param_type = 'ss';
+    protected static $auth_query = 'SELECT admin_id, password FROM Admin_Account WHERE user_email = ?  LIMIT 1';
+    protected static $auth_param_type = 's';
 	protected static $select_query_all = 'SELECT Admin_Account.admin_id, Admin_Account.user_email, CASE WHEN Admin_Actions.action_id IS NULL THEN 0 ELSE COUNT( Admin_Actions.action_id ) END AS total_actions from Admin_Account left join Admin_Actions on Admin_Actions.admin_id = Admin_Account.admin_id group by Admin_Account.admin_id';
 	protected static $param_type = 'ss';
 	protected static $update_param_type = 'ssi';
@@ -29,13 +29,16 @@ class Admin extends DatabaseObject {
 		return parent::update_or_delete_or_insert_query(self::$insert_query, $this->insert_params());
     }
     protected function auth_params(){
-        return array(self::$auth_param_type, $this->user_email, $this->password);
+        return array(self::$auth_param_type, $this->user_email);
     }
-    public function authenticate(){
+    public function authenticate($pwd=""){
         $result_array = parent::any_select_query(self::$auth_query, $this->auth_params());
         if(!empty($result_array)){
-            $this->admin_id = $result_array[0]->admin_id;
-            return true;
+			if (password_verify($pwd, $result_array[0]->password)){
+				$this->admin_id = $result_array[0]->admin_id;
+				return true;
+			}
+            return false;
         }
         return false;
     }
