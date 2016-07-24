@@ -27,6 +27,10 @@ function drawBarChart(dataArray, event) {
       };
       // Instantiate and draw our chart, passing in some options
       var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      // Wait for the chart to finish drawing before calling the getImageURI() method.
+      google.visualization.events.addListener(chart, 'ready', function() {
+         document.getElementById('chart_print').outerHTML = '<a href="' + chart.getImageURI() + '" target="_blank" class="btn btn-link btn-block">Printable Chart Version (Not Supported in IE)</a>';
+      });
       chart.draw(data, options);
    }
 }
