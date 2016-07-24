@@ -1,4 +1,36 @@
 /*********************************** */
+/*Load the Google Visualization API and the corechart package.*/
+/********************************** */
+google.charts.load('current', {
+   packages: ['corechart', 'bar']
+});
+/*********************************** */
+/*Function to generate charts using Google Charts API*/
+/********************************** */
+function drawBarChart(dataArray, event) {
+   google.charts.setOnLoadCallback(drawBasic);
+
+   function drawBasic() {
+      // Set a callback to run when the Google Visualization API is loaded.
+      var data = google.visualization.arrayToDataTable(dataArray, false);
+      //Options For chart title etc.
+      var options = {
+         title: event.data.title
+         , hAxis: {
+            title: event.data.awardHeader
+            , minValue: 0
+            , format: '0'
+         }
+         , vAxis: {
+            title: event.data.nameHeader
+         }
+      };
+      // Instantiate and draw our chart, passing in some options
+      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+   }
+}
+/*********************************** */
 /*Function add filters to data tabel*/
 /********************************** */
 function addFilter() {
@@ -141,6 +173,35 @@ function filterData(event) {
    table.draw();
 }
 /********************************** */
+//Function to get table data for chart generation
+/********************************** */
+function getTableData(event) {
+   var table = $("#displaytable tbody");
+   var dataArray = [];
+   dataArray.push([event.data.nameHeader, event.data.awardHeader]);
+   table.find('tr').each(function() {
+      var tds = $(this).find('td')
+         , name = tds.eq(event.data.nameCol).text()
+         , award = tds.eq(event.data.awardCol).text();
+      var arr = [];
+      if(!isNaN(parseInt(award))) {
+         arr.push(name);
+         arr.push(parseInt(award));
+         dataArray.push(arr);
+      }
+   });
+   if(dataArray.length > 1) {
+      $('#chart_div').show();
+      $('#chart_div').css({
+         "width": "1300px"
+         , "height": "800px"
+      });
+      drawBarChart(dataArray, event);
+   } else {
+      $('#chart_div').hide();
+   }
+}
+/********************************** */
 //Function to display awards based on user input
 /********************************** */
 function dispOptions(event) {
@@ -154,7 +215,7 @@ function dispOptions(event) {
       maxDate = $("#maxdate").val();
    }
    var url = event.data.url;
-   window.location.href = window.location.href.split('?')[0]+"?disp="+url+"&mindate="+minDate+"&maxdate="+maxDate;
+   window.location.href = window.location.href.split('?')[0] + "?disp=" + url + "&mindate=" + minDate + "&maxdate=" + maxDate;
 }
 /********************************** */
 /********************************** */
@@ -162,6 +223,7 @@ function dispOptions(event) {
 /********************************** */
 /********************************** */
 $(document).ready(function() {
+   $('#chart_div').hide();
    //Function to export data as excel sheet
    //http://www.jqueryscript.net/table/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel.html
    $(document).on("click", "#exportsheet", function() {
@@ -211,6 +273,34 @@ $(document).ready(function() {
       isDateFilter: false
       , awardRow: 1
    }, filterData);
+
+   //Function to listen click event to generate charts for recipient
+   $(document).on("click", "#drawchartrec", {
+         nameHeader: "Recipient Name"
+         , awardHeader: "Total Awards"
+         , title: "Recipient Awards Chart"
+         , nameCol: 0
+         , awardCol: 2
+      }
+      , getTableData);
+   //Function to listen click event to generate charts for Giver
+   $(document).on("click", "#drawchartgiv", {
+         nameHeader: "Award Giver Name"
+         , awardHeader: "Total Awards"
+         , title: "Awards Giver Chart"
+         , nameCol: 0
+         , awardCol: 2
+      }
+      , getTableData);
+   //Function to listen click event to generate charts for award type
+   $(document).on("click", "#drawcharttype", {
+         nameHeader: "Award Type"
+         , awardHeader: "Total Awards"
+         , title: "Award Type Chart"
+         , nameCol: 0
+         , awardCol: 1
+      }
+      , getTableData);
 
 });
 /********************************** */

@@ -75,4 +75,4 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
 <?php endforeach; ?>
 </tbody>
                 </table>
-				<button id="exportsheet" class="btn btn-success">Export list as excel sheet</button>
+				<button id="exportsheet" class="btn btn-success">Export list as excel sheet</button><button id="drawchartgiv" class="btn btn-default">Generate chart</button>

@@ -55,6 +55,7 @@ if(isset($_GET['disp'])){
 				<button style="<?php if($disp == "giv"){echo "background-color:#90EE90;"; } ?>" id="dispawardsbygiver" class="list-group-item">Display Awards Group by Award Giver</button>
 				<button style="<?php if($disp == "type"){echo "background-color:#90EE90;"; } ?>" id="dispawardsbytype" class="list-group-item">Display Awards Group by Award Type</button>
 </div>
+<div id="chart_div" ></div>
 <div id="awards">
 <?php
 if(isset($_GET['mindate']) && isset($_GET['maxdate']) && isset($_GET['disp'])){
