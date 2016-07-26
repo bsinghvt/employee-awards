@@ -29,7 +29,7 @@ function drawBarChart(dataArray, event) {
       var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
       // Wait for the chart to finish drawing before calling the getImageURI() method.
       google.visualization.events.addListener(chart, 'ready', function() {
-         document.getElementById('chart_print').outerHTML = '<a href="' + chart.getImageURI() + '" target="_blank" class="btn btn-link btn-block">Printable Chart Version (Not Supported in IE)</a>';
+         document.getElementById('chart_print').innerHTML = '<a href="' + chart.getImageURI() + '" target="_blank" class="btn btn-link btn-block">Printable Chart Version (Not Supported in IE)</a>';
       });
       chart.draw(data, options);
    }
@@ -206,6 +206,7 @@ function getTableData(event) {
       drawBarChart(dataArray, event);
    } else {
       $('#chart_div').hide();
+      document.getElementById('chart_print').innerHTML = '<p style="color:red;"><b>No Data to create chart</b></p>'
    }
 }
 /********************************** */
