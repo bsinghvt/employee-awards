@@ -34,11 +34,11 @@ $dispSet = false;
 		<div class="form-group">
 			<div class="col-xs-6">
 				<label for="mindate">Start Date:</label>
-				<input class="form-control" id="mindate" type="date" value="2016-01-31">
+				<input class="form-control" id="mindate" type="text" name="date" value="<?php if(isset($_GET['mindate'])) echo date_format(date_create($_GET['mindate']), 'm/d/Y'); else echo '01/31/2016'; ?>">
 			</div>
 			<div class="col-xs-6">
 				<label for="maxdate">End Date:</label>
-				<input class="form-control" id="maxdate" type="date" value="2018-01-31">
+				<input class="form-control" id="maxdate" type="text" name="date" value="<?php if(isset($_GET['maxdate'])) echo date_format(date_create($_GET['maxdate']), 'm/d/Y'); else echo '01/31/2018'; ?>">
 			</div>
 		</div>
 </form></p>

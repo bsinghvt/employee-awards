@@ -50,11 +50,11 @@ get_template("addnewuserform.php", $arr = Array("action" => "normal-users.php", 
     <div class="form-group">
       <div class="col-xs-6">
         <label for="mindate">User Added/Updated After:</label>
-        <input class="form-control" id="mindate" type="date" value="2016-01-31">
+        <input class="form-control" id="mindate" type="text" name="date" value="01/31/2016">
       </div>
 	  <div class="col-xs-6">
         <label for="maxdate">User Added/Updated Before:</label>
-        <input class="form-control" id="maxdate" type="date" value="2018-01-31">
+        <input class="form-control" id="maxdate" type="text" name="date" value="01/31/2018">
       </div>
     </div>
   </form>
