@@ -29,6 +29,7 @@ if (isset($_SESSION["new_award"]))
 */
 include 'pass.php';
 $adid=$_POST["adid"];
+$_SESSION['adid']=$adid;
 	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
     if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -52,7 +53,7 @@ $stmt->close();
 
 <div id="award-create-form">    
 
-<form id="award-create" method="post" action="get_form_data.php">
+<form id="award-create" method="post" action="editawardinfo.php">
 <fieldset>    
 <label>Input the following information about the award</label>
 <br>
@@ -90,6 +91,7 @@ else
 <label for="r-email">Award Recipient's E-mail</label>
 <input type="email" name="r-email" value="<?php echo htmlspecialchars($r_email); ?>">
 <br>
+<?php 	echo "<input type=\"hidden\" name=\"adid\" value=\"".$adid."\">"; ?>
 
 
 <!-- Be able to upload photo of signature later after basic form works.
@@ -98,7 +100,7 @@ else
 -->
 
 
-<input type="submit" name="submit" id="submit" value="Send Certificate" />
+<input type="submit" name="submit" id="submit" value="Update Award and Send Certificate" />
 
 </fieldset>
 </form>

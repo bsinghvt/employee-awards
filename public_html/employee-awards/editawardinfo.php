@@ -94,6 +94,7 @@ $award_type=$_POST['award-type'];
 $granted=$_POST['date'];
 $r_middle_name= $_POST['r-middle-name'];
 $uid=$_SESSION['uid'];
+$adid=$_SESSION['adid'];
 //echo "uid = " . $uid . "\r";
 $error=0;
 		if (($_POST["public"]=="public"))
@@ -104,11 +105,11 @@ $error=0;
 		{
 			$public=0;
 		}
-		if (!($stmt = $mysqli->prepare("INSERT INTO Award(uid, award_type, recepient_email, r_first_name, r_middle_name , r_last_name, granted, public) VALUES (?,?,?,?,?,?,?,?)"))) {
+		if (!($stmt = $mysqli->prepare("Update Award SET award_type=?, recepient_email=?, r_first_name=?, r_middle_name=?, r_last_name=?, granted=?, public=? WHERE adid='$adid'"))) {
 			 echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 			 $error=1;
 		}
-		if (!$stmt->bind_param("issssssi",$uid, $award_type, $REmail, $RFirstName, $r_middle_name, $RLastName,$granted, $public)) {
+		if (!$stmt->bind_param("ssssssi", $award_type, $REmail, $RFirstName, $r_middle_name, $RLastName,$granted, $public)) {
 			echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
 			$error=1;
 		}
