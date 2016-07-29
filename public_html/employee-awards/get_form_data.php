@@ -11,23 +11,18 @@ if (!isset($_SESSION["user_email"]))
 }
 $uid=$_SESSION["uid"];
 //$uid=123;
-
-
 // output headers so that the file is downloaded rather than displayed
 //header('Content-Type: text/csv; charset=utf-8');
 //header('Content-Disposition: attachment; filename=data.csv');
 // ini_set('display_errors', 'On');
-
 require_once '../phpmailer/vendor/autoload.php';
 include("../../secret.php");
 include 'pass.php';
-
 $mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
 if ($mysqli->connect_errno) 
 {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;	
 }
-
 //Get information from database about user for the making of the certificate.
 if (!($stmt = $mysqli->prepare("SELECT signature, first_name, middle_name, last_name, job_title from User_Account WHERE uid=?"))) 
 {
@@ -40,9 +35,7 @@ if (!$stmt->execute())
 {
 	echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 }
-
 $stmt->bind_result($sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
-
 $certificate_data = array();
 
 // change format of date before it goes on certificate
@@ -122,52 +115,40 @@ array_push($certificate_data, $_POST['r-first-name']);
 array_push($certificate_data, $_POST['r-middle-name']);
 array_push($certificate_data, $_POST['r-last-name']);
 array_push($certificate_data, $_POST['award-type']);
+
 array_push($certificate_data, $date);
+
 
 // foreach ($certificate_data as $data)
 // {
 // 	echo "certificate data = " . $data . "\r";
-
 // }
-
 $tmp = array();
-
 while($stmt->fetch())
 {
 	array_push($certificate_data, $sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
 }
-
 $stmt->close();
-
 // foreach ($certificate_data as $data)
 // {
 // 	echo "certificate data = " . $data . "\r";
-
 // }
-
-
-
 //Output a csv file from POST (create award form) data and user's data retrieved from database
-
 // create a file pointer connected to the output stream
 $file = fopen('data.csv', 'w');
 $heading = array('RFirstName', 'RMiddleName', 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle');
-
 // output the headings
 fputcsv($file, $heading);
 // foreach ($heading as $column) 
 // {
 //     fputcsv($file, $column);
 // }
-
-
 // output row of data needed for certificate making
 fputcsv($file, $certificate_data);
 // foreach ($certificate_data as $field) 
 // {
 //     fputcsv($file, $field);
 // }
-
 fclose($file);
 
 
@@ -250,7 +231,7 @@ else if(isset($_POST['send']))
 
 	$m->isSMTP();
 	$m->SMTPAuth = true;
-	$m->SMTPDebug = 0; //2;
+	$m->SMTPDebug = 0; //2; //Setting this to zero gets rid of mail output - turns debugging off
 
 	$m->Host = 'smtp.gmail.com';
 	$m->Username = 'webrecogapp@gmail.com';
@@ -271,16 +252,23 @@ else if(isset($_POST['send']))
 	$m->AddAttachment('certificate_style3.pdf');
 
 	//send the message, check for errors
-	if (!$m->send()) {
-	    echo "Mailer Error: " . $m->ErrorInfo;
+	if (!$m->send()) 
+	{
+	    echo "Mailer Error: " . $m->ErrorInfo; 
+	    ?>
+			<script>
+				alert('Error Creating Award');
+			</script>
+		<?php
 		$_SESSION["new_award"]=-1;
-		//header("Location: login.php", true);
-	} else {
+		header("Location: newaward.php", true);
+	} 
+	else 
+	{
 	    //echo "Message sent!";
+
 		$_SESSION["new_award"]=1;
 		header("Location: newaward.php", true);
-		//exit;
-		//redirect_to('login.php');
+
 	}
 }
-

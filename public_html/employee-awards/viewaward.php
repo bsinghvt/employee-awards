@@ -25,6 +25,7 @@ if (!$stmt = $mysqli->query("SELECT adid, award_type, recepient_email, r_first_n
 <table border="1">
 <thead> 
 <tr>
+	<th> Award   </th> 
     <th>Recepeient first name</th> 
     <th>Recepeient middle name</th> 
 	<th>Recepeient last name</th> 
@@ -42,6 +43,7 @@ $totalgp=0;
 while($row = mysqli_fetch_array($stmt))	
 {
 	echo "<tr>" ;
+	echo "<td>" . $row['award_type'] . "</td>";
 	echo "<td>" . $row['r_first_name'] . "</td>";
 	echo "<td>" . $row['r_middle_name'] . "</td>";
 	echo "<td>" . $row['r_last_name'] . "</td>";

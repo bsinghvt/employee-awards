@@ -1,4 +1,40 @@
 /*********************************** */
+/*Load the Google Visualization API and the corechart package.*/
+/********************************** */
+google.charts.load('current', {
+   packages: ['corechart', 'bar']
+});
+/*********************************** */
+/*Function to generate charts using Google Charts API*/
+/********************************** */
+function drawBarChart(dataArray, event) {
+   google.charts.setOnLoadCallback(drawBasic);
+
+   function drawBasic() {
+      // Set a callback to run when the Google Visualization API is loaded.
+      var data = google.visualization.arrayToDataTable(dataArray, false);
+      //Options For chart title etc.
+      var options = {
+         title: event.data.title
+         , hAxis: {
+            title: event.data.awardHeader
+            , minValue: 0
+            , format: '0'
+         }
+         , vAxis: {
+            title: event.data.nameHeader
+         }
+      };
+      // Instantiate and draw our chart, passing in some options
+      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      // Wait for the chart to finish drawing before calling the getImageURI() method.
+      google.visualization.events.addListener(chart, 'ready', function() {
+         document.getElementById('chart_print').innerHTML = '<a href="' + chart.getImageURI() + '" target="_blank" class="btn btn-link btn-block">Printable Chart Version (Not Supported in IE)</a>';
+      });
+      chart.draw(data, options);
+   }
+}
+/*********************************** */
 /*Function add filters to data tabel*/
 /********************************** */
 function addFilter() {
@@ -85,7 +121,7 @@ function deleteAdmin(username, key, URL) {
 /********************************** */
 //Function to dynamically filter data with date
 /********************************** */
-function withDateFilter(event) {
+function withDateFilter(awardRow, dateRow) {
    $.fn.dataTable.ext.search.push(function(settings, oData, dataIndex) {
       var minAward = parseInt($("#minaward").val(), 10);
       var maxAward = parseInt($("#maxaward").val(), 10);
@@ -95,12 +131,12 @@ function withDateFilter(event) {
       if(isNaN(maxAward)) {
          maxAward = 10000000;
       }
-      var dateArr = ($("#mindate").val()).split('-');
-      var minDate = new Date(dateArr[1] + '/' + dateArr[2] + '/' + dateArr[0]).setHours(0, 0, 0, 0);
-      var dateArr = ($("#maxdate").val()).split('-');
-      var maxDate = new Date(dateArr[1] + '/' + dateArr[2] + '/' + dateArr[0]).setHours(0, 0, 0, 0);
-      var num = oData[event.data.awardRow];
-      var date = new Date(oData[event.data.dateRow]).setHours(0, 0, 0, 0);
+      var dateVal = ($("#mindate").val());
+      var minDate = new Date(dateVal).setHours(0, 0, 0, 0);
+      dateVal = ($("#maxdate").val());
+      var maxDate = new Date(dateVal).setHours(0, 0, 0, 0);
+      var num = oData[awardRow];
+      var date = new Date(oData[dateRow]).setHours(0, 0, 0, 0);
       if(num >= minAward && num <= maxAward && date >= minDate && date <= maxDate) {
          return true;
       }
@@ -110,7 +146,7 @@ function withDateFilter(event) {
 /********************************** */
 //Function to dynamically filter data without date
 /********************************** */
-function withoutDateFilter(event) {
+function withoutDateFilter(awardRow) {
    $.fn.dataTable.ext.search.push(function(settings, oData, dataIndex) {
       var minAward = parseInt($("#minaward").val(), 10);
       var maxAward = parseInt($("#maxaward").val(), 10);
@@ -120,7 +156,7 @@ function withoutDateFilter(event) {
       if(isNaN(maxAward)) {
          maxAward = 10000000;
       }
-      var num = oData[event.data.awardRow];
+      var num = oData[awardRow];
       if(num >= minAward && num <= maxAward) {
          return true;
       } else {
@@ -133,28 +169,65 @@ function withoutDateFilter(event) {
 /********************************** */
 function filterData(event) {
    if(event.data.isDateFilter) {
-      withDateFilter(event);
+      var awardRow = event.data.awardRow;
+      var dateRow = event.data.dateRow;
+      withDateFilter(awardRow, dateRow);
    } else {
-      withoutDateFilter(event);
+      var awardRow = event.data.awardRow;
+      withoutDateFilter(awardRow);
    }
    var table = $('#displaytable').DataTable();
    table.draw();
 }
 /********************************** */
+//Function to get table data for chart generation
+/********************************** */
+function getTableData(event) {
+   var table = $("#displaytable tbody");
+   var dataArray = [];
+   dataArray.push([event.data.nameHeader, event.data.awardHeader]);
+   table.find('tr').each(function() {
+      var tds = $(this).find('td')
+         , name = tds.eq(event.data.nameCol).text()
+         , award = tds.eq(event.data.awardCol).text();
+      var arr = [];
+      if(!isNaN(parseInt(award))) {
+         arr.push(name);
+         arr.push(parseInt(award));
+         dataArray.push(arr);
+      }
+   });
+   if(dataArray.length > 1) {
+      $('#chart_div').show();
+      $('#chart_div').css({
+         "width": "1300px"
+         , "height": "800px"
+      });
+      drawBarChart(dataArray, event);
+   } else {
+      $('#chart_div').hide();
+      document.getElementById('chart_print').innerHTML = '<p style="color:red;"><b>No Data to create chart</b></p>'
+   }
+}
+/********************************** */
 //Function to display awards based on user input
 /********************************** */
 function dispOptions(event) {
-   var maxDate = "2070-01-01";
-   var minDate = "1970-01-01";
+   var maxDate = "01/01/2070";
+   var minDate = "01/01/1970";
+   var dateArr = [];
    if($.trim($("#mindate").val()) !== "") {
-      minDate = $("#mindate").val();
+      dateArr = $("#mindate").val().split('/');
+      minDate = dateArr[2] + '-' + dateArr[0] + '-' + dateArr[1];
    }
 
    if($.trim($("#maxdate").val()) !== "") {
-      maxDate = $("#maxdate").val();
+      dateArr = [];
+      dateArr = $("#maxdate").val().split('/');
+      maxDate = dateArr[2] + '-' + dateArr[0] + '-' + dateArr[1];
    }
    var url = event.data.url;
-   window.location.href = window.location.href.split('?')[0]+"?disp="+url+"&mindate="+minDate+"&maxdate="+maxDate;
+   window.location.href = window.location.href.split('?')[0] + "?disp=" + url + "&mindate=" + minDate + "&maxdate=" + maxDate;
 }
 /********************************** */
 /********************************** */
@@ -162,6 +235,12 @@ function dispOptions(event) {
 /********************************** */
 /********************************** */
 $(document).ready(function() {
+   $('input[name="date"]').datepicker({
+      format: 'mm/dd/yyyy'
+      , todayHighlight: true
+      , autoclose: true
+   , });
+   $('#chart_div').hide();
    //Function to export data as excel sheet
    //http://www.jqueryscript.net/table/Export-Html-Table-To-Excel-Spreadsheet-using-jQuery-table2excel.html
    $(document).on("click", "#exportsheet", function() {
@@ -211,6 +290,34 @@ $(document).ready(function() {
       isDateFilter: false
       , awardRow: 1
    }, filterData);
+
+   //Function to listen click event to generate charts for recipient
+   $(document).on("click", "#drawchartrec", {
+         nameHeader: "Recipient Name"
+         , awardHeader: "Total Awards"
+         , title: "Recipient Awards Chart"
+         , nameCol: 0
+         , awardCol: 2
+      }
+      , getTableData);
+   //Function to listen click event to generate charts for Giver
+   $(document).on("click", "#drawchartgiv", {
+         nameHeader: "Award Giver Name"
+         , awardHeader: "Total Awards"
+         , title: "Awards Giver Chart"
+         , nameCol: 0
+         , awardCol: 2
+      }
+      , getTableData);
+   //Function to listen click event to generate charts for award type
+   $(document).on("click", "#drawcharttype", {
+         nameHeader: "Award Type"
+         , awardHeader: "Total Awards"
+         , title: "Award Type Chart"
+         , nameCol: 0
+         , awardCol: 1
+      }
+      , getTableData);
 
 });
 /********************************** */

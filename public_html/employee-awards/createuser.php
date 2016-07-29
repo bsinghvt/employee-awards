@@ -120,10 +120,11 @@ if(isset($_POST['user_email']))
 			$creation=date('Y-m-d H:i:s');
 			$sig=$final_file; //unique file name that was generated earlier
 			$middle_name=$_POST["middle_name"];
+			/*
 			if (($_POST["middle_name"]==null))
 			{
 				$middle_name= "none";
-			}
+			} */
 
 
 			if(move_uploaded_file($file_loc,$folder.$final_file))

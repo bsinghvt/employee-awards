@@ -18,7 +18,21 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
 	return;
 }*/
 ?>
-
+<?php
+    $data = [];
+    $awards = new Award();
+	$awards->min_date = $min_date;
+	$awards->max_date = $max_date;
+	$data = $awards->group_by_type();
+	 if(!is_array($data)){
+        echo '<p style="color:red;"><b>Error in database. The awards cannot be displayed. Please try again</b></p';
+		return;
+    }
+	else if(empty($data)){
+		echo '<p style="color:red;"><b>No data to display. Please try again by changing filters.</b></p';
+		return;
+	}
+    ?>
  <p><h4>Awards Group by Award Type</h4></p>
 				<form style="border:none;">
     <div class="form-group">
@@ -47,21 +61,6 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
                     </tr>
                 </tfoot>
                 <!-- PHP-->
-<?php
-    $data = [];
-    $awards = new Award();
-	$awards->min_date = $min_date;
-	$awards->max_date = $max_date;
-	$data = $awards->group_by_type();
-	 if(!is_array($data)){
-        echo '<p style="color:red;"><b>Error in database. The awards cannot be displayed. Please try again</b></p';
-		return;
-    }
-	else if(empty($data)){
-		echo '<p style="color:red;"><b>No data to display. Please try again by changing filters.</b></p';
-		return;
-	}
-    ?>
 	<tbody>
    <?php foreach($data as $info): ?>
  <tr class="data" >
@@ -72,4 +71,4 @@ if(trim($_POST['mindate']) == "" || trim($_POST['maxdate']) == ""){
 <?php endforeach; ?>
 </tbody>
                 </table>
-				<button id="exportsheet" class="btn btn-success">Export list as excel sheet</button>
+				<button id="exportsheet" class="btn btn-success">Export list as excel sheet</button><button id="drawcharttype" class="btn btn-default">Generate chart</button>

@@ -53,5 +53,9 @@ while($row = mysqli_fetch_array($stmt))
 ?>
 </tbody>
 </table>
-<?php get_template("footer.php"); 
- ?>
+</div>
+        <footer>
+            <p >Copyright&copy;&nbsp;<?php echo date("Y", time());?>&nbsp;Green Arrow Consulting</p>
+        </footer>
+    </body>
+</html>
