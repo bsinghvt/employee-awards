@@ -46,5 +46,6 @@ echo output_message($msg);
             <p><input type="submit" name="submit" class="btn btn-default" value="Login"/></p>
         </fieldset>
 	 </form>
+     <p><small>Login as User <a href="../index.php"> Here.</a></small></p>
 </div>
 <?php get_template($template = "footer.php"); ?>
