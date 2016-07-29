@@ -3,8 +3,8 @@
 require_once(__DIR__.'/website-files/initialize.php');
 include 'pass.php';
 error_reporting(E_ALL);
-//ini_set('display_errors','On');
-//session_start();
+ini_set('display_errors','On');
+
 if (!isset($_SESSION["user_email"]))
 {
     header("Location: login.php", true);
@@ -14,8 +14,8 @@ $uid=$_SESSION["uid"];
 
 
 // output headers so that the file is downloaded rather than displayed
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=data.csv');
+//header('Content-Type: text/csv; charset=utf-8');
+//header('Content-Disposition: attachment; filename=data.csv');
 // ini_set('display_errors', 'On');
 
 require_once '../phpmailer/vendor/autoload.php';
@@ -44,11 +44,85 @@ if (!$stmt->execute())
 $stmt->bind_result($sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
 
 $certificate_data = array();
+
+// change format of date before it goes on certificate
+$date = $_POST['date'];
+$year = array();
+$month = array();
+$day = array();
+//echo "date is " . $date . "\r";
+for ($x = 0; $x < 4; $x++) {
+    array_push($year, $date[$x]);
+    //echo "year = " . $date[$x] . "\r";
+}
+$year = implode("",$year);
+//echo "year = " . $year . "\r";
+
+for ($x = 5; $x < 7; $x++)
+{
+	array_push($month, $date[$x]);
+	//echo "month = " . $date[$x] . "\r";
+}
+$month = implode("",$month);
+//echo "month = " . $month . "\r";
+for ($x = 8; $x < 10; $x++)
+{
+	    array_push($day, $date[$x]);
+	    //echo "day = " . $date[$x] . "\r";
+}
+$day =implode("",$day);
+//echo "day = " . $day . "\r";
+
+//echo "MONTH IS ". $month . "\r";
+
+switch ($month) 
+{
+    case "01":
+        $month = "January";
+        break;
+    case "02":
+		$month = "February";
+        break;
+    case "03":
+        $month = "March";
+        break;
+    case "04":
+        $month = "April";
+        break;
+    case "05":
+        $month = "May";
+        break;
+    case "06":
+        $month = "June";
+        break;
+	case "07":
+        $month = "July";
+        break;
+	case "08":
+        $month = "August";
+        break;
+	case "09":
+        $month = "September";
+        break;
+	case "10":
+        $month = "October";
+        break;
+	case "11":
+        $month = "November";
+        break;
+	case "12":
+        $month = "December";
+        break;
+    default:
+        echo "Problem with parsing code.";
+}
+
+$date = $month . " " . $day . ", ". $year;
 array_push($certificate_data, $_POST['r-first-name']);
 array_push($certificate_data, $_POST['r-middle-name']);
 array_push($certificate_data, $_POST['r-last-name']);
 array_push($certificate_data, $_POST['award-type']);
-array_push($certificate_data, $_POST['date']);
+array_push($certificate_data, $date);
 
 // foreach ($certificate_data as $data)
 // {
@@ -96,97 +170,117 @@ fputcsv($file, $certificate_data);
 
 fclose($file);
 
-//make the certificate
+
+//*****MAKE THE CERTIFICATE*****
 exec("/usr/bin/pdflatex certificate_style3.ltx 2>&1");
 
+//******PREVIEW CERTIFICATE BEFORE SAVING AND SENDING******
+// Preview certificate in new window. If it's okay, click 'SEND' button. Else, click 'EDIT' button to make changes before sending.
 
-if(isset($_POST['r-email'])) {
-	$AEmail = $_SESSION['user_email']; //Awarder's email 
-	$REmail = $_POST['r-email']; //Recipient's email
-}
-else {
-	echo "Need email addresses\r";
-}
-if(isset($_POST['r-first-name'])) {
-	$RFirstName = $_POST['r-first-name']; //Recipient's first name
-	$RLastName = $_POST['r-last-name']; //Recipient's last name
-}
-else {
-	echo "Need recipient's name and awarder's name.\r";
+if(isset($_POST['preview']) /*file_exists('certificate_style3.pdf')*/)
+{
+	//echo "file exists";
+	//echo "<iframe src=\"certificate_style3.pdf\" width=\"100%\" style=\"height:100%\"></iframe>"
+	header("Location: preview_certificate.php");
+    exit;
 }
 
-//add award to db
-$award_type=$_POST['award-type'];
-$granted=$_POST['date'];
-$r_middle_name= $_POST['r-middle-name'];
+//******SAVE CERTIFICATE AND SEND TO RECIPIENT******
+else if(isset($_POST['send']))
+{
+	//echo "Send Button Pushed!";
 
-$uid=$_SESSION['uid'];
-//echo "uid = " . $uid . "\r";
-$error=0;
-
-		if (($_POST["public"]=="public"))
-		{
-			$public=1;
-		}
-		else
-		{
-			$public=0;
-		}
-		if (!($stmt = $mysqli->prepare("INSERT INTO Award(uid, award_type, recepient_email, r_first_name, r_middle_name , r_last_name, granted, public) VALUES (?,?,?,?,?,?,?,?)"))) {
-			 echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-			 $error=1;
-		}
-		if (!$stmt->bind_param("issssssi",$uid, $award_type, $REmail, $RFirstName, $r_middle_name, $RLastName,$granted, $public)) {
-			echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-			$error=1;
-		}
-		if (!$stmt->execute()) {
-			echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-			$error=1;
-		}
-
-		$stmt->close();
-if ($error==0)
-		{
-			echo "registered successfully";
-		}
+	if(isset($_POST['r-email'])) {
+		$AEmail = $_SESSION['user_email']; //Awarder's email 
+		$REmail = $_POST['r-email']; //Recipient's email
+	}
+	else {
+		echo "Need email addresses\r";
+	}
+	if(isset($_POST['r-first-name'])) {
+		$RFirstName = $_POST['r-first-name']; //Recipient's first name
+		$RLastName = $_POST['r-last-name']; //Recipient's last name
+	}
+	else {
+		echo "Need recipient's name and awarder's name.\r";
+	}
 
 
 
-//*******Send the certificate via email
-$m = new PHPMailer;
+	//add award to db
+	$award_type=$_POST['award-type'];
+	$granted=$_POST['date'];
+	$r_middle_name= $_POST['r-middle-name'];
 
-$m->isSMTP();
-$m->SMTPAuth = true;
-$m->SMTPDebug = 2;
+	$uid=$_SESSION['uid'];
+	//echo "uid = " . $uid . "\r";
+	$error=0;
 
-$m->Host = 'smtp.gmail.com';
-$m->Username = 'webrecogapp@gmail.com';
-$m->Password =  $myPassword;
-$m->SMTPSecure = 'ssl';
-$m->Port = 465;
+			if (($_POST["public"]=="public"))
+			{
+				$public=1;
+			}
+			else
+			{
+				$public=0;
+			}
+			if (!($stmt = $mysqli->prepare("INSERT INTO Award(uid, award_type, recepient_email, r_first_name, r_middle_name , r_last_name, granted, public) VALUES (?,?,?,?,?,?,?,?)"))) {
+				 echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+				 $error=1;
+			}
+			if (!$stmt->bind_param("issssssi",$uid, $award_type, $REmail, $RFirstName, $r_middle_name, $RLastName,$granted, $public)) {
+				echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+				$error=1;
+			}
+			if (!$stmt->execute()) {
+				echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+				$error=1;
+			}
 
-$m->From = $AEmail;
-$m->FromName = $AFirstName . " " . $ALastName;
-$m->addReplyTo($REmail, 'Reply address');
-$m->addAddress($REmail, $RFirstName . " " . $RLastName);
+			$stmt->close();
+	if ($error==0)
+			{
+				//echo "registered successfully";
+			}
 
-$m->MsgHTML(file_get_contents('contents.html'), dirname(__FILE__));
-$m->Subject = 'You Have Received an Award';
-$m->Body = '<h1>Congratulations!</h1><br><p>You have been nominated for an award for your outstanding work performance.</p>';
-$m->AltBody = 'Congratulations! You have been nominated for an award for your outstanding work performance.';
-//Make sure relative path to certificate pic is correct here
-$m->AddAttachment('certificate_style3.pdf');
 
-//send the message, check for errors
-if (!$m->send()) {
-    echo "Mailer Error: " . $m->ErrorInfo;
-	$_SESSION["new_award"]=-1;
-	//header("Location: login.php", true);
-} else {
-    echo "Message sent!";
-	$_SESSION["new_award"]=1;
-	//header("Location: login.php", true);
+
+	//Send the certificate via email
+	$m = new PHPMailer;
+
+	$m->isSMTP();
+	$m->SMTPAuth = true;
+	$m->SMTPDebug = 0; //2;
+
+	$m->Host = 'smtp.gmail.com';
+	$m->Username = 'webrecogapp@gmail.com';
+	$m->Password =  $myPassword;
+	$m->SMTPSecure = 'ssl';
+	$m->Port = 465;
+
+	$m->From = $AEmail;
+	$m->FromName = $AFirstName . " " . $ALastName;
+	$m->addReplyTo($REmail, 'Reply address');
+	$m->addAddress($REmail, $RFirstName . " " . $RLastName);
+
+	$m->MsgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+	$m->Subject = 'You Have Received an Award';
+	$m->Body = '<h1>Congratulations!</h1><br><p>You have been nominated for an award for your outstanding work performance.</p>';
+	$m->AltBody = 'Congratulations! You have been nominated for an award for your outstanding work performance.';
+	//Make sure relative path to certificate pic is correct here
+	$m->AddAttachment('certificate_style3.pdf');
+
+	//send the message, check for errors
+	if (!$m->send()) {
+	    echo "Mailer Error: " . $m->ErrorInfo;
+		$_SESSION["new_award"]=-1;
+		//header("Location: login.php", true);
+	} else {
+	    //echo "Message sent!";
+		$_SESSION["new_award"]=1;
+		header("Location: newaward.php", true);
+		//exit;
+		//redirect_to('login.php');
+	}
 }
-
 
