@@ -42,10 +42,10 @@ if (isset($_SESSION["new_award"]))
 <label>Input the following information about the award</label>
 <br>
 <label for="award-type">Title of Award</label>
-<input type="text" name="award-type" required>
+<input type="text" name="award-type" required />
 <br>
 <label for="date">Date that Award is Given</label>
-<input type="date" name="date" required>
+<input type="date" name="date" required />
 <br>
 <label>Public Awards can be viewed by anyone while private awards can only be viewed by recepeint</label>
 <input type="radio" name="public" value="public" checked> Public<br>
@@ -54,16 +54,16 @@ if (isset($_SESSION["new_award"]))
 <label>Input the following information about the award recipient below:</label>
 <br>
 <label for="r-first-name">First Name</label>
-<input type="text" name="r-first-name" required>
+<input type="text" name="r-first-name" required />
 <br>
 <label for="r-middle-name">Middle Name</label>
-<input type="text" name="r-middle-name">
+<input type="text" name="r-middle-name" />
 <br>
 <label for="r-last-name">Last Name</label>
-<input type="text" name="r-last-name" required>
+<input type="text" name="r-last-name" required />
 <br>
 <label for="r-email">Award Recipient's E-mail</label>
-<input type="email" name="r-email" required>
+<input type="email" name="r-email" required />
 <br><br>
 
 

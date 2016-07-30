@@ -43,7 +43,7 @@ $stmt->close();
 		<p>Middle name (optional): <input type="text" name="middle_name" value="<?php echo htmlspecialchars($AMiddleName); ?>" /></p>
 		<p>Last name: <input type="text" name="last_name" required value="<?php echo htmlspecialchars($ALastName); ?>" /></p>
 		<p>Job Title: <input type="text" name="job_title" required value="<?php echo htmlspecialchars($job_title); ?>" /></p>
-		<p>New Signature:  <input type="file" name="signature" accept="image/*"/> </p>
+		<p>New Signature: (optional/old will remain if no new signature selected)  <input type="file" name="signature" accept="image/*"/> </p>
 		<label>Current Signature</label>
 <?php echo "<img src=./website-files/sig-images/".$signature. " width=\"175\" height=\"200\" />" ?>
 		<br><br>
