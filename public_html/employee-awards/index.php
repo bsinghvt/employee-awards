@@ -9,7 +9,7 @@ if (!isset($_SESSION["user_email"]))
 {
     header("Location: login.php", true);
 }
-get_template("header2.php");
+get_template("header.php");
 get_template("nav2.php");
 ?>
 <h2>Most Recent Public Awards</h2>
