@@ -111,50 +111,102 @@ switch ($month)
 }
 
 $date = $month . " " . $day . ", ". $year;
-array_push($certificate_data, $_POST['r-first-name']);
-array_push($certificate_data, $_POST['r-middle-name']);
-array_push($certificate_data, $_POST['r-last-name']);
-array_push($certificate_data, $_POST['award-type']);
 
-array_push($certificate_data, $date);
-
-
-// foreach ($certificate_data as $data)
-// {
-// 	echo "certificate data = " . $data . "\r";
-// }
-$tmp = array();
-while($stmt->fetch())
+//Consider case of no middle name for recipient
+if($_POST['r-middle-name'] != "")
 {
-	array_push($certificate_data, $sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
+	array_push($certificate_data, $_POST['r-first-name']);
+	array_push($certificate_data, $_POST['r-middle-name']);
+	array_push($certificate_data, $_POST['r-last-name']);
+	array_push($certificate_data, $_POST['award-type']);
+
+	array_push($certificate_data, $date);
+
+
+	// foreach ($certificate_data as $data)
+	// {
+	// 	echo "certificate data = " . $data . "\r";
+	// }
+	$tmp = array();
+
+	while($stmt->fetch())
+	{
+		array_push($certificate_data, $sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
+	}
+	$stmt->close();
+	// foreach ($certificate_data as $data)
+	// {
+	// 	echo "certificate data = " . $data . "\r";
+	// }
+	//Output a csv file from POST (create award form) data and user's data retrieved from database
+	// create a file pointer connected to the output stream
+	$file = fopen('data.csv', 'w');
+	$heading = array('RFirstName', 'RMiddleName', 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle');
+	// output the headings
+	fputcsv($file, $heading);
+	// foreach ($heading as $column) 
+	// {
+	//     fputcsv($file, $column);
+	// }
+	// output row of data needed for certificate making
+	fputcsv($file, $certificate_data);
+	// foreach ($certificate_data as $field) 
+	// {
+	//     fputcsv($file, $field);
+	// }
+	fclose($file);
+
+
+	//*****MAKE THE CERTIFICATE*****
+	exec("/usr/bin/pdflatex certificate_style3.ltx 2>&1");
 }
-$stmt->close();
-// foreach ($certificate_data as $data)
-// {
-// 	echo "certificate data = " . $data . "\r";
-// }
-//Output a csv file from POST (create award form) data and user's data retrieved from database
-// create a file pointer connected to the output stream
-$file = fopen('data.csv', 'w');
-$heading = array('RFirstName', 'RMiddleName', 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle');
-// output the headings
-fputcsv($file, $heading);
-// foreach ($heading as $column) 
-// {
-//     fputcsv($file, $column);
-// }
-// output row of data needed for certificate making
-fputcsv($file, $certificate_data);
-// foreach ($certificate_data as $field) 
-// {
-//     fputcsv($file, $field);
-// }
-fclose($file);
+else //Case where there is no recipient middle name
+{
+	array_push($certificate_data, $_POST['r-first-name']);
+	//array_push($certificate_data, $_POST['r-middle-name']);
+	array_push($certificate_data, $_POST['r-last-name']);
+	array_push($certificate_data, $_POST['award-type']);
+
+	array_push($certificate_data, $date);
 
 
-//*****MAKE THE CERTIFICATE*****
-exec("/usr/bin/pdflatex certificate_style3.ltx 2>&1");
+	// foreach ($certificate_data as $data)
+	// {
+	// 	echo "certificate data = " . $data . "\r";
+	// }
+	$tmp = array();
 
+	while($stmt->fetch())
+	{
+		array_push($certificate_data, $sig, $AFirstName, $AMiddleName, $ALastName, $job_title);
+	}
+	$stmt->close();
+	// foreach ($certificate_data as $data)
+	// {
+	// 	echo "certificate data = " . $data . "\r";
+	// }
+	//Output a csv file from POST (create award form) data and user's data retrieved from database
+	// create a file pointer connected to the output stream
+	$file = fopen('data.csv', 'w');
+	$heading = array('RFirstName', /*'RMiddleName',*/ 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle');
+	// output the headings
+	fputcsv($file, $heading);
+	// foreach ($heading as $column) 
+	// {
+	//     fputcsv($file, $column);
+	// }
+	// output row of data needed for certificate making
+	fputcsv($file, $certificate_data);
+	// foreach ($certificate_data as $field) 
+	// {
+	//     fputcsv($file, $field);
+	// }
+	fclose($file);
+
+
+	//*****MAKE THE CERTIFICATE*****
+	exec("/usr/bin/pdflatex certificate_style3_no_middle_name.ltx 2>&1");
+}
 //******PREVIEW CERTIFICATE BEFORE SAVING AND SENDING******
 // Preview certificate in new window. If it's okay, click 'SEND' button. Else, click 'EDIT' button to make changes before sending.
 
@@ -162,6 +214,14 @@ if(isset($_POST['preview']) /*file_exists('certificate_style3.pdf')*/)
 {
 	//echo "file exists";
 	//echo "<iframe src=\"certificate_style3.pdf\" width=\"100%\" style=\"height:100%\"></iframe>"
+	if($_POST["r-middle-name"] == "")
+	{
+		$_SESSION["middlenameset"] = "false";
+	}
+	else
+	{
+		$_SESSION["middlenameset"] = "true";
+	}
 	header("Location: preview_certificate.php");
     exit;
 }
