@@ -10,8 +10,8 @@ if(!empty($_POST)){
 		if(trim($_POST["user_email"]) != "" && trim($_POST["password"]) != "" && trim($_POST["uid"]) != ""
 		&& trim($_POST["first_name"]) != "" && trim($_POST["last_name"]) != "" && trim($_POST["job_title"]) != "" && trim($_POST["sign"]) != "") {
 			if (isset($_FILES['signature']) && $_FILES['signature']['size'] > 0){
-				if($_FILES['signature']['size'] > 204800){
-					$_SESSION['msg'] = '<p style="color:red;"> <b>Error: Image of your signature cannot be greater than 200KB.</b></p>';
+				if($_FILES['signature']['size'] > 1048576){
+					$_SESSION['msg'] = '<p style="color:red;"> <b>Error: Image of your signature cannot be greater than 1MB.</b></p>';
 					return;
 				}
 				$allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
@@ -67,7 +67,27 @@ if(!empty($_POST)){
 				}
 			}
 			else{
-				$_SESSION['msg'] = '<p style="color:red;"> <b>Please upload a valid image of your signature.</b></p>';
+				$user = new User();
+				$user->uid = $_POST["uid"];
+				$user->user_email=$user_email=$_POST["user_email"];
+				$user->password=$pwd=password_hash($_POST["password"], PASSWORD_DEFAULT);
+				$user->signature=$_POST["sign"];
+				$user->first_name=$first_name=$_POST["first_name"];
+				$user->last_name=$last_name=$_POST["last_name"];
+				$user->job_title=$job_title=$_POST["job_title"];
+				$user->middle_name=$middle_name=$_POST["middle_name"];
+				if($user->update()){
+					$_SESSION['msg'] = '<p style="color:green;"> <b>User is updated successfully.</b></p>';
+					$admin_action = new AdminActions();
+					$admin_action->admin_id = $session->admin_id;
+					$admin_action->action = 'Admin '.$session->admin_username.' updated '.$_POST["user_email"];
+					$admin_action->add_new();
+					unset($_POST);
+					redirect_to('normal-users.php');
+				}
+				else{
+					$_SESSION['msg'] = '<p style="color:red;"> <b>'.$user->error.' while updating</b></p>';
+				}
 			}
 		}
 		else{

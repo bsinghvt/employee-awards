@@ -45,7 +45,7 @@ if(isset($_GET['uid'])){
 	</fieldset>
 	</form>
 	<?php
-	get_template("addnewuserform.php", $arr = Array("action" => "update-user.php", "legend"=>"Update User", "uid"=>$uid, "first_name"=>$first_name,"middle_name"=>$middle_name,
+	get_template("updateuserform.php", $arr = Array("action" => "update-user.php", "legend"=>"Update User", "uid"=>$uid, "first_name"=>$first_name,"middle_name"=>$middle_name,
 												"user_email"=>$user_email,"last_name"=>$last_name,"job_title"=>$job_title, "signature"=>$signature, "pwd"=>$pwd));
 	get_template($template = "footer.php", $arr = array('script'=>'../public/javascripts/script.js', 'export_table'=>'../public/javascripts/jquery.table2excel.js')); 
 }?>

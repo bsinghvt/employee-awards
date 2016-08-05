@@ -7,8 +7,8 @@ if(!empty($_POST)){
 		if(trim($_POST["user_email"]) != "" && trim($_POST["password"]) != ""
 		&& trim($_POST["first_name"]) != "" && trim($_POST["last_name"]) != "" && trim($_POST["job_title"]) != "") {
 			if (isset($_FILES['signature']) && $_FILES['signature']['size'] > 0){
-				if($_FILES['signature']['size'] > 204800){
-					$GLOBALS['msg'] = '<p style="color:red;"> <b>Error: Image of your signature cannot be greater than 200KB.</b></p>';
+				if($_FILES['signature']['size'] > 1048576){
+					$GLOBALS['msg'] = '<p style="color:red;"> <b>Error: Image of your signature cannot be greater than 1MB.</b></p>';
 					return;
 				}
 				$allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
