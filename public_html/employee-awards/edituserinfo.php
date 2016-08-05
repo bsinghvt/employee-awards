@@ -85,8 +85,8 @@ if(isset($_POST['user_email'])) {
 		}
 		else //new signature
 		{
-			if($_FILES["signature"]['size'] > 204800){
-						echo'<p style="color:red;"> <b>Error: Image of your signature cannot be greater than 200KB.</b></p>';
+			if($_FILES["signature"]['size'] > 1048576){
+						echo'<p style="color:red;"> <b>Error: Image of your signature cannot be greater than 1MB.</b></p>';
 						return;
 					}
 					$allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
