@@ -12,6 +12,7 @@
     </head>
     <body>
         <div class="jumbotron">
+		<img src="../public/images/grey-green-arrow-logo-2" height="5%">
             <h3>Employee Awards: Admin</h3>
         </div>
         <div id="container">
