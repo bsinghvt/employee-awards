@@ -85,7 +85,8 @@ if (isset($_SESSION["new_award"]))
 <script>
 
 	jQuery.validator.addMethod("noSpace", function(value, element) {
-		return value.indexOf(" ") < 0 && value != ""; 
+		trim_value = jQuery.trim(value);
+		return trim_value != ""; //value.indexOf(" ") < 0 && value != ""; 
 	}, " No blank spaces please");
 
 
