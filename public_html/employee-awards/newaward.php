@@ -31,7 +31,7 @@ if (isset($_SESSION["new_award"]))
 ?>
 <link rel="stylesheet" type="text/css" href="jquery-validation/demo/css/cmxform.css"> <!-- Stylesheets that came with the plugin demo -->
 <script src="jquery-validation/lib/jquery.js"></script> 
-<script src="jquery-validation/dist/jquery.validate.js"></script> <!-- the plugin for easy validation with jquery -->
+<script src="jquery.validate.js"></script> <!-- the plugin for easy validation with jquery -->
 
 
 
@@ -83,13 +83,33 @@ if (isset($_SESSION["new_award"]))
 
 </div><!-- /end #award-create-form -->
 <script>
-$("#award-create").validate({
-	rules: {
-            'award-type': {
-                maxlength: 25
-            }
-        }
-});
+
+	jQuery.validator.addMethod("noSpace", function(value, element) {
+		return value.indexOf(" ") < 0 && value != ""; 
+	}, " No blank spaces please");
+
+
+	$("#award-create").validate({
+		rules: {
+	            'award-type': {
+	                maxlength: 25,
+	            	noSpace: true
+	            },
+	            'r-first-name': {
+	      			noSpace: true
+	    		},
+	      //       'r-middle-name': {
+	      // 			noSpace: true
+	    		// },
+	            'r-last-name': {
+	      			noSpace: true
+	    		},
+	            'r-email': {
+	      			noSpace: true
+	    		}
+	        }
+	});
+
 </script>
 
 <?php
@@ -99,7 +119,7 @@ if (isset($_SESSION["new_award"]))
 	{
 		?>
 		<script>
-			document.getElementById('message').innerHTML = "<span style='color:#00cc00'>Message Sent!</span>";
+			document.getElementById('message').innerHTML = "<span style='color:#00cc00'>Certificate Sent!</span>";
 		</script>
 		<?php
 		//echo '<strong><font color="green">Award succesfully created and sent!</font></strong>';
