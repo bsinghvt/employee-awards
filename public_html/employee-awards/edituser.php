@@ -38,7 +38,7 @@ $stmt->close();
         <fieldset>
 				<legend>Registration</legend>
 				<p>User email (will be username): <input type="email" name="user_email" value="<?php echo htmlspecialchars($_SESSION["user_email"]); ?>" required /></p>
-		<p>Password: <input type="password" name="password" value="<?php echo htmlspecialchars($pass); ?>" required /></p>
+		<p>Password: <input type="password" name="password"  required /></p>
 		<p>First name: <input type="text" name="first_name" value="<?php echo htmlspecialchars($AFirstName); ?>" required /></p>
 		<p>Middle name (optional): <input type="text" name="middle_name" value="<?php echo htmlspecialchars($AMiddleName); ?>" /></p>
 		<p>Last name: <input type="text" name="last_name" required value="<?php echo htmlspecialchars($ALastName); ?>" /></p>
