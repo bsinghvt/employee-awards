@@ -98,14 +98,79 @@ else
 <label for="signature">Upload Your Signature</label>
 <input type="button" name="signature">
 -->
+<p><i><font color="blue">Use the browser's back button after previewing to edit and/or send certificate.</font></i></p>
+<br>
+<input type="submit" name="preview" id="preview" value="Preview Certificate" />
+<br><br>
 
-
-<input type="submit" name="submit" id="submit" value="Update Award and Send Certificate" />
+<input type="submit" name="send" id="send" value="Update Award and Send Certificate" />
 
 </fieldset>
 </form>
 
 </div><!-- /end #award-create-form -->
 
+<script>
+
+	jQuery.validator.addMethod("noSpace", function(value, element) {
+		trim_value = jQuery.trim(value);
+		return trim_value != ""; //value.indexOf(" ") < 0 && value != ""; 
+	}, " No blank spaces please");
+
+
+	$("#award-create").validate({
+		rules: {
+	            'award-type': {
+	                maxlength: 25,
+	            	noSpace: true
+	            },
+	            'r-first-name': {
+	      			noSpace: true
+	    		},
+	      //       'r-middle-name': {
+	      // 			noSpace: true
+	    		// },
+	            'r-last-name': {
+	      			noSpace: true
+	    		},
+	            'r-email': {
+	      			noSpace: true
+	    		}
+	        }
+	});
+
+</script>
+
+<?php
+if (isset($_SESSION["new_award"]))
+{
+	if ($_SESSION["new_award"]==1)
+	{
+		?>
+		<script>
+			document.getElementById('message').innerHTML = "<span style='color:#00cc00'>Certificate Sent!</span>";
+		</script>
+		<?php
+		//echo '<strong><font color="green">Award succesfully created and sent!</font></strong>';
+		$_SESSION["new_award"]=0;
+	}
+	else if ($_SESSION["new_award"]==-1)
+	{
+		?>
+		<script>
+			document.getElementById('message').innerHTML = "<span style='color:#cc0000'>Error in creating award. </span>";
+		</script>
+		<?php
+		//echo "Error in creating Award";
+		$_SESSION["new_award"]=0;
+	}
+}
+?>
+
 <?php get_template("footer.php"); 
  ?>
+
+<script type="text/javascript">
+	
+
+</script>
