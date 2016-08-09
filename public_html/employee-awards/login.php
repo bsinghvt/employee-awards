@@ -4,6 +4,10 @@ require_once(__DIR__.'/website-files/initialize.php');
 include 'pass.php';
 error_reporting(E_ALL);
 ini_set('display_errors','On');
+if (isset($_SESSION["user_email"]))
+{
+    header("Location: index.php", true);
+}
 get_template("header.php");
 ?>
 

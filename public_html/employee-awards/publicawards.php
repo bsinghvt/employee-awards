@@ -15,7 +15,7 @@ get_template("nav2.php");
 $uid=$_SESSION["uid"];
 ?>
 <h2>All Public Awards</h2>
-<table border="1">
+<table class="table table-bordered" >
 <thead> 
 <tr>
     <th>Recepeient first name</th> 

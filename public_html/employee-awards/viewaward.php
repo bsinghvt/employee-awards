@@ -22,7 +22,7 @@ if (!$stmt = $mysqli->query("SELECT adid, award_type, recepient_email, r_first_n
 	}
 ?>
 <h2>Awards Given</h2>
-<table border="1">
+<table class="table table-bordered" >
 <thead> 
 <tr>
 	<th> Award   </th> 

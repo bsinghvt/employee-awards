@@ -13,7 +13,7 @@ get_template("header.php");
 get_template("nav2.php");
 ?>
 <h2>Most Recent Public Awards</h2>
-<table border="1">
+<table class="table table-bordered">
 <thead> 
 <tr>
     <th>Recepeient first name</th> 
@@ -57,5 +57,7 @@ while($row = mysqli_fetch_array($stmt))
         <footer>
             <p >Copyright&copy;&nbsp;<?php echo date("Y", time());?>&nbsp;Green Arrow Consulting</p>
         </footer>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </body>
 </html>
