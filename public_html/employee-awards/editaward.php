@@ -28,8 +28,7 @@ if (isset($_SESSION["new_award"]))
 }
 */
 include 'pass.php';
-$adid=$_POST["adid"];
-$_SESSION['adid']=$adid;
+$adid=$_SESSION['adid'];
 	$mysqli = new mysqli("oniddb.cws.oregonstate.edu", "harrings-db", $pass, "harrings-db");
     if ($mysqli->connect_errno) {
 		echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;

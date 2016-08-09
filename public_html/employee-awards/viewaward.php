@@ -57,7 +57,7 @@ while($row = mysqli_fetch_array($stmt))
 	{
 		echo "<td> Public </td>";
 	}
-	echo "<td><form method=\"POST\" action=\"editaward.php\">";
+	echo "<td><form method=\"POST\" action=\"editawardpass.php\">";
 	echo "<input type=\"hidden\" name=\"adid\" value=\"".$row['adid']."\">";
 	echo "<input type=\"submit\" value=\"edit\">";
 	echo "</form> </td>";
