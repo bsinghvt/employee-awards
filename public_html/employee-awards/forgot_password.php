@@ -111,10 +111,11 @@ _MAIL_;
 		}
 		else
 		{
-			echo "A link has been
+			echo "<p>A link has been
 			emailed to the address you entered.<br>
 			Please follow the link in the email to reset the password for 
-			your account.<br>";
+			your account.</p><br>";
+			echo '<br><p><a href="login.php"> Back to Login Page</a></p>';
 		}
 	}
 	else //In the case where the numrows returned is not equal to 1 (i.e., it is 0), which means user with that email is not registered.
