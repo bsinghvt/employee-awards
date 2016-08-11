@@ -9,17 +9,14 @@ if (!isset($_SESSION["user_email"]))
     header("Location: login.php", true);
 }
 $uid=$_SESSION["uid"];
+$file_name = $_SESSION['file_name'];
 //echo "session middle name set = ". $_SESSION["middlenameset"] . "\r";
-if($_SESSION["middlenameset"] == "false")
-{
-	header("Content-type: application/pdf");
-	header("Content-Disposition: inline; filename=certificate_style3_no_middle_name.pdf");
-	@readfile('certificate_style3_no_middle_name.pdf');
-}
-else
-{
-	header("Content-type: application/pdf");
-	header("Content-Disposition: inline; filename=certificate_style3.pdf");
-	@readfile('certificate_style3.pdf');
-}
+header("Content-type: application/pdf");
+header("Content-Disposition: inline; filename=".$file_name.".pdf");
+@readfile($file_name.".pdf");
+unlink($file_name.".pdf");
+unlink($file_name.".log");
+unlink($file_name.".aux");
+unlink("data.csv");
+
 ?>

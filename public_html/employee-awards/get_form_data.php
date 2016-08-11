@@ -111,10 +111,11 @@ switch ($month)
 }
 
 $date = $month . " " . $day . ", ". $year;
-
+$file_name = "";
 //Consider case of no middle name for recipient
 if($_POST['r-middle-name'] != "")
 {
+	$file_name = uniqid();
 	array_push($certificate_data, $_POST['r-first-name']);
 	array_push($certificate_data, $_POST['r-middle-name']);
 	array_push($certificate_data, $_POST['r-last-name']);
@@ -140,7 +141,7 @@ if($_POST['r-middle-name'] != "")
 	// }
 	//Output a csv file from POST (create award form) data and user's data retrieved from database
 	// create a file pointer connected to the output stream
-	$file = fopen('data.csv', 'w');
+	$file = fopen("data.csv", 'w');
 	$heading = array('RFirstName', 'RMiddleName', 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle');
 	// output the headings
 	fputcsv($file, $heading);
@@ -156,12 +157,12 @@ if($_POST['r-middle-name'] != "")
 	// }
 	fclose($file);
 
-
 	//*****MAKE THE CERTIFICATE*****
-	exec("/usr/bin/pdflatex certificate_style3.ltx 2>&1");
+	exec("/usr/bin/pdflatex --jobname=".$file_name." certificate_style3.ltx 2>&1");
 }
 else //Case where there is no recipient middle name
 {
+	$file_name = uniqid();
 	array_push($certificate_data, $_POST['r-first-name']);
 	//array_push($certificate_data, $_POST['r-middle-name']);
 	array_push($certificate_data, $_POST['r-last-name']);
@@ -187,7 +188,7 @@ else //Case where there is no recipient middle name
 	// }
 	//Output a csv file from POST (create award form) data and user's data retrieved from database
 	// create a file pointer connected to the output stream
-	$file = fopen('data.csv', 'w');
+	$file = fopen("data.csv", 'w');
 	$heading = array('RFirstName', /*'RMiddleName',*/ 'RLastName', 'AwardType', 'Date', 'Signature', 'AFirstName', 'AMiddleName', 'ALastName', 'JobTitle');
 	// output the headings
 	fputcsv($file, $heading);
@@ -203,9 +204,8 @@ else //Case where there is no recipient middle name
 	// }
 	fclose($file);
 
-
 	//*****MAKE THE CERTIFICATE*****
-	exec("/usr/bin/pdflatex certificate_style3_no_middle_name.ltx 2>&1");
+	exec("/usr/bin/pdflatex --jobname=".$file_name." certificate_style3_no_middle_name.ltx 2>&1");
 }
 //******PREVIEW CERTIFICATE BEFORE SAVING AND SENDING******
 // Preview certificate in new window. If it's okay, click 'SEND' button. Else, click 'EDIT' button to make changes before sending.
@@ -222,6 +222,7 @@ if(isset($_POST['preview']) /*file_exists('certificate_style3.pdf')*/)
 	{
 		$_SESSION["middlenameset"] = "true";
 	}
+	$_SESSION['file_name'] = $file_name;
 	header("Location: preview_certificate.php");
     exit;
 }
@@ -309,11 +310,14 @@ else if(isset($_POST['send']))
 	$m->Body = '<h1>Congratulations!</h1><br><p>You have been nominated for an award for your outstanding work performance.</p>';
 	$m->AltBody = 'Congratulations! You have been nominated for an award for your outstanding work performance.';
 	//Make sure relative path to certificate pic is correct here
-	$m->AddAttachment('certificate_style3.pdf');
-
+	$m->AddAttachment($file_name.".pdf");
 	//send the message, check for errors
 	if (!$m->send()) 
 	{
+		unlink($file_name.".pdf");
+		unlink($file_name.".log");
+		unlink($file_name.".aux");
+		unlink("data.csv");
 	    echo "Mailer Error: " . $m->ErrorInfo; 
 	    ?>
 			<script>
@@ -325,6 +329,10 @@ else if(isset($_POST['send']))
 	} 
 	else 
 	{
+		unlink($file_name.".pdf");
+		unlink($file_name.".log");
+		unlink($file_name.".aux");
+		unlink("data.csv");
 	    //echo "Message sent!";
 
 		$_SESSION["new_award"]=1;
