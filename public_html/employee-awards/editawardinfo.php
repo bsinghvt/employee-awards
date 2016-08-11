@@ -12,8 +12,8 @@ if (!isset($_SESSION["user_email"]))
 $uid=$_SESSION["uid"];
 //$uid=123;
 // output headers so that the file is downloaded rather than displayed
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=data.csv');
+//header('Content-Type: text/csv; charset=utf-8');
+//header('Content-Disposition: attachment; filename=data.csv');
 // ini_set('display_errors', 'On');
 require_once '../phpmailer/vendor/autoload.php';
 include("../../secret.php");
@@ -106,7 +106,7 @@ switch ($month)
         $month = "December";
         break;
     default:
-        echo "Problem with parsing code.";
+        //echo "Problem with parsing code.";
 }
 
 $date = $month . " " . $day . ", ". $year;
@@ -266,13 +266,13 @@ else if(isset($_POST['send']))
 			$stmt->close();
 	if ($error==0)
 			{
-				echo "registered successfully";
+				//echo "registered successfully";
 			}
 	//*******Send the certificate via email
 	$m = new PHPMailer;
 	$m->isSMTP();
 	$m->SMTPAuth = true;
-	$m->SMTPDebug = 2;
+	$m->SMTPDebug = 0;
 	$m->Host = 'smtp.gmail.com';
 	$m->Username = 'webrecogapp@gmail.com';
 	$m->Password =  $myPassword;
@@ -298,12 +298,7 @@ else if(isset($_POST['send']))
 		$_SESSION["new_award"]=-1;
 		header("Location: editaward.php", true);
 	} else {
-		echo "Message sent!";
-		?>
-							<script>
-						alert('Award Successfully Created');
-					</script>
-		<?php
+		//echo "Message sent!";
 		$_SESSION["new_award"]=1;
 		header("Location: editaward.php", true);
 	}

@@ -103,7 +103,7 @@ else
 <br><br>
 
 <input type="submit" name="send" id="send" value="Update Award and Send Certificate" />
-
+<div id="message"></div>
 </fieldset>
 </form>
 
