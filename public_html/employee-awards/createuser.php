@@ -64,6 +64,7 @@ if(isset($_POST['user_email']))
 		if(!in_array($detectedType, $allowedTypes))
 		{
 			echo'<p style="color:red;"> <b>Error: Only JPG, JPEG, PNG & GIF files are allowed for signature.</b></p>';
+			echo '<br><p><a href="register.php"> Back to Register Page</a></p>';
 			return;
 		}
 		$image_check = getimagesize($_FILES["signature"]['tmp_name']);
@@ -84,7 +85,7 @@ if(isset($_POST['user_email']))
 			$file_loc = $_FILES['signature']['tmp_name'];
 			$folder=__DIR__."/website-files/sig-images/";
 			$file_type = $_FILES['signature']['type'];
-			echo "file type = " . $file_type; 
+			//echo "file type = " . $file_type; 
 			// make file name in lower case
 			//$new_file_name = strtolower($file);
 
